@@ -34,3 +34,11 @@ let igv = montoBase * igvPorcentaje
 
 // Total = montoBase + igv
 let total = montoBase + igv
+
+print("\n--- RESUMEN DE COMPRA ---")
+print("Producto: \(producto)")
+print("Subtotal: S/ \(subtotal)")
+print("Descuento: S/ \(descuento)")
+print("Monto Base: S/ \(montoBase)")
+print("IGV (18%): S/ \(igv)")
+print("Total a pagar: S/ \(total)")
