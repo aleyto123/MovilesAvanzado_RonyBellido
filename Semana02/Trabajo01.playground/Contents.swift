@@ -40,3 +40,18 @@ let montoCuota = montoFinal / Double(planCuotas)
 print("\nPLAN DE PAGO")
 print("producto : \(producto)    interes: S/ \(interesMonto)    cuota: \(planCuotas) meses")
 print("monto cuota: S/ \(montoCuota)    monto final: S/ \(montoFinal)\n")
+
+// --- PASO 4: TABLA DE CRONOGRAMA DE PAGOS ---
+print("Mes\tmonto inicial\tcuota mensual\tresta x pago")
+
+var saldoPendiente = montoFinal
+
+for mes in 1...planCuotas {
+    let montoInicialMes = saldoPendiente
+    saldoPendiente -= montoCuota
+    
+    // Evitar decimales negativos en el último mes por redondeo
+    if saldoPendiente < 0 { saldoPendiente = 0.0 }
+    
+    print("\(mes)\t\(String(format: "%.2f", montoInicialMes))\t\t\(String(format: "%.2f", montoCuota))\t\t\(String(format: "%.2f", saldoPendiente))")
+}
