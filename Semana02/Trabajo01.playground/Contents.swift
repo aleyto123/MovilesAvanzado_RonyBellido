@@ -14,3 +14,26 @@ let cantidad = Int(readLine() ?? "0") ?? 0
 let montoTotalCompra = precioUnit * Double(cantidad)
 
 print("\nMONTO TOTAL DE LA COMPRA: S/ \(montoTotalCompra)")
+
+// --- PASO 2: PLAN DE PAGO ---
+print("elige el plan de pago (6,12,24):")
+let planCuotas = Int(readLine() ?? "0") ?? 6
+
+var porcentajeInteres: Double = 0.0
+
+switch planCuotas {
+case 6:
+    porcentajeInteres = 0.20
+case 12:
+    porcentajeInteres = 0.40
+case 24:
+    porcentajeInteres = 0.60
+default:
+    porcentajeInteres = 0.0
+}
+
+let interesMonto = montoTotalCompra * porcentajeInteres
+let montoFinal = montoTotalCompra + interesMonto
+let montoCuota = montoFinal / Double(planCuotas)
+
+
