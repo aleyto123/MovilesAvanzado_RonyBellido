@@ -48,6 +48,7 @@ func capturarDatos() -> DatosCompra {
         montoAdicional: montoAdicional
     )
 }
+
 func generarFechas(cantidadCuotas: Int, fechaInicio: Date = Date()) -> [String] {
     let formatter = DateFormatter()
     formatter.dateFormat = "dd/MM/yyyy"
@@ -62,6 +63,7 @@ func generarFechas(cantidadCuotas: Int, fechaInicio: Date = Date()) -> [String] 
     }
     return fechas
 }
+
 struct RegistroAmortizacion {
     let mes: Int
     let fecha: String
@@ -83,10 +85,12 @@ func calcularTablaAmortizacion(datos: DatosCompra, fechas: [String]) -> [Registr
             pagoMes += datos.montoAdicional
         }
 
-        var resta = montoInicial - pagoMes
-        if resta < 0 {
-            resta = 0.0
+        // CORRECCIÓN MATEMÁTICA: Evitar cobrar de más si la deuda restante es menor a la cuota
+        if pagoMes > montoInicial {
+            pagoMes = montoInicial
         }
+
+        let resta = montoInicial - pagoMes
 
         let registro = RegistroAmortizacion(
             mes: mesActual,
@@ -98,9 +102,33 @@ func calcularTablaAmortizacion(datos: DatosCompra, fechas: [String]) -> [Registr
         registros.append(registro)
 
         montoInicial = resta
-        if resta == 0 {
+        
+        // Si ya no hay deuda, terminamos de generar la tabla
+        if resta <= 0 {
             break
         }
     }
     return registros
+}
+
+func imprimirReporte(registros: [RegistroAmortizacion], planTotal: Int) {
+    print("\n----------------- PLAN DE PAGO -----------------")
+    print(String(format: "%-5s %-12s %-15s %-10s %-15s", "MES", "FECHA", "MONTO INICIAL", "PAGO", "RESTA POR PAGAR"))
+
+    for r in registros {
+        print(String(format: "%-5d %-12s %-15.2f %-10.2f %-15.2f", r.mes, r.fecha, r.montoInicial, r.pago, r.restaPorPagar))
+    }
+
+    print(String(format: "\nLEYENDA DE MESES PAGADOS %d DE %d", registros.count, planTotal))
+}
+
+// CORRECCIÓN ESTRUCTURAL PARA SWIFT 6
+@main
+struct App {
+    static func main() {
+        let datos = capturarDatos()
+        let fechas = generarFechas(cantidadCuotas: datos.planPago)
+        let cronograma = calcularTablaAmortizacion(datos: datos, fechas: fechas)
+        imprimirReporte(registros: cronograma, planTotal: datos.planPago)
+    }
 }
