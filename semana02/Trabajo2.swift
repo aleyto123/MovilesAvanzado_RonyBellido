@@ -48,3 +48,17 @@ func capturarDatos() -> DatosCompra {
         montoAdicional: montoAdicional
     )
 }
+func generarFechas(cantidadCuotas: Int, fechaInicio: Date = Date()) -> [String] {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "dd/MM/yyyy"
+    
+    var fechas: [String] = []
+    let calendar = Calendar.current
+    
+    for i in 0..<cantidadCuotas {
+        if let fechaFutura = calendar.date(byAdding: .month, value: i, to: fechaInicio) {
+            fechas.append(formatter.string(from: fechaFutura))
+        }
+    }
+    return fechas
+}
