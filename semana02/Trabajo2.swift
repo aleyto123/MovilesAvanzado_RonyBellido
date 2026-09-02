@@ -62,3 +62,45 @@ func generarFechas(cantidadCuotas: Int, fechaInicio: Date = Date()) -> [String] 
     }
     return fechas
 }
+struct RegistroAmortizacion {
+    let mes: Int
+    let fecha: String
+    let montoInicial: Double
+    let pago: Double
+    let restaPorPagar: Double
+}
+
+func calcularTablaAmortizacion(datos: DatosCompra, fechas: [String]) -> [RegistroAmortizacion] {
+    let cuotaBase = datos.montoTotal / Double(datos.planPago)
+    var montoInicial = datos.montoTotal
+    var registros: [RegistroAmortizacion] = []
+
+    for i in 0..<datos.planPago {
+        let mesActual = i + 1
+        var pagoMes = cuotaBase
+
+        if mesActual == datos.mesAdelantado {
+            pagoMes += datos.montoAdicional
+        }
+
+        var resta = montoInicial - pagoMes
+        if resta < 0 {
+            resta = 0.0
+        }
+
+        let registro = RegistroAmortizacion(
+            mes: mesActual,
+            fecha: fechas[i],
+            montoInicial: montoInicial,
+            pago: pagoMes,
+            restaPorPagar: resta
+        )
+        registros.append(registro)
+
+        montoInicial = resta
+        if resta == 0 {
+            break
+        }
+    }
+    return registros
+}
