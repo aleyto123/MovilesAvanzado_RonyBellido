@@ -1,0 +1,1 @@
+-e ".DS_Store\nbuild/\n*.xcodeproj/project.xcworkspace/\n*.xcodeproj/xcuserdata/\n.derivedData/" 
