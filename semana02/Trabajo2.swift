@@ -113,17 +113,15 @@ func calcularTablaAmortizacion(datos: DatosCompra, fechas: [String]) -> [Registr
 
 func imprimirReporte(registros: [RegistroAmortizacion], planTotal: Int) {
     print("\n----------------- PLAN DE PAGO -----------------")
-    print(String(format: "%-5s %-12s %-15s %-10s %-15s", "MES", "FECHA", "MONTO INICIAL", "PAGO", "RESTA POR PAGAR"))
+    print(String(format: "%-5@ %-12@ %-15@ %-10@ %-15@", "MES", "FECHA", "MONTO INICIAL", "PAGO", "RESTA POR PAGAR"))
 
     for r in registros {
-        print(String(format: "%-5d %-12s %-15.2f %-10.2f %-15.2f", r.mes, r.fecha, r.montoInicial, r.pago, r.restaPorPagar))
+        print(String(format: "%-5d %-12@ %-15.2f %-10.2f %-15.2f", r.mes, r.fecha, r.montoInicial, r.pago, r.restaPorPagar))
     }
 
-    print(String(format: "\nLEYENDA DE MESES PAGADOS %d DE %d", registros.count, planTotal))
+    // Texto corregido para reflejar la duración real del cronograma
+    print(String(format: "\nDEUDA CANCELADA EN %d CUOTAS (PLAN INICIAL DE %d MESES)", registros.count, planTotal))
 }
-
-// CORRECCIÓN ESTRUCTURAL PARA SWIFT 6
-@main
 struct App {
     static func main() {
         let datos = capturarDatos()
@@ -132,3 +130,4 @@ struct App {
         imprimirReporte(registros: cronograma, planTotal: datos.planPago)
     }
 }
+App.main()
