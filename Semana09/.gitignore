@@ -1,0 +1,15 @@
+# Directorios de compilación y dependencias generados por Swift Package Manager
+.build/
+.swiftpm/
+
+# Archivos temporales del sistema operativo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Archivos de configuración de editores
+.vscode/
+.idea/
+*.xcodeproj
+*.xcworkspace
