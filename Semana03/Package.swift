@@ -16,5 +16,17 @@ let package = Package(
             name: "Ejercicio02",
             path : "Sources/Ejercicio02",
         ),
+        .executableTarget(
+            name: "Ejercicio03",
+            path : "Sources/Ejercicio03",
+        ),
+        .executableTarget(
+            name: "Ejercicio04",
+            path : "Sources/Ejercicio04",
+        ),
+        .executableTarget(
+            name: "Ejercicio05",
+            path : "Sources/Ejercicio05",
+        ),
     ],
 )
