@@ -1,1 +1,12 @@
--e ".DS_Store\nbuild/\n*.xcodeproj/project.xcworkspace/\n*.xcodeproj/xcuserdata/\n.derivedData/" 
+# Archivos del sistema operativo y editores a nivel global
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Compilaciones y datos derivados por si se genera algo a nivel raíz
+build/
+.derivedData/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
