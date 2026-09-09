@@ -25,8 +25,11 @@ while !salir {
         let busqueda = readLine() ?? ""
         let claveBuscada = busqueda.capitalized
         
-        if estaciones[claveBuscada] != nil {
-            print("\n📍 ESTACIÓN \(claveBuscada.uppercased()) encontrada en el sistema.")
+        if let info = estaciones[claveBuscada] {
+            print("\n📍 ESTACIÓN \(claveBuscada.uppercased()) (\(info.linea))")
+            print("🗺️ Ubicación: \(info.cruce)")
+            print("🔄 Conexiones disponibles: \(info.conexiones.joined(separator: ", "))")
+            print("🏢 Lugares cercanos: \(info.lugares.joined(separator: ", "))")
         } else {
             print("❌ Estación no encontrada en la red.")
         }
