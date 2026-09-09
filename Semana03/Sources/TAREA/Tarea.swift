@@ -44,7 +44,7 @@ while !salir {
             if lugaresMinusculas.contains(destino.lowercased()) {
                 print("\n✅ RUTA ENCONTRADA:")
                 print("Para llegar a '\(destino)', debes bajar en la estación 🚇 \(estacion.uppercased()) (\(info.linea)).")
-                print("Desde ahí puedes tomar: \(info.conexiones.joined(separator: ", ")).")
+                print("Desde ahí puedes tomar las siguientes conexiones: \(info.conexiones.joined(separator: ", ")).")
                 encontrado = true
                 break
             }
@@ -53,7 +53,12 @@ while !salir {
         if !encontrado {
             print("❌ No se encontró una ruta directa en nuestra base de datos para ese destino.")
         }
+        
+    case "3":
+        print("Saliendo del sistema de transporte...")
+        salir = true
+        
     default:
-        break
+        print("Opción inválida. Intente nuevamente.")
     }
 }
