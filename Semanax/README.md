@@ -1,16 +1,59 @@
-# DOCUMENTO DE REQUERIMIENTOS FUNCIONALES
+# Requerimientos del Sistema de Gestión de Transporte Metropolitano
 
-**Proyecto:** Sistema de Consulta de Estaciones y Conexiones de Transporte  
-**Desarrollador:** Rony Bellido  
-**Fecha:** 8 de Septiembre de 2026  
-**Módulo:** Laboratorio 03 - Colecciones Avanzadas en Swift  
+**Estudiante:** Rony Bellido  
+**Curso:** Programación Móvil Avanzada  
+**Institución:** Tecsup  
 
-## Especificación de Requerimientos
+---
 
-| ID | Nombre del Requerimiento | Descripción Detallada | Criterio de Aceptación |
-| :--- | :--- | :--- | :--- |
-| **REQ-01** | **Búsqueda por Estación** | El sistema debe permitir al usuario ingresar el nombre de una estación (ej. "Grau") para consultar su información, siendo insensible a mayúsculas y minúsculas. | El sistema captura el input mediante consola y formatea la cadena para coincidir con la clave primaria del diccionario. |
-| **REQ-02** | **Despliegue de Conectividad** | Al ubicar una estación, el software debe retornar una vista que incluya: Línea principal, cruce de avenidas, opciones de transbordo y lugares cercanos. | Se muestra en consola la información desglosada extrayendo los datos de la tupla asociada a la estación. |
-| **REQ-03** | **Búsqueda Inversa** | El usuario debe poder ingresar un destino final (ej. "Estadio Nacional") y el sistema calculará qué estación y conexiones tomar. | El algoritmo itera sobre los arrays internos de lugares de todas las estaciones y retorna la ruta exacta si hay coincidencia. |
-| **REQ-04** | **Gestión de Errores** | Si el usuario ingresa una estación o punto que no existe, el sistema debe capturar el error y mostrar un aviso. | Se imprime un mensaje de error claro usando Optional Binding (`if let`) para evitar cierres forzados. |
-| **REQ-05** | **Interfaz Iterativa** | El programa debe mantenerse en ejecución continua para permitir múltiples consultas seguidas. | Se implementa un menú principal dentro de un ciclo `while` controlado por una variable bandera. |
+## 1. Objetivo del Proyecto
+Desarrollar una aplicación en Swift basada en consola que permita gestionar, consultar y planificar rutas dentro de la red de transporte público (Línea 1 y Línea 2 del Metro de Lima). El sistema utiliza estructuras inmutables (`struct`), enumeraciones orientadas a estado (`enum`) y programación funcional para garantizar alto rendimiento y mantenibilidad.
+
+---
+
+## 2. Requerimientos Funcionales
+
+### RF-01: Catálogo de Estaciones y Redes
+- El sistema debe almacenar la información completa de las estaciones pertenecientes a la Línea 1 y Línea 2.
+- Cada estación debe registrar:
+  - Nombre oficial e identificador único (`[E-XX]`).
+  - Posición ordinal en la línea.
+  - Cruce de avenidas principales o ubicación geográfica.
+  - Puntos de interés y lugares turísticos/comerciales cercanos.
+  - Estado de operabilidad (`(F)` o `(NF)`).
+  - Disponibilidad de infraestructura para discapacidad (elevadores/rampas).
+  - Frecuencia estimada de llegada del servicio.
+
+### RF-02: Búsqueda de Ficha Técnica por Estación
+- Permitir al usuario buscar cualquier estación ingresando su nombre total o parcial.
+- Mostrar una ficha técnica detallada que incluya ubicación, red, accesibilidad y puntos de interés.
+
+### RF-03: Planificador de Ruta ("¿Cómo llegar a un lugar?")
+- Permitir la búsqueda inversa basada en un destino urbano o hito de interés (ejemplo: *Estadio Nacional*, *Gamarra*, *Minka*, *Teatro Nacional*).
+- Indicar al usuario en qué estación debe descender, la línea correspondiente y el cruce exacto de avenidas.
+
+### RF-04: Módulo de Transbordos y Conexiones
+- Registrar los puntos de intercambio intermodal entre diferentes líneas.
+- Mostrar la modalidad de transbordo (peatonal asistido, subterráneo) y el tiempo estimado de caminata en minutos.
+
+### RF-05: Filtros de Red
+- Filtrar la lista total de estaciones según:
+  - Estaciones operativas `(F)`.
+  - Estaciones en construcción/proyecto `(NF)`.
+  - Estaciones con accesibilidad garantizada `♿`.
+
+### RF-06: Leyenda de Simbología Técnica
+- Proporcionar una sección dedicada a explicar la codificación del sistema:
+  - `(F)`: En Funcionamiento.
+  - `(NF)`: No Operativo / En Obras.
+  - `♿`: Acceso Adaptado para Movilidad Reducida.
+  - `🔗`: Nodo de Transbordo.
+
+---
+
+## 3. Requerimientos No Funcionales
+
+- **Arquitectura:** Diseñado bajo principios de Swift Idiomático empleando `struct` para la inmutabilidad de datos y `enum` con propiedades calculadas.
+- **Consultas Eficientes:** Implementación de programación funcional (`flatMap`, `filter`) para búsquedas en tiempo de ejecución.
+- **Portabilidad:** Ejecución directa mediante la CLI de Swift (`swift main.swift`) sin dependencias externas obligatorias.
+- **Control de Versiones:** Historial de cambios limpio e incremental mediante Git.
