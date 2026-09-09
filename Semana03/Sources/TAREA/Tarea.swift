@@ -33,6 +33,26 @@ while !salir {
         } else {
             print("❌ Estación no encontrada en la red.")
         }
+        
+    case "2":
+        print("\nIngrese el lugar al que desea ir (ej. Estadio Nacional):")
+        let destino = readLine() ?? ""
+        var encontrado = false
+        
+        for (estacion, info) in estaciones {
+            let lugaresMinusculas = info.lugares.map { $0.lowercased() }
+            if lugaresMinusculas.contains(destino.lowercased()) {
+                print("\n✅ RUTA ENCONTRADA:")
+                print("Para llegar a '\(destino)', debes bajar en la estación 🚇 \(estacion.uppercased()) (\(info.linea)).")
+                print("Desde ahí puedes tomar: \(info.conexiones.joined(separator: ", ")).")
+                encontrado = true
+                break
+            }
+        }
+        
+        if !encontrado {
+            print("❌ No se encontró una ruta directa en nuestra base de datos para ese destino.")
+        }
     default:
         break
     }
