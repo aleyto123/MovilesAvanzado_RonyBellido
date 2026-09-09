@@ -18,4 +18,19 @@ while !salir {
     print("Elige una opción:")
     
     let opcion = readLine() ?? ""
+    
+    switch opcion {
+    case "1":
+        print("\nIngrese el nombre de la estación (ej. Grau, Central, Cultura):")
+        let busqueda = readLine() ?? ""
+        let claveBuscada = busqueda.capitalized
+        
+        if estaciones[claveBuscada] != nil {
+            print("\n📍 ESTACIÓN \(claveBuscada.uppercased()) encontrada en el sistema.")
+        } else {
+            print("❌ Estación no encontrada en la red.")
+        }
+    default:
+        break
+    }
 }
