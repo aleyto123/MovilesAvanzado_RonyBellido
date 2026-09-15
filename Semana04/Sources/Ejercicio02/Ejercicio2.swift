@@ -22,3 +22,21 @@ class Biblioteca {
     func agregar(libro: Libro) {
         libros.append(libro)
     }
+    // TODO: Método prestar
+    // FIX Explicación: Dado que 'Libro' es un struct (tipo valor), se modifica directamente 'libros[i].estado' por índice en lugar de trabajar sobre una copia.
+    func prestar(titulo: String) -> Bool {
+        for i in 0..<libros.count {
+            if libros[i].titulo == titulo {
+                if libros[i].estado == .disponible {
+                    libros[i].estado = .prestado
+                    print("Préstamo aprobado: \(titulo)")
+                    return true
+                } else {
+                    print("Error: \(titulo) ya está prestado")
+                    return false
+                }
+            }
+        }
+        print("Error: no existe \(titulo)")
+        return false
+    }
