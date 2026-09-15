@@ -23,12 +23,10 @@ class Alumno {
         self.cursos = []
     }
 
-    // Agrega un curso a la lista.
     func agregarCurso(curso: Curso) {
         cursos.append(curso)
     }
 
-    // Calcula el subtotal de los cursos.
     func calcularSubtotal() -> Double {
         var subtotal = 0.0
 
@@ -39,17 +37,14 @@ class Alumno {
         return subtotal
     }
 
-    // Calcula el IGV del 18%.
     func calcularIGV() -> Double {
         return calcularSubtotal() * 0.18
     }
 
-    // Calcula el total incluyendo IGV.
     func calcularTotalConIGV() -> Double {
         return calcularSubtotal() + calcularIGV()
     }
 
-    // Descuento del 10% si lleva 3 o más cursos.
     func calcularDescuento10() -> Double {
         if cursos.count >= 3 {
             return calcularTotalConIGV() * 0.10
@@ -58,8 +53,6 @@ class Alumno {
         return 0.0
     }
 
-    // Descuento especial de S/ 400 para alumnos Tecsup
-    // que llevan 3 o más cursos.
     func calcularDescuentoTecsup() -> Double {
         if esAlumnoTecsup && cursos.count >= 3 {
             return 400.0
@@ -68,10 +61,55 @@ class Alumno {
         return 0.0
     }
 
-    // Calcula el total final.
     func calcularTotalFinal() -> Double {
         return calcularTotalConIGV()
             - calcularDescuento10()
             - calcularDescuentoTecsup()
+    }
+
+    // Muestra la factura.
+    func mostrarFactura() {
+
+        print("🎓 FACTURA DE CURSOS")
+        print("Estudiante: \(nombre)")
+        print("DNI: \(dni)")
+
+        if esAlumnoTecsup {
+            print("Alumno de Tecsup: Sí ✅")
+        } else {
+            print("Alumno de Tecsup: No")
+        }
+
+        print("----------------------------")
+
+        for curso in cursos {
+            let totalCurso = curso.precio * Double(curso.cantidad)
+
+            if curso.cantidad > 1 {
+                print("\(curso.nombre) x\(curso.cantidad) - S/ \(String(format: "%.2f", totalCurso))")
+            } else {
+                print("\(curso.nombre) x1 - S/ \(String(format: "%.2f", totalCurso))")
+            }
+        }
+
+        print("----------------------------")
+
+        print("Subtotal: S/ \(String(format: "%.2f", calcularSubtotal()))")
+
+        print("IGV (18%): S/ \(String(format: "%.2f", calcularIGV()))")
+
+        print("Total con IGV: S/ \(String(format: "%.2f", calcularTotalConIGV()))")
+
+        if calcularDescuento10() > 0 {
+            print("Descuento 10% por cantidad: -S/ \(String(format: "%.2f", calcularDescuento10())) ✅")
+        }
+
+        if calcularDescuentoTecsup() > 0 {
+            print("Descuento especial Tecsup: -S/ \(String(format: "%.2f", calcularDescuentoTecsup())) ✅")
+        }
+
+        print("----------------------------")
+
+        print("💰 TOTAL FINAL A PAGAR: S/ \(String(format: "%.2f", calcularTotalFinal()))")
     }
 }
