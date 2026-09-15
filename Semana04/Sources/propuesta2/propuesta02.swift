@@ -59,11 +59,53 @@ class ClienteNatural: Cliente {
         )
     }
 
-    // Sobrescribe el método de la clase padre.
     override func mostrarDatos() {
         print("👤 Cliente Natural:")
         print("Nombre: \(nombreCompleto)")
         print("DNI: \(dni)")
+        print("Código: \(codigo)")
+        print("Dirección: \(direccion)")
+        print("Fecha de registro: \(fechaRegistro)")
+        print("N° Cuenta: \(numeroCuenta)")
+        print("Monto mínimo de apertura: S/ \(String(format: "%.2f", montoMinimoApertura))")
+    }
+}
+
+// Cliente jurídico.
+class ClienteJuridico: Cliente {
+    let razonSocial: String
+    let ruc: String
+    let representanteLegal: String
+
+    init(
+        razonSocial: String,
+        ruc: String,
+        representanteLegal: String,
+        codigo: String,
+        direccion: String,
+        fechaRegistro: String,
+        numeroCuenta: String,
+        montoMinimoApertura: Double
+    ) {
+        self.razonSocial = razonSocial
+        self.ruc = ruc
+        self.representanteLegal = representanteLegal
+
+        super.init(
+            codigo: codigo,
+            direccion: direccion,
+            fechaRegistro: fechaRegistro,
+            numeroCuenta: numeroCuenta,
+            montoMinimoApertura: montoMinimoApertura
+        )
+    }
+
+    // Sobrescribe el método de la clase padre.
+    override func mostrarDatos() {
+        print("🏢 Cliente Jurídico:")
+        print("Razón Social: \(razonSocial)")
+        print("RUC: \(ruc)")
+        print("Representante Legal: \(representanteLegal)")
         print("Código: \(codigo)")
         print("Dirección: \(direccion)")
         print("Fecha de registro: \(fechaRegistro)")
