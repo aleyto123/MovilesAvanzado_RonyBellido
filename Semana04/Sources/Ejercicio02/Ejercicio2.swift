@@ -72,3 +72,22 @@ class Biblioteca {
         }
     }
 }
+// --- TODO 19: SIMULACIÓN COMPLETA ---
+// PREDICT Respuesta: Al ejecutar las operaciones en orden, 'La ciudad y los perros' pasa por disponible -> prestado -> disponible, mientras que 'El Quijote' queda prestado y 'El Principito' lanza error por no existir.
+let biblioteca = Biblioteca()
+
+let libro1 = Libro(titulo: "Cien años de soledad", autor: "Gabriel García Márquez")
+let libro2 = Libro(titulo: "La ciudad y los perros", autor: "Mario Vargas Llosa")
+let libro3 = Libro(titulo: "El Quijote", autor: "Miguel de Cervantes")
+
+biblioteca.agregar(libro: libro1)
+biblioteca.agregar(libro: libro2)
+biblioteca.agregar(libro: libro3)
+
+_ = biblioteca.prestar(titulo: "La ciudad y los perros")
+_ = biblioteca.prestar(titulo: "La ciudad y los perros")
+_ = biblioteca.devolver(titulo: "La ciudad y los perros")
+_ = biblioteca.prestar(titulo: "El Quijote")
+_ = biblioteca.prestar(titulo: "El Principito")
+
+biblioteca.inventario()
