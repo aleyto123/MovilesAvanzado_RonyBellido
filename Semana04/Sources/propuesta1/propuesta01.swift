@@ -113,3 +113,39 @@ class Alumno {
         print("💰 TOTAL FINAL A PAGAR: S/ \(String(format: "%.2f", calcularTotalFinal()))")
     }
 }
+
+// ===== SIMULACIÓN =====
+
+// Creamos al alumno.
+let alumno = Alumno(
+    nombre: "Rony Bellido",
+    dni: "60069778",
+    esAlumnoTecsup: true
+)
+
+// Creamos los cursos.
+let swiftAvanzado = Curso(
+    nombre: "Swift Avanzado",
+    precio: 450.0,
+    cantidad: 1
+)
+
+let iaPython = Curso(
+    nombre: "IA con Python",
+    precio: 650.0,
+    cantidad: 2
+)
+
+let disenoUXUI = Curso(
+    nombre: "Diseño UX/UI",
+    precio: 500.0,
+    cantidad: 1
+)
+
+// Agregamos los 3 cursos.
+alumno.agregarCurso(curso: swiftAvanzado)
+alumno.agregarCurso(curso: iaPython)
+alumno.agregarCurso(curso: disenoUXUI)
+
+// Mostramos la factura.
+alumno.mostrarFactura()
