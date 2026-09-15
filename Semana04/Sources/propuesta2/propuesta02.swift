@@ -118,7 +118,7 @@ class ClienteJuridico: Cliente {
 
 // Cliente natural.
 let clienteNatural = ClienteNatural(
-    nombreCompleto: "Juan Pérez",
+    nombreCompleto: "Rony Bellido",
     dni: "12345678",
     codigo: "C001",
     direccion: "Av. Lima 123",
@@ -131,10 +131,25 @@ let clienteNatural = ClienteNatural(
 let clienteJuridico = ClienteJuridico(
     razonSocial: "Soluciones SAC",
     ruc: "20123456789",
-    representanteLegal: "Maria León",
+    representanteLegal: "Rony Bellido",
     codigo: "C002",
     direccion: "Jr. Empresas 456",
     fechaRegistro: "2025-04-01",
     numeroCuenta: "001-202500456",
     montoMinimoApertura: 3000.00
 )
+
+
+// ===== RECORRIDO POLIMÓRFICO =====
+
+// Guardamos ambos clientes como Cliente.
+let clientes: [Cliente] = [
+    clienteNatural,
+    clienteJuridico
+]
+
+// Recorremos todos los clientes.
+for cliente in clientes {
+    cliente.mostrarDatos()
+    print("----------------------------")
+}

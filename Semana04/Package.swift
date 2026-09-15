@@ -20,6 +20,10 @@ let package = Package(
             name: "propuesta1",
             path: "Sources/propuesta1",
         ),
+        .executableTarget(
+            name: "propuesta2",
+            path: "Sources/propuesta2",
+        ),
     ],
 )
 
