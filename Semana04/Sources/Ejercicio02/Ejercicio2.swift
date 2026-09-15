@@ -57,3 +57,18 @@ class Biblioteca {
         print("Error: no existe \(titulo)")
         return false
     }
+    // TODO: Método inventario con mapeo de estado usando switch
+    func inventario() {
+        print("===== INVENTARIO =====")
+        for libro in libros {
+            var estadoTexto = ""
+            switch libro.estado {
+            case .disponible:
+                estadoTexto = "disponible"
+            case .prestado:
+                estadoTexto = "prestado"
+            }
+            print("\(libro.titulo) (\(libro.autor)) - \(estadoTexto)")
+        }
+    }
+}
