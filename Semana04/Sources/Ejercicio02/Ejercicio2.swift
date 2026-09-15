@@ -40,3 +40,20 @@ class Biblioteca {
         print("Error: no existe \(titulo)")
         return false
     }
+// TODO: Método devolver (Lógica inversa de préstamo)
+    func devolver(titulo: String) -> Bool {
+        for i in 0..<libros.count {
+            if libros[i].titulo == titulo {
+                if libros[i].estado == .prestado {
+                    libros[i].estado = .disponible
+                    print("Devolución registrada: \(titulo)")
+                    return true
+                } else {
+                    print("Error: \(titulo) no está prestado")
+                    return false
+                }
+            }
+        }
+        print("Error: no existe \(titulo)")
+        return false
+    }
