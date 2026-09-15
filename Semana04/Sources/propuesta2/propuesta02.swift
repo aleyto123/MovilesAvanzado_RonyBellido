@@ -24,8 +24,46 @@ class Cliente {
         self.montoMinimoApertura = montoMinimoApertura
     }
 
-    // Método que será sobrescrito por las clases hijas.
     func mostrarDatos() {
+        print("Código: \(codigo)")
+        print("Dirección: \(direccion)")
+        print("Fecha de registro: \(fechaRegistro)")
+        print("N° Cuenta: \(numeroCuenta)")
+        print("Monto mínimo de apertura: S/ \(String(format: "%.2f", montoMinimoApertura))")
+    }
+}
+
+// Cliente natural.
+class ClienteNatural: Cliente {
+    let nombreCompleto: String
+    let dni: String
+
+    init(
+        nombreCompleto: String,
+        dni: String,
+        codigo: String,
+        direccion: String,
+        fechaRegistro: String,
+        numeroCuenta: String,
+        montoMinimoApertura: Double
+    ) {
+        self.nombreCompleto = nombreCompleto
+        self.dni = dni
+
+        super.init(
+            codigo: codigo,
+            direccion: direccion,
+            fechaRegistro: fechaRegistro,
+            numeroCuenta: numeroCuenta,
+            montoMinimoApertura: montoMinimoApertura
+        )
+    }
+
+    // Sobrescribe el método de la clase padre.
+    override func mostrarDatos() {
+        print("👤 Cliente Natural:")
+        print("Nombre: \(nombreCompleto)")
+        print("DNI: \(dni)")
         print("Código: \(codigo)")
         print("Dirección: \(direccion)")
         print("Fecha de registro: \(fechaRegistro)")
