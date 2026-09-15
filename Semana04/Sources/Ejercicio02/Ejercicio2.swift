@@ -13,3 +13,12 @@ struct Libro {
     let autor: String
     var estado: EstadoLibro = .disponible
 }
+
+// TODO: Clase Biblioteca con referencia única del sistema
+class Biblioteca {
+    var libros: [Libro] = []
+    
+    // TODO: Método para agregar libros al arreglo
+    func agregar(libro: Libro) {
+        libros.append(libro)
+    }
