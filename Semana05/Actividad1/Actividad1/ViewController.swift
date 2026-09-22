@@ -16,18 +16,29 @@ class ViewController: UIViewController {
     }
 
     @IBAction func calcularPrestamo(_ sender: Any) {
-        // 1. Obtener datos de los campos
         let P = Double(txtCapital.text ?? "") ?? 0
         let tasaAnual = Double(txtInteresAnual.text ?? "") ?? 0
         let anios = Double(txtAnios.text ?? "") ?? 0
 
-        // 2. Validar que los datos ingresados sean mayores a cero
         if P <= 0 || tasaAnual <= 0 || anios <= 0 {
             lblCuotaMensual.text = "Ingresa valores válidos mayores a 0"
             lblMontoTotal.text = ""
             return
         }
-        
-        // El cálculo matemático se implementará en el siguiente paso
+
+        // 3. Calcular tasa mensual (r) y número total de pagos (n)
+        let r = (tasaAnual / 100) / 12
+        let n = anios * 12
+
+        // 4. Aplicar fórmula de cuota mensual: M = P * [ r * (1+r)^n / ((1+r)^n - 1) ]
+        let factor = pow(1 + r, n)
+        let M = P * ((r * factor) / (factor - 1))
+
+        // 5. Calcular el monto total a pagar
+        let montoTotal = M * n
+
+        // 6. Mostrar resultados formateados a 2 decimales
+        lblCuotaMensual.text = String(format: "Cuota mensual: $%.2f", M)
+        lblMontoTotal.text = String(format: "Monto total a pagar: $%.2f", montoTotal)
     }
 }
