@@ -1,22 +1,15 @@
-import UIKit
+import Foundation
 
-class ClienteModel: NSObject {
-    var Codigo: Int32 = 0
-    var Apellido: String = ""
-    var Nombre: String = ""
-    var Dni: String = ""
-    
-    override init() {
-        self.Codigo = 0
-        self.Apellido = ""
-        self.Nombre = ""
-        self.Dni = ""
-    }
+struct ClienteModel {
+    let codigo: Int32
+    let apellido: String
+    let nombre: String
+    let dni: String
     
     init(pCodigo: Int32, pApellido: String, pNombre: String, pDni: String) {
-        self.Codigo = pCodigo
-        self.Apellido = pApellido
-        self.Nombre = pNombre
-        self.Dni = pDni
+        codigo = pCodigo
+        apellido = pApellido
+        nombre = pNombre
+        dni = pDni
     }
 }

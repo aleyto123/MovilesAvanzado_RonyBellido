@@ -3,7 +3,7 @@ import UIKit
 class ViewControllerConfirmacion: UIViewController {
 
     // Instanciar la clase ClienteModel
-    var pCliente: ClienteModel = ClienteModel()
+    var pCliente = ClienteModel(pCodigo: 0, pApellido: "", pNombre: "", pDni: "")
 
     // Definir los controles (Labels)
     @IBOutlet weak var tfApellido: UILabel!
@@ -14,12 +14,12 @@ class ViewControllerConfirmacion: UIViewController {
         super.viewDidLoad()
 
         // Mostrar los datos en los controles
-        self.tfApellido.text = pCliente.Apellido
-        self.tfNombre.text = pCliente.Nombre
-        self.tfDni.text = pCliente.Dni
+        tfApellido.text = pCliente.apellido
+        tfNombre.text = pCliente.nombre
+        tfDni.text = pCliente.dni
     }
     
     @IBAction func btnVolver(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
 }
