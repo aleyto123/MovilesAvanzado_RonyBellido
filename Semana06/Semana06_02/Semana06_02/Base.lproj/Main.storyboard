@@ -96,7 +96,7 @@
         <!--View Controller Confirmacion-->
         <scene sceneID="a8N-dj-MdY">
             <objects>
-                <viewController id="xhA-1x-geU" customClass="ViewControllerConfirmacion" customModule="Semana06_02" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewControllerConfirmacion" id="xhA-1x-geU" customClass="ViewControllerConfirmacion" customModule="Semana06_02" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fcO-sj-a2w">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
