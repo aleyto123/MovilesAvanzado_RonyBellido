@@ -11,6 +11,18 @@ targets:
       - path: Semana06_02
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.ronybellido.Semana06-02
+        PRODUCT_BUNDLE_IDENTIFIER: com.ronybellido.semana06_02
         INFOPLIST_FILE: Semana06_02/Info.plist
+        IPHONEOS_DEPLOYMENT_TARGET: "15.0"
         SWIFT_VERSION: 5.0
+schemes:
+  Semana06_02:
+    build:
+      targets:
+        Semana06_02: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    archive:
+      config: Release

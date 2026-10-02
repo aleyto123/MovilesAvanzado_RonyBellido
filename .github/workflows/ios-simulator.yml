@@ -1,0 +1,57 @@
+name: iOS Simulator Build
+
+on:
+  push:
+    branches:
+      - main
+      - trabajos-con-ia
+  workflow_dispatch:
+
+jobs:
+  build-ios-simulator:
+    runs-on: macos-latest
+
+    defaults:
+      run:
+        working-directory: Semana06/Semana06_02
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar XcodeGen
+        run: brew install xcodegen
+
+      - name: Generar proyecto Xcode
+        run: xcodegen generate --spec project.yml
+
+      - name: Compilar para iOS Simulator
+        run: >-
+          xcodebuild
+          -project Semana06_02.xcodeproj
+          -scheme Semana06_02
+          -configuration Debug
+          -sdk iphonesimulator
+          -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build/DerivedData
+          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGNING_REQUIRED=NO
+          ONLY_ACTIVE_ARCH=NO
+          build
+
+      - name: Comprimir aplicación Simulator
+        shell: bash
+        run: |
+          APP_PATH="$(find build/DerivedData/Build/Products/Debug-iphonesimulator -maxdepth 1 -type d -name '*.app' -print -quit)"
+          if [[ -z "$APP_PATH" ]]; then
+            echo "No se encontró ningún .app para iOS Simulator"
+            exit 1
+          fi
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" Semana06_02-iOS-Simulator.app.zip
+
+      - name: Publicar .app como Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Semana06_02-iOS-Simulator
+          path: Semana06/Semana06_02/Semana06_02-iOS-Simulator.app.zip
+          if-no-files-found: error
