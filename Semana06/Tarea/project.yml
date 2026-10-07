@@ -1,0 +1,26 @@
+name: Tarea
+options:
+  bundleIdPrefix: com.tecsup
+targets:
+  Tarea:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - Tarea
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tecsup.Tarea
+    info:
+      path: Tarea/Info.plist
+      properties:
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        UIMainStoryboardFile: Main
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+                UISceneStoryboardFile: Main
+        UILaunchStoryboardName: LaunchScreen
