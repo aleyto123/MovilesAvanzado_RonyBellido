@@ -27,7 +27,20 @@ class CarritoViewController: UIViewController {
         lblTotal.text = String(format: "S/ %.2f", carrito.total())
     }
     
-
+    @IBAction func irDatosClienteTapped(_ sender: UIButton) {
+        if carrito.items.isEmpty {
+            let alert = UIAlertController(title: "Carrito vacío", message: "Agregue productos antes de continuar.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+            return
+        }
+        performSegue(withIdentifier: "irDatosCliente", sender: sender)
+    }
     
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "irDatosCliente" {
+            let destino = segue.destination as! DatosClienteViewController
+            destino.carrito = carrito
+        }
+    }
 }

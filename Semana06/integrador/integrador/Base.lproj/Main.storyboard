@@ -255,13 +255,14 @@
                                 <nil key="textColor" />
                                 <nil key="highlightedColor" />
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="car-btn-fin" enabled="NO">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="car-btn-fin">
                                 <rect key="frame" x="35" y="445" width="323" height="48" />
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
                                 <state key="normal" title="Button" />
                                 <buttonConfiguration key="configuration" style="filled" title="Finalizar compra" />
                                 <connections>
-                                    </connections>
+                                    <action selector="irDatosClienteTapped:" destination="car-000" eventType="touchUpInside" id="act-fin" />
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="car-safe" />
@@ -274,11 +275,68 @@
                         <outlet property="lblSubtotal" destination="car-lbl-subtotal" id="out-car-1" />
                         <outlet property="lblTotal" destination="car-lbl-total" id="out-car-4" />
                         <outlet property="txtResumen" destination="car-txt-resumen" id="out-car-0" />
+                        <segue destination="cli-000" kind="show" identifier="irDatosCliente" id="seg-cli" />
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="car-first" sceneMemberID="firstResponder" />
             </objects>
             <point key="canvasLocation" x="400" y="300" />
+        </scene>
+        <scene sceneID="cli-scene">
+            <objects>
+                <viewController id="cli-000" customClass="DatosClienteViewController" customModule="integrador" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cli-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nombres y Apellidos:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cli-l1">
+                                <rect key="frame" x="35" y="150" width="323" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ej: Ana Pérez" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cli-txt-nombre">
+                                <rect key="frame" x="35" y="175" width="323" height="36" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="14" />
+                                <textInputTraits key="textInputTraits" />
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DNI (8 dígitos):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cli-l2">
+                                <rect key="frame" x="35" y="225" width="323" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="12345678" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cli-txt-dni">
+                                <rect key="frame" x="35" y="250" width="323" height="36" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="14" />
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" />
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cli-btn-conf">
+                                <rect key="frame" x="35" y="315" width="323" height="48" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <state key="normal" title="Button" />
+                                <buttonConfiguration key="configuration" style="filled" title="Confirmar compra" />
+                                <connections>
+                                    <action selector="generarBoletaTapped:" destination="cli-000" eventType="touchUpInside" id="act-gen" />
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="cli-safe" />
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                    </view>
+                    <navigationItem key="navigationItem" title="4. Datos del cliente" id="cli-nav" />
+                    <connections>
+                        <outlet property="txtDNI" destination="cli-txt-dni" id="out-cli-2" />
+                        <outlet property="txtNombre" destination="cli-txt-nombre" id="out-cli-1" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cli-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="1200" y="300" />
         </scene>
     </scenes>
     <resources>
