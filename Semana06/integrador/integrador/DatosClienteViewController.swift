@@ -18,10 +18,16 @@ class DatosClienteViewController: UIViewController {
             return
         }
         
-        // La emision de la boleta se incorpora en la siguiente etapa.
+        performSegue(withIdentifier: "verBoleta", sender: sender)
     }
     
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "verBoleta" {
+            let destino = segue.destination as! BoletaViewController
+            destino.cliente = ClienteModel(nombre: txtNombre.text!, dni: txtDNI.text!, categoria: carrito.categoriaCliente())
+            destino.carrito = carrito
+        }
+    }
     
     func mostrarAlerta(_ mensaje: String) {
         let alert = UIAlertController(title: "Validación", message: mensaje, preferredStyle: .alert)
