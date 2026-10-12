@@ -21,13 +21,18 @@ class CatalogoViewController: UIViewController {
         performSegue(withIdentifier: "verDetalle", sender: sender)
     }
     
-
+    @IBAction func verCarritoTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "verCarrito", sender: sender)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "verDetalle" {
             let boton = sender as! UIButton
             let destino = segue.destination as! DetalleViewController
             destino.producto = productos[boton.tag]
+            destino.carrito = carrito
+        } else if segue.identifier == "verCarrito" {
+            let destino = segue.destination as! CarritoViewController
             destino.carrito = carrito
         }
     }

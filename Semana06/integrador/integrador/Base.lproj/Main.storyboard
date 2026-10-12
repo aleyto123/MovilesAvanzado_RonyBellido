@@ -80,13 +80,14 @@
                                     <action selector="productoTapped:" destination="cat-000" eventType="touchUpInside" id="act-p3" />
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cat-btn-car" enabled="NO">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cat-btn-car">
                                 <rect key="frame" x="35" y="450" width="323" height="40" />
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
                                 <state key="normal" title="Button" />
                                 <buttonConfiguration key="configuration" style="plain" title="Ver carrito (0)" />
                                 <connections>
-                                    </connections>
+                                    <action selector="verCarritoTapped:" destination="cat-000" eventType="touchUpInside" id="act-vc" />
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cat-safe" />
@@ -96,6 +97,7 @@
                     <connections>
                         <outlet property="verCarritoButton" destination="cat-btn-car" id="out-cat-car" />
                         <segue destination="det-000" kind="show" identifier="verDetalle" id="seg-det" />
+                        <segue destination="car-000" kind="show" identifier="verCarrito" id="seg-car" />
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cat-first" sceneMemberID="firstResponder" />
@@ -181,6 +183,102 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="det-first" sceneMemberID="firstResponder" />
             </objects>
             <point key="canvasLocation" x="376" y="-369" />
+        </scene>
+        <scene sceneID="car-scene">
+            <objects>
+                <viewController id="car-000" customClass="CarritoViewController" customModule="integrador" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="car-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="car-txt-resumen">
+                                <rect key="frame" x="35" y="150" width="323" height="120" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundLocal" />
+                                <color key="textColor" systemColor="labelColor" />
+                                <fontDescription key="fontDescription" type="system" pointSize="15" />
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" />
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Subtotal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="car-l1">
+                                <rect key="frame" x="35" y="285" width="150" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="car-lbl-subtotal">
+                                <rect key="frame" x="200" y="285" width="158" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Descuento" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="car-l2">
+                                <rect key="frame" x="35" y="320" width="150" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="car-lbl-descuento">
+                                <rect key="frame" x="200" y="320" width="158" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="IGV (18%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="car-l3">
+                                <rect key="frame" x="35" y="355" width="150" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="car-lbl-igv">
+                                <rect key="frame" x="200" y="355" width="158" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TOTAL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="car-l4">
+                                <rect key="frame" x="35" y="395" width="150" height="24" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="car-lbl-total">
+                                <rect key="frame" x="200" y="395" width="158" height="24" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="car-btn-fin" enabled="NO">
+                                <rect key="frame" x="35" y="445" width="323" height="48" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <state key="normal" title="Button" />
+                                <buttonConfiguration key="configuration" style="filled" title="Finalizar compra" />
+                                <connections>
+                                    </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="car-safe" />
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                    </view>
+                    <navigationItem key="navigationItem" title="3. Carrito" id="car-nav" />
+                    <connections>
+                        <outlet property="lblDescuento" destination="car-lbl-descuento" id="out-car-2" />
+                        <outlet property="lblIGV" destination="car-lbl-igv" id="out-car-3" />
+                        <outlet property="lblSubtotal" destination="car-lbl-subtotal" id="out-car-1" />
+                        <outlet property="lblTotal" destination="car-lbl-total" id="out-car-4" />
+                        <outlet property="txtResumen" destination="car-txt-resumen" id="out-car-0" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="car-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="400" y="300" />
         </scene>
     </scenes>
     <resources>
