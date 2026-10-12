@@ -25,18 +25,162 @@
         </scene>
         <scene sceneID="cat-scene">
             <objects>
-                <viewController id="cat-000" customClass="ViewController" customModule="integrador" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="cat-000" customClass="CatalogoViewController" customModule="integrador" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cat-view">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852" />
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tienda Tecsup" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cat-l1">
+                                <rect key="frame" x="35" y="150" width="323" height="30" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Elige un producto" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cat-l2">
+                                <rect key="frame" x="35" y="185" width="323" height="20" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="15" />
+                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cat-b0">
+                                <rect key="frame" x="35" y="225" width="323" height="44" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <state key="normal" title="Button" />
+                                <buttonConfiguration key="configuration" style="gray" title="Refrigeradora · S/ 2000" />
+                                <connections>
+                                    <action selector="productoTapped:" destination="cat-000" eventType="touchUpInside" id="act-p0" />
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cat-b1">
+                                <rect key="frame" x="35" y="280" width="323" height="44" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <state key="normal" title="Button" />
+                                <buttonConfiguration key="configuration" style="gray" title="Licuadora · S/ 250" />
+                                <connections>
+                                    <action selector="productoTapped:" destination="cat-000" eventType="touchUpInside" id="act-p1" />
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cat-b2">
+                                <rect key="frame" x="35" y="335" width="323" height="44" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <state key="normal" title="Button" />
+                                <buttonConfiguration key="configuration" style="gray" title="Laptop · S/ 3500" />
+                                <connections>
+                                    <action selector="productoTapped:" destination="cat-000" eventType="touchUpInside" id="act-p2" />
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cat-b3">
+                                <rect key="frame" x="35" y="390" width="323" height="44" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <state key="normal" title="Button" />
+                                <buttonConfiguration key="configuration" style="gray" title="Cocina · S/ 1200" />
+                                <connections>
+                                    <action selector="productoTapped:" destination="cat-000" eventType="touchUpInside" id="act-p3" />
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cat-btn-car" enabled="NO">
+                                <rect key="frame" x="35" y="450" width="323" height="40" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <state key="normal" title="Button" />
+                                <buttonConfiguration key="configuration" style="plain" title="Ver carrito (0)" />
+                                <connections>
+                                    </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="cat-safe" />
                         <color key="backgroundColor" systemColor="systemBackgroundColor" />
                     </view>
-                    <navigationItem key="navigationItem" title="Integrador" id="cat-nav" />
+                    <navigationItem key="navigationItem" title="1. Catálogo" id="cat-nav" />
+                    <connections>
+                        <outlet property="verCarritoButton" destination="cat-btn-car" id="out-cat-car" />
+                        <segue destination="det-000" kind="show" identifier="verDetalle" id="seg-det" />
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cat-first" sceneMemberID="firstResponder" />
             </objects>
             <point key="canvasLocation" x="-400" y="0.0" />
+        </scene>
+        <scene sceneID="det-scene">
+            <objects>
+                <viewController id="det-000" customClass="DetalleViewController" customModule="integrador" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="det-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Refrigeradora" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="det-lbl-nombre">
+                                <rect key="frame" x="35" y="160" width="323" height="28" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Precio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="det-l1">
+                                <rect key="frame" x="35" y="210" width="100" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="S/ 2000.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="det-lbl-precio">
+                                <rect key="frame" x="200" y="210" width="158" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="det-l2">
+                                <rect key="frame" x="35" y="250" width="100" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="det-lbl-stock">
+                                <rect key="frame" x="200" y="250" width="158" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cantidad" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="det-l3">
+                                <rect key="frame" x="35" y="290" width="100" height="21" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                <nil key="textColor" />
+                                <nil key="highlightedColor" />
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="det-txt-cant">
+                                <rect key="frame" x="258" y="285" width="100" height="34" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <fontDescription key="fontDescription" type="system" pointSize="14" />
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" />
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="det-btn-add">
+                                <rect key="frame" x="35" y="350" width="323" height="48" />
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                                <state key="normal" title="Button" />
+                                <buttonConfiguration key="configuration" style="filled" title="Agregar al carrito" />
+                                <connections>
+                                    <action selector="agregarAlCarrito:" destination="det-000" eventType="touchUpInside" id="act-add" />
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="det-safe" />
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                    </view>
+                    <navigationItem key="navigationItem" title="2. Detalle" id="det-nav" />
+                    <connections>
+                        <outlet property="lblNombre" destination="det-lbl-nombre" id="out-det-1" />
+                        <outlet property="lblPrecio" destination="det-lbl-precio" id="out-det-2" />
+                        <outlet property="lblStock" destination="det-lbl-stock" id="out-det-3" />
+                        <outlet property="txtCantidad" destination="det-txt-cant" id="out-det-4" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="det-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="376" y="-369" />
         </scene>
     </scenes>
     <resources>
