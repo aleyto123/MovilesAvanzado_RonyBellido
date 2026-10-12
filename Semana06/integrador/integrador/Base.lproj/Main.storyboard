@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nav-000">
+    <device id="retina6_12" orientation="portrait" appearance="light" />
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504" />
+        <capability name="Safe area layout guides" minToolsVersion="9.0" />
+        <capability name="System colors in document resources" minToolsVersion="11.0" />
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0" />
+    </dependencies>
+    <scenes>
+        <scene sceneID="nav-scene">
+            <objects>
+                <navigationController id="nav-000" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nav-bar">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54" />
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" />
+                    </navigationBar>
+                    <connections>
+                        <segue destination="cat-000" kind="relationship" relationship="rootViewController" id="nav-root" />
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nav-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="-1200" y="0.0" />
+        </scene>
+        <scene sceneID="cat-scene">
+            <objects>
+                <viewController id="cat-000" customClass="ViewController" customModule="integrador" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cat-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <viewLayoutGuide key="safeArea" id="cat-safe" />
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                    </view>
+                    <navigationItem key="navigationItem" title="Integrador" id="cat-nav" />
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cat-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="-400" y="0.0" />
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace" />
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB" />
+        </systemColor>
+        <systemColor name="secondarySystemBackgroundLocal">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace" />
+        </systemColor>
+    </resources>
+</document>
