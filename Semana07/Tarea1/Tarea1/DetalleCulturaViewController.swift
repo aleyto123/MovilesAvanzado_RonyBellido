@@ -24,11 +24,11 @@ class DetalleCulturaViewController: UIViewController {
         nombreCultura.accessibilityTraits = .header
 
         let autores = [
-            "chavin": "kcorac · CC BY-SA 4.0",
-            "nazca": "PsamatheM · CC BY-SA 4.0",
-            "moche": "Velvet · CC BY-SA 4.0",
-            "chimu": "David Holt · CC BY-SA 3.0",
-            "inca": "Lindaazucena00 · CC BY-SA 4.0"
+            "caral": "Ariana zafra · CC BY-SA 4.0",
+            "paracas": "The Metropolitan Museum of Art · CC0",
+            "wari": "Rodrigo Alomía Díaz · CC BY-SA 4.0",
+            "chachapoyas": "Martin St-Amant (S23678) · CC BY 3.0",
+            "lima": "Diego Delso · CC BY-SA 4.0"
         ]
         creditoImagen.text = "Fotografía: \(autores[cultura.nombreImagen] ?? "Wikimedia Commons")\nWikimedia Commons"
     }

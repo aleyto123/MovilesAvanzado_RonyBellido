@@ -4,34 +4,34 @@ import Foundation
 enum CatalogoCulturas {
     static let todas: [Cultura] = [
         Cultura(
-            nombre: "Chavín",
-            region: "Áncash · Sierra central",
-            descripcion: "Se desarrolló alrededor de Chavín de Huántar, un importante centro ceremonial de los Andes. Su arte en piedra representa seres con rasgos humanos y animales. Las cabezas clavas y el Lanzón son algunas de sus expresiones más conocidas.",
-            nombreImagen: "chavin"
+            nombre: "Caral",
+            region: "Lima · Valle de Supe",
+            descripcion: "Se desarrolló en el valle de Supe y es una de las civilizaciones más antiguas de América. Sus habitantes construyeron edificios piramidales, plazas circulares y espacios para ceremonias. La Ciudad Sagrada de Caral muestra la organización y los conocimientos de esta sociedad.",
+            nombreImagen: "caral"
         ),
         Cultura(
-            nombre: "Nazca",
+            nombre: "Paracas",
             region: "Ica · Costa sur",
-            descripcion: "Destacó por su cerámica policroma y por los grandes geoglifos trazados en el desierto. Las líneas de Nazca representan animales, plantas y formas geométricas. También desarrolló sistemas de conducción de agua para aprovechar el ambiente árido.",
-            nombreImagen: "nazca"
+            descripcion: "Se desarrolló en la costa sur del Perú y destacó por sus tejidos y bordados. Sus textiles combinan colores y figuras que representan personajes y animales. Los mantos formaban parte de sus prácticas funerarias y permiten conocer aspectos de sus creencias y su forma de vida.",
+            nombreImagen: "paracas"
         ),
         Cultura(
-            nombre: "Moche",
-            region: "La Libertad y Lambayeque · Costa norte",
-            descripcion: "Se distinguió por su cerámica escultórica, sus trabajos en metal y sus construcciones de adobe. Las huacas del Sol y de la Luna muestran la importancia de sus centros ceremoniales. Sus piezas artísticas representan personajes, animales y escenas de su vida y sus rituales.",
-            nombreImagen: "moche"
+            nombre: "Wari",
+            region: "Ayacucho · Sierra central",
+            descripcion: "Tuvo su centro principal cerca de la actual ciudad de Ayacucho. Destacó por sus asentamientos planificados, sus construcciones de piedra, su cerámica y sus textiles. El complejo arqueológico Wari conserva parte de la antigua capital de esta sociedad.",
+            nombreImagen: "wari"
         ),
         Cultura(
-            nombre: "Chimú",
-            region: "La Libertad · Costa norte",
-            descripcion: "Tuvo como capital a Chan Chan, una extensa ciudad construida en adobe cerca de Trujillo. Sus habitantes sobresalieron en la orfebrería y en el manejo del agua. Los relieves de sus muros incluyen peces, aves y otras figuras relacionadas con el mar.",
-            nombreImagen: "chimu"
+            nombre: "Chachapoyas",
+            region: "Amazonas · Andes nororientales",
+            descripcion: "Se desarrolló en los bosques de montaña del nororiente peruano. Sus pobladores construyeron asentamientos de piedra con viviendas circulares y elaboraron espacios funerarios en lugares elevados. Kuélap es uno de los sitios más representativos de esta cultura.",
+            nombreImagen: "chachapoyas"
         ),
         Cultura(
-            nombre: "Inca",
-            region: "Cusco · Andes peruanos",
-            descripcion: "Organizó el Tahuantinsuyo con su centro político en Cusco. Desarrolló una amplia red de caminos, terrazas agrícolas y construcciones de piedra. Machu Picchu es uno de los ejemplos más conocidos de su arquitectura y de su adaptación al paisaje andino.",
-            nombreImagen: "inca"
+            nombre: "Lima",
+            region: "Lima · Costa central",
+            descripcion: "Se desarrolló en los valles de la costa central del Perú. Destacó por la construcción de centros ceremoniales de adobe y por sus actividades agrícolas. Huaca Pucllana, ubicada en el actual distrito de Miraflores, es uno de sus principales sitios arqueológicos.",
+            nombreImagen: "lima"
         )
     ]
 }

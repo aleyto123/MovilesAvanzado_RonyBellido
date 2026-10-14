@@ -4,7 +4,7 @@
 
 | Requerimiento funcional |
 |---|
-| La aplicación debe mostrar la pantalla **Culturas peruanas** con una lista de las culturas **Chavín, Nazca, Moche, Chimú e Inca**. La lista debe utilizar un **UITableView** y presentar una fila por cada cultura. |
+| La aplicación debe mostrar la pantalla **Culturas peruanas** con una lista de las culturas **Caral, Paracas, Wari, Chachapoyas y Lima**. La lista debe utilizar un **UITableView** y presentar una fila por cada cultura. |
 
 ## RF-02. Información de cada cultura en la lista
 
@@ -52,4 +52,4 @@
 
 | Requerimiento funcional |
 |---|
-| La pantalla de detalle debe mostrar el **autor**, la **licencia** y la **procedencia** de la fotografía de la cultura seleccionada. Los créditos completos de las imágenes deben estar documentados en el archivo **CREDITOS_IMAGENES.md** del proyecto. |
+| La pantalla de detalle debe mostrar el **autor o institución**, la **licencia** y la **procedencia** de la fotografía de la cultura seleccionada. Los créditos completos de las imágenes deben estar documentados en el archivo **CREDITOS_IMAGENES.md** del proyecto. |

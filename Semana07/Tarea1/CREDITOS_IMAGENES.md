@@ -1,39 +1,44 @@
 # Créditos de imágenes
 
-Fotografías de Wikimedia Commons. Se utiliza la miniatura de 960 px proporcionada por Wikimedia; no se modifica el contenido de las fotografías.
+Imágenes de Wikimedia Commons. Se utilizan las miniaturas de 960 px proporcionadas por Wikimedia; no se modifica su contenido.
 
-## chavin
+## Caral
 
-- Obra: Chavín Cabeza Clava From Front.jpg
-- Autor: kcorac
+- Recurso en Assets: `caral`
+- Obra: Huaca Caral 8.jpg
+- Autor o institución: Ariana zafra
 - Licencia: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
-- Fuente: https://commons.wikimedia.org/wiki/File:Chav%C3%ADn_Cabeza_Clava_From_Front.jpg
+- Fuente: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Huaca_Caral_8.jpg)
 
-## nazca
+## Paracas
 
-- Obra: 04-Nazca Lines-nX-24.jpg
-- Autor: PsamatheM
+- Recurso en Assets: `paracas`
+- Obra: Embroidered Fragment with Figures MET 33.43d.jpg
+- Autor o institución: The Metropolitan Museum of Art (colección; autor de la imagen no indicado)
+- Licencia: [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en)
+- Fuente: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Embroidered_Fragment_with_Figures_MET_33.43d.jpg)
+
+## Wari
+
+- Recurso en Assets: `wari`
+- Obra: Complejo Arqueológico Wari.jpg
+- Autor o institución: Rodrigo Alomía Díaz
 - Licencia: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
-- Fuente: https://commons.wikimedia.org/wiki/File:04-Nazca_Lines-nX-24.jpg
+- Fuente: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Complejo_Arqueol%C3%B3gico_Wari.jpg)
 
-## moche
+## Chachapoyas
 
-- Obra: Huaca de la luna vue site.jpg
-- Autor: Velvet
+- Recurso en Assets: `chachapoyas`
+- Obra: Kuelap Août 2007 - Facade Est.jpg
+- Autor o institución: Martin St-Amant (S23678)
+- Licencia: [CC BY 3.0](https://creativecommons.org/licenses/by/3.0)
+- Fuente: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Kuelap_Ao%C3%BBt_2007_-_Facade_Est.jpg)
+
+## Lima
+
+- Recurso en Assets: `lima`
+- Obra: Huaca Pucllana, Lima, Perú, 2015-07-28, DD 128.JPG
+- Autor o institución: Diego Delso
 - Licencia: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
-- Fuente: https://commons.wikimedia.org/wiki/File:Huaca_de_la_luna_vue_site.jpg
-
-## chimu
-
-- Obra: Chan Chan Peru 14 Nov 1996 - panoramio - David Holt (1).jpg
-- Autor: David Holt
-- Licencia: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)
-- Fuente: https://commons.wikimedia.org/wiki/File:Chan_Chan_Peru_14_Nov_1996_-_panoramio_-_David_Holt_(1).jpg
-
-## inca
-
-- Obra: Machu Picchu Ruins.jpg
-- Autor: Lindaazucena00
-- Licencia: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
-- Fuente: https://commons.wikimedia.org/wiki/File:Machu_Picchu_Ruins.jpg
+- Fuente: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Huaca_Pucllana,_Lima,_Per%C3%BA,_2015-07-28,_DD_128.JPG)
 
