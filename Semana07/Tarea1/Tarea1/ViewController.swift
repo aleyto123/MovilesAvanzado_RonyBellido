@@ -6,6 +6,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Culturas peruanas"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.backButtonTitle = "Culturas"
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -31,5 +33,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         celda.accessibilityLabel = "Cultura \(cultura.nombre), \(cultura.region)"
         celda.accessibilityHint = "Muestra los detalles de esta cultura"
         return celda
+    }
+
+    // La fila seleccionada determina qué cultura se entrega al detalle.
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cultura = culturas[indexPath.row]
+        performSegue(withIdentifier: "mostrarDetalleCultura", sender: cultura)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "mostrarDetalleCultura",
+              let detalle = segue.destination as? DetalleCulturaViewController,
+              let cultura = sender as? Cultura else { return }
+
+        detalle.cultura = cultura
     }
 }
