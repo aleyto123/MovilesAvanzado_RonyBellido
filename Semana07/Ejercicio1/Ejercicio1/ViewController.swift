@@ -44,4 +44,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         return celda
     }
+    // Alerta al seleccionar un docente
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let profesor = listaProfesores[indexPath.row]
+        let alerta = UIAlertController(
+            title: "El docente que seleccionó es:",
+            message: profesor.nombre,
+            preferredStyle: .alert
+        )
+
+        alerta.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alerta, animated: true, completion: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
