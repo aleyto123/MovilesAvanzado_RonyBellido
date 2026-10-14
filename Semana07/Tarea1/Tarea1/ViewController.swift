@@ -1,19 +1,35 @@
-//
-//  ViewController.swift
-//  Tarea1
-//
-//  Created by Tecsup on 14/10/26.
-//
-
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    private let culturas = CatalogoCulturas.todas
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        title = "Culturas peruanas"
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        culturas.count
+    }
 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let celda = tableView.dequeueReusableCell(withIdentifier: "celdaCultura", for: indexPath)
+        let cultura = culturas[indexPath.row]
+
+        var contenido = celda.defaultContentConfiguration()
+        contenido.text = cultura.nombre
+        contenido.secondaryText = cultura.region
+        contenido.textProperties.font = .preferredFont(forTextStyle: .headline)
+        contenido.secondaryTextProperties.font = .preferredFont(forTextStyle: .subheadline)
+        contenido.secondaryTextProperties.color = .secondaryLabel
+        contenido.image = cultura.imagen
+        contenido.imageProperties.maximumSize = CGSize(width: 64, height: 64)
+        contenido.imageProperties.reservedLayoutSize = CGSize(width: 64, height: 64)
+        contenido.imageProperties.cornerRadius = 12
+        celda.contentConfiguration = contenido
+        celda.accessoryType = .disclosureIndicator
+        celda.accessibilityLabel = "Cultura \(cultura.nombre), \(cultura.region)"
+        celda.accessibilityHint = "Muestra los detalles de esta cultura"
+        return celda
+    }
 }
-
