@@ -11,5 +11,7 @@ Desktop.ini
 # Archivos de configuración de editores
 .vscode/
 .idea/
-*.xcodeproj
 *.xcworkspace
+node_modules/
+tools/previews/
+tools/verification.json
