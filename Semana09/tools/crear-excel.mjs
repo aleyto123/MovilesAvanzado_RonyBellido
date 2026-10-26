@@ -28,7 +28,7 @@ header(p,1,'Parámetros y fuentes de la boleta','E');
 row(p,3,['Parámetro','Valor','Fuente o ámbito','Consulta','Enlace']);
 const sourceSBS='https://www.sbs.gob.pe/app/spp/empleadores/comisiones_spp/paginas/comision_prima.aspx';
 const sources=[
- ['RMV',1230,'Actividad Grupo B; supuesto académico','26/10/2026','Actividad_Grupo_B.docx, sección 4'],
+ ['RMV',1230,'D.S. 015-2026-TR, art. 1.2; desde 01/10/2026','26/10/2026','https://busquedas.elperuano.pe/dispositivo/EX/2559163-1'],
  ['Asignación familiar',0.1,'Ley 25129; guía MTPE','26/10/2026','https://cdn.www.gob.pe/uploads/document/file/2899623/guia_asignacion_familiar.pdf'],
  ['ONP',0.13,'D.L. 19990; SUNAT','26/10/2026','https://www.gob.pe/8076-declarar-y-pagar-aportes-de-trabajadores-del-hogar'],
  ['EsSalud',0.09,'Ley 26790; SUNAT','26/10/2026','https://www.gob.pe/8076-declarar-y-pagar-aportes-de-trabajadores-del-hogar'],
@@ -46,7 +46,7 @@ rates.forEach((x,i)=>row(p,i+16,x)); p.getRange('B16:D20').setNumberFormat('0.00
 row(p,23,['Nota','Las AFP reales usan comisión sobre flujo. Se mantienen las bases simplificadas de la actividad.']);
 p.getRange('B23:E24').merge(); p.getRange('B23:E24').format.wrapText=true;
 row(p,26,['Oferta real',2300,'Asistente administrativo; publicada 14/10/2026','26/10/2026','https://portalalumni.usilcorp.com/trabajar-en-transportes-pajuelo-y-cia-s-r-l/trabajos/asistente-administrativo/967724']);
-row(p,28,['RMV oficial','Por verificar','No se afirma vigencia legal a partir del enunciado.','26/10/2026','https://www.gob.pe/mtpe']);
+row(p,28,['Vigencia RMV','01/10/2026','S/ 1,230 según art. 1.2 del D.S. 015-2026-TR.','26/10/2026','https://busquedas.elperuano.pe/dispositivo/EX/2559163-1']);
 p.getRange('C1:C28').format.columnWidth=48;p.getRange('D1:D28').format.columnWidth=18;p.getRange('E1:E28').format.columnWidth=65;
 p.getRange('C4:E28').format.wrapText=true; p.getRange('A26:E28').format.rowHeight=64;
 p.getRange('A17:E20').format.rowHeight=44;

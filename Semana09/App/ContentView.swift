@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import BoletaCore
 
 struct ContentView: View {
