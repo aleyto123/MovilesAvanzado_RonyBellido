@@ -70,7 +70,7 @@ echo "iPhone 16 Pro · $runtime · $simulador" | tee artifacts-ci/simulador.txt
 xcodebuild build-for-testing \
     -project BoletaPago.xcodeproj -scheme BoletaPago -configuration Debug \
     -sdk iphonesimulator -destination "platform=iOS Simulator,id=$simulador" \
-    -derivedDataPath .derivedData CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+    -derivedDataPath .derivedData ONLY_ACTIVE_ARCH=YES CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
     2>&1 | tee artifacts-ci/compilacion.log
 
 ditto -c -k --sequesterRsrc --keepParent \
@@ -96,5 +96,5 @@ xcodebuild test-without-building \
     -destination "platform=iOS Simulator,id=$simulador" \
     -derivedDataPath .derivedData -resultBundlePath artifacts-ci/BoletaPago.xcresult \
     -parallel-testing-enabled NO -maximum-concurrent-test-simulator-destinations 1 \
-    CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+    ONLY_ACTIVE_ARCH=YES CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
     2>&1 | tee artifacts-ci/pruebas-interfaz.log
