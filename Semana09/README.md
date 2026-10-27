@@ -48,6 +48,12 @@ Abrir `BoletaPago.xcodeproj` en Xcode 16 o posterior, seleccionar el esquema **B
 
 También se puede ejecutar y comprobar la app en un simulador de iPhone mediante **GitHub Actions**. El workflow **Semana09 - Simulador iPhone** compila la app, prueba los cuatro casos y publica capturas y una grabación. Ver [cómo ejecutar y consultar los resultados](docs/GITHUB_ACTIONS.md).
 
+## Evidencia de Ejecución
+
+[Ejecución verificada en GitHub Actions](https://github.com/aleyto123/MovilesAvanzado_RonyBellido/actions/runs/40594621152): compilación en Xcode 16.4, cinco pruebas del motor y cinco pruebas de interfaz aprobadas, sin fallos. Simulador de iPhone 16 Pro con iOS 18.6, 27/10/2026.
+
+Capturas reales del simulador: [formulario](docs/capturas/app-formulario.png), [caso 1](docs/capturas/app-caso1.png), [caso 2](docs/capturas/app-caso2.png), [caso 3](docs/capturas/app-caso3.png), [caso 4](docs/capturas/app-caso4.png) y [validación de días](docs/capturas/app-validacion.png).
+
 ## Archivos de la Actividad
 
 * [Excel con los cuatro casos y sus fórmulas](outputs/semana09/Boleta_Grupo_B.xlsx).

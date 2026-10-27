@@ -31,3 +31,9 @@ Las pruebas completan el formulario, pulsan **Calcular boleta** y comprueban imp
 Si falla la compilación o una prueba, la ejecución se marca como fallida y se conservan los logs disponibles. Los artifacts se guardan durante 14 días.
 
 Configuración: [workflow](../../.github/workflows/semana09-simulador.yml), [script del simulador](../tools/ci/simulador.sh) y [pruebas de interfaz](../UITests/BoletaPagoUITests.swift).
+
+## Ejecución comprobada
+
+El 27/10/2026 se completó correctamente la [ejecución 2](https://github.com/aleyto123/MovilesAvanzado_RonyBellido/actions/runs/40594621152), correspondiente al commit `bbe348dcb14f8160ae06e800dfeb10ad6641da54`. Se compiló en Xcode 16.4 y se ejecutó en iPhone 16 Pro con iOS 18.6: cinco pruebas del motor y cinco de interfaz, con cero fallos.
+
+La grabación y el informe completo están en [Semana09-evidencias-2](https://github.com/aleyto123/MovilesAvanzado_RonyBellido/actions/runs/40594621152/artifacts/12776725461). Se conservaron también en el repositorio las capturas del [formulario](capturas/app-formulario.png), los casos [1](capturas/app-caso1.png), [2](capturas/app-caso2.png), [3](capturas/app-caso3.png), [4](capturas/app-caso4.png) y la [validación](capturas/app-validacion.png), para consultarlas después de que expire el artifact.
