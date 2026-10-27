@@ -1,255 +1,155 @@
-//
-//  ContentView.swift
-//  Boleta
-//
-//  Created by Tecsup on 27/10/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    @State private var calculadora = BoletaCalculadora()
+    @State private var sueldo = ""
+    @State private var dias = "30"
+    @State private var tieneHijos = false
+    @State private var sistema = SistemaPension.onp
+    @State private var afp = "AFP Ejemplo"
+    @State private var horas25 = "0"
+    @State private var horas35 = "0"
+    @State private var adelanto = "0"
+    @State private var resultado: ResultadoBoleta?
+    @State private var comparacion: ResultadoBoleta?
+    @State private var resumen = ""
+    @State private var mensaje = ""
 
-    // Todos los campos vacíos por defecto con placeholders de guía
-    @State private var sueldoBasicoInput: String = ""
-    @State private var diasLaboradosInput: String = ""
-    @State private var tieneHijosToggle: Bool = false
-    @State private var esSistemaONP: Bool = true
-    @State private var horas25Input: String = ""
-    @State private var horas35Input: String = ""
-    @State private var adelantosInput: String = ""
-
-    @State private var mostrado: Bool = false
-    @State private var mostrarAlerta: Bool = false
-    @State private var mensajeAlerta: String = ""
+    private var firma: String {
+        [sueldo, dias, String(tieneHijos), sistema.rawValue, afp, horas25, horas35, adelanto].joined(separator: "|")
+    }
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-
-                    // Encabezado
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Cálculo Laboral Perú")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        Text("Boleta de Pago")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-
-                    // Formulario de Entradas
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Parámetros del Mes")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.blue)
-
-                        HStack {
-                            Text("Sueldo Básico (S/):")
-                            Spacer()
-                            TextField("Ej. 2500", text: $sueldoBasicoInput)
-                                .keyboardType(.decimalPad)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .frame(width: 120)
-                        }
-
-                        HStack {
-                            Text("Días Laborados (1-30):")
-                            Spacer()
-                            TextField("Ej. 30", text: $diasLaboradosInput)
-                                .keyboardType(.numberPad)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .frame(width: 120)
-                        }
-
-                        Picker("¿Tiene hijos?", selection: $tieneHijosToggle) {
-                            Text("No").tag(false)
-                            Text("Sí").tag(true)
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-
-                        Picker("Sistema de Pensiones", selection: $esSistemaONP) {
-                            Text("ONP (13%)").tag(true)
-                            Text("AFP Ejemplo").tag(false)
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-
-                        Divider()
-
-                        HStack {
-                            Text("Horas Extras 25% (Cant):")
-                            Spacer()
-                            TextField("Ej. 0", text: $horas25Input)
-                                .keyboardType(.decimalPad)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .frame(width: 120)
-                        }
-
-                        HStack {
-                            Text("Horas Extras 35% (Cant):")
-                            Spacer()
-                            TextField("Ej. 0", text: $horas35Input)
-                                .keyboardType(.decimalPad)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .frame(width: 120)
-                        }
-
-                        HStack {
-                            Text("Adelantos (S/):")
-                            Spacer()
-                            TextField("Ej. 0.00", text: $adelantosInput)
-                                .keyboardType(.decimalPad)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .frame(width: 120)
-                        }
-
-                        Button(action: {
-                            // Validaciones estrictas de campos obligatorios o vacíos
-                            guard let basico = Double(sueldoBasicoInput), basico > 0 else {
-                                mensajeAlerta = "Faltan datos solicitados: Ingrese un sueldo básico válido."
-                                mostrarAlerta = true
-                                mostrado = false
-                                return
-                            }
-
-                            guard let dias = Int(diasLaboradosInput), dias > 0, dias <= 30 else {
-                                mensajeAlerta = "Faltan datos solicitados: Los días laborados deben ser entre 1 y 30."
-                                mostrarAlerta = true
-                                mostrado = false
-                                return
-                            }
-
-                            let h25 = Double(horas25Input) ?? 0.0
-                            let h35 = Double(horas35Input) ?? 0.0
-                            let adelanto = Double(adelantosInput) ?? 0.0
-
-                            calculadora.calcular(
-                                sueldoBasico: basico,
-                                diasLaborados: dias,
-                                tieneHijos: tieneHijosToggle,
-                                esONP: esSistemaONP,
-                                horas25: h25,
-                                horas35: h35,
-                                adelantos: adelanto
-                            )
-                            mostrado = true
-                        }) {
-                            Text("Calcular Boleta")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.blue)
-                                .cornerRadius(10)
-                        }
-                        .padding(.top, 5)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
-                    .padding(.horizontal)
-                    .alert(isPresented: $mostrarAlerta) {
-                        Alert(title: Text("Aviso"), message: Text(mensajeAlerta), dismissButton: .default(Text("OK")))
-                    }
-
-                    // Resultados
-                    if mostrado {
-                        VStack(alignment: .leading, spacing: 16) {
-                            Text("Resultado de la Boleta")
-                                .font(.headline)
-                                .foregroundColor(.primary)
-
-                            // Bloque 1: Remuneraciones
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("REMUNERACIONES").font(.subheadline).bold().foregroundColor(.blue)
-                                FilaBoleta(concepto: "Sueldo computable", monto: calculadora.sueldoComputable)
-                                FilaBoleta(concepto: "Asignación familiar", monto: calculadora.asignacionFamiliar)
-                                FilaBoleta(concepto: "Horas extras 25%", monto: calculadora.montoHE25)
-                                FilaBoleta(concepto: "Horas extras 35%", monto: calculadora.montoHE35)
-                                Divider()
-                                FilaBoleta(concepto: "Total remuneraciones", monto: calculadora.totalRemuneraciones, isBold: true)
-                            }
-                            .padding()
-                            .background(Color(.systemBackground))
-                            .cornerRadius(8)
-                            .shadow(radius: 1)
-
-                            // Bloque 2: Retenciones / Descuentos
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("RETENCIONES / DESCUENTOS").font(.subheadline).bold().foregroundColor(.red)
-                                if esSistemaONP {
-                                    FilaBoleta(concepto: "ONP (13%)", monto: calculadora.montoONP)
-                                    FilaBoleta(concepto: "AFP fondo", monto: 0.0)
-                                    FilaBoleta(concepto: "AFP comisión", monto: 0.0)
-                                    FilaBoleta(concepto: "AFP seguro", monto: 0.0)
-                                } else {
-                                    FilaBoleta(concepto: "ONP", monto: 0.0)
-                                    FilaBoleta(concepto: "AFP fondo", monto: calculadora.montoAFPFondo)
-                                    FilaBoleta(concepto: "AFP comisión", monto: calculadora.montoAFPComision)
-                                    FilaBoleta(concepto: "AFP seguro", monto: calculadora.montoAFPSeguro)
-                                }
-                                FilaBoleta(concepto: "Adelantos", monto: calculadora.montoAdelantos)
-                                Divider()
-                                FilaBoleta(concepto: "Total descuentos", monto: calculadora.totalDescuentos, isBold: true)
-                            }
-                            .padding()
-                            .background(Color(.systemBackground))
-                            .cornerRadius(8)
-                            .shadow(radius: 1)
-
-                            // Bloque 3: Aportaciones del Empleador
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("APORTACIONES DEL EMPLEADOR").font(.subheadline).bold().foregroundColor(.green)
-                                FilaBoleta(concepto: "EsSalud (9%)", monto: calculadora.esSaludEmpleador)
-                                Divider()
-                            }
-                            .padding()
-                            .background(Color(.systemBackground))
-                            .cornerRadius(8)
-                            .shadow(radius: 1)
-
-                            // Neto a Pagar
-                            HStack {
-                                Text("NETO A PAGAR:")
-                                    .font(.title3)
-                                    .bold()
-                                Spacer()
-                                Text("S/ \(String(format: "%.2f", calculadora.netoAPagar))")
-                                    .font(.title3)
-                                    .bold()
-                                    .foregroundColor(.green)
-                            }
-                            .padding()
-                            .background(Color(.systemGray5))
-                            .cornerRadius(10)
-                        }
-                        .padding(.horizontal)
-                    }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                encabezado
+                formulario
+                if let resultado = resultado, let comparacion = comparacion {
+                    BoletaView(resultado: resultado, comparacion: comparacion,
+                               sistema: sistema, afp: afp, resumen: resumen)
                 }
-                .padding(.vertical)
+                Text("Importes en soles. Cada concepto se redondea a dos decimales antes de sumar. Sin renta de quinta categoría ni bases mínimas, según la actividad.")
+                    .font(.caption).foregroundColor(.secondary)
             }
-            .navigationBarHidden(true)
+            .padding()
+        }
+        .accessibilityIdentifier("boletaScroll")
+        .scrollDismissesKeyboard(.immediately)
+        .onChange(of: firma) { _ in
+            resultado = nil
+            comparacion = nil
+            mensaje = ""
+        }
+    }
+
+    private var encabezado: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Boleta de ejemplo").font(.title2.bold())
+            Text("Del sueldo al neto").foregroundColor(.secondary)
+            Text("Trabajador: Alex Ejemplo\nEmpresa: Horizonte Académico S.A.C.")
+                .font(.footnote)
+            Text("Personas y empresa ficticias").font(.caption).foregroundColor(.secondary)
+        }
+    }
+
+    private var formulario: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Datos del mes").font(.headline)
+            Text("Usa punto o coma decimal, sin separadores de miles. Escribe 0 cuando no haya horas extras o adelantos.")
+                .font(.caption).foregroundColor(.secondary)
+
+            campo("Sueldo básico", ejemplo: "Ej. 2500", texto: $sueldo, id: "sueldo")
+            campo("Días laborados (1–30)", ejemplo: "Ej. 30", texto: $dias, id: "dias", entero: true)
+
+            Text("¿Tiene hijos?").font(.subheadline)
+            Picker("¿Tiene hijos?", selection: $tieneHijos) {
+                Text("No").tag(false)
+                Text("Sí").tag(true)
+            }
+            .pickerStyle(.segmented)
+            .accessibilityIdentifier("tieneHijos")
+
+            Text("Sistema de pensiones").font(.subheadline)
+            Picker("Sistema de pensiones", selection: $sistema) {
+                ForEach(SistemaPension.allCases, id: \.self) { pension in
+                    Text(pension.rawValue).tag(pension)
+                }
+            }
+            .pickerStyle(.segmented)
+            .accessibilityIdentifier("sistemaPension")
+
+            if sistema == .afp {
+                HStack {
+                    Text("AFP")
+                    Spacer()
+                    Picker("AFP", selection: $afp) {
+                        ForEach(Parametros.afps.keys.sorted(), id: \.self) { nombre in
+                            Text(nombre).tag(nombre)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .accessibilityIdentifier("selectorAFP")
+                }
+                Text(afp == "AFP Ejemplo"
+                     ? "Tasas de prueba: fondo 10%, comisión 1.60% y seguro 1.35%."
+                     : "SBS, octubre 2026. Comisión sobre flujo; bases simplificadas de la actividad.")
+                    .font(.caption).foregroundColor(.secondary)
+            }
+
+            campo("Horas extras al 25%", ejemplo: "Ej. 4", texto: $horas25, id: "horas25")
+            campo("Horas extras al 35%", ejemplo: "Ej. 4", texto: $horas35, id: "horas35")
+            campo("Adelantos", ejemplo: "Ej. 200", texto: $adelanto, id: "adelanto")
+
+            Button(action: calcular) {
+                Text("Calcular boleta").font(.headline).frame(maxWidth: .infinity).padding(.vertical, 6)
+            }
+            .buttonStyle(.borderedProminent)
+            .accessibilityIdentifier("calcularBoleta")
+
+            if !mensaje.isEmpty {
+                Text(mensaje).font(.subheadline).foregroundColor(.red)
+                    .accessibilityIdentifier("errorValidacion")
+            }
+        }
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(12)
+    }
+
+    private func campo(_ titulo: String, ejemplo: String, texto: Binding<String>, id: String, entero: Bool = false) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(titulo).font(.subheadline)
+            Spacer(minLength: 10)
+            TextField(ejemplo, text: texto)
+                .keyboardType(entero ? .numberPad : .decimalPad)
+                .textFieldStyle(.roundedBorder)
+                .multilineTextAlignment(.trailing)
+                .frame(width: 125)
+                .accessibilityLabel(titulo)
+                .accessibilityIdentifier(id)
+        }
+    }
+
+    private func calcular() {
+        resultado = nil
+        comparacion = nil
+        mensaje = ""
+        do {
+            let datos = try Formulario.datos(sueldo: sueldo, dias: dias, hijos: tieneHijos,
+                sistema: sistema, afp: afp, horas25: horas25, horas35: horas35, adelanto: adelanto)
+            let calculadora = Boleta()
+            let boleta = try calculadora.calcular(datos)
+            var alternativo = datos
+            alternativo.sistema = sistema == .onp ? .afp : .onp
+            let otraBoleta = try calculadora.calcular(alternativo)
+            resumen = "\(datos.dias) días · \(sistema.rawValue)\(sistema == .afp ? " / " + afp : "") · \(tieneHijos ? "Con" : "Sin") asignación familiar"
+            comparacion = otraBoleta
+            resultado = boleta
+        } catch {
+            mensaje = error.localizedDescription
         }
     }
 }
 
-struct FilaBoleta: View {
-    let concepto: String
-    let monto: Double
-    var isBold: Bool = false
-
-    var body: some View {
-        HStack {
-            Text(concepto)
-                .font(isBold ? .subheadline : .footnote)
-                .fontWeight(isBold ? .bold : .regular)
-            Spacer()
-            Text(String(format: "%.2f", monto))
-                .font(isBold ? .subheadline : .footnote)
-                .fontWeight(isBold ? .bold : .regular)
-        }
-    }
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View { ContentView() }
 }
