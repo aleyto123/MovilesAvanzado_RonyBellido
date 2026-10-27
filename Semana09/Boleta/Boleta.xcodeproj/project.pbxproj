@@ -7,11 +7,17 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		E00000000000000000000003 /* BoletaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoletaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00000000000000000000003 /* BoletaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoletaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD68C34A3090FC3700F3B95C /* Boleta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boleta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		E00000000000000000000002 /* BoletaUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BoletaUITests;
+			sourceTree = "<group>";
+		};
 		D00000000000000000000002 /* BoletaTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BoletaTests;
@@ -25,6 +31,12 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E00000000000000000000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D00000000000000000000004 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,6 +58,7 @@
 			children = (
 				CD68C34C3090FC3700F3B95C /* Boleta */,
 				D00000000000000000000002 /* BoletaTests */,
+				E00000000000000000000002 /* BoletaUITests */,
 				CD68C34B3090FC3700F3B95C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,6 +68,7 @@
 			children = (
 				CD68C34A3090FC3700F3B95C /* Boleta.app */,
 				D00000000000000000000003 /* BoletaTests.xctest */,
+				E00000000000000000000003 /* BoletaUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,6 +76,18 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E00000000000000000000001 /* BoletaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E00000000000000000000011;
+			buildPhases = (E00000000000000000000005, E00000000000000000000004, E00000000000000000000006);
+			buildRules = ();
+			dependencies = (E00000000000000000000007);
+			fileSystemSynchronizedGroups = (E00000000000000000000002);
+			name = BoletaUITests;
+			productName = BoletaUITests;
+			productReference = E00000000000000000000003;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		D00000000000000000000001 /* BoletaTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D00000000000000000000011;
@@ -106,6 +132,10 @@
 				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
+					E00000000000000000000001 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = CD68C3493090FC3700F3B95C;
+					};
 					D00000000000000000000001 = {
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = CD68C3493090FC3700F3B95C;
@@ -131,11 +161,18 @@
 			targets = (
 				CD68C3493090FC3700F3B95C /* Boleta */,
 				D00000000000000000000001 /* BoletaTests */,
+				E00000000000000000000001 /* BoletaUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E00000000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D00000000000000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,6 +189,12 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E00000000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D00000000000000000000005 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,6 +211,13 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXContainerItemProxy section */
+		E00000000000000000000008 = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD68C3423090FC3700F3B95C;
+			proxyType = 1;
+			remoteGlobalIDString = CD68C3493090FC3700F3B95C;
+			remoteInfo = Boleta;
+		};
 		D00000000000000000000008 = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CD68C3423090FC3700F3B95C;
@@ -178,6 +228,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXTargetDependency section */
+		E00000000000000000000007 = {
+			isa = PBXTargetDependency;
+			target = CD68C3493090FC3700F3B95C;
+			targetProxy = E00000000000000000000008;
+		};
 		D00000000000000000000007 = {
 			isa = PBXTargetDependency;
 			target = CD68C3493090FC3700F3B95C;
@@ -186,6 +241,32 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		E00000000000000000000009 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.ronybellido.BoletaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Boleta;
+			};
+			name = Debug;
+		};
+		E00000000000000000000010 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.ronybellido.BoletaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Boleta;
+			};
+			name = Release;
+		};
 		D00000000000000000000009 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -394,6 +475,12 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E00000000000000000000011 /* Build configuration list for PBXNativeTarget "BoletaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (E00000000000000000000009, E00000000000000000000010);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D00000000000000000000011 /* Build configuration list for PBXNativeTarget "BoletaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (D00000000000000000000009, D00000000000000000000010);
