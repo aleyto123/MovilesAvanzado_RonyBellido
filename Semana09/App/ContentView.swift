@@ -28,37 +28,38 @@ struct ContentView: View {
                     Text("Datos del mes").font(.title2.bold()).foregroundColor(azul)
                     Text("Montos en soles, sin separador de miles. Puedes usar punto o coma decimal.")
                         .font(.footnote).foregroundColor(.secondary)
-                    campo("Sueldo básico", texto: $sueldo)
-                    campo("Días laborados (1–30)", texto: $dias, teclado: .numberPad)
+                    campo("Sueldo básico", texto: $sueldo, identificador: "sueldo")
+                    campo("Días laborados (1–30)", texto: $dias, teclado: .numberPad, identificador: "dias")
                     Text("¿Tiene hijos?").font(.subheadline.bold())
                     Picker("¿Tiene hijos?", selection: $hijos) {
                         Text("No").tag(false)
                         Text("Sí").tag(true)
-                    }.pickerStyle(.segmented)
+                    }.pickerStyle(.segmented).accessibilityIdentifier("tieneHijos")
                     Text("Sistema de pensiones").font(.subheadline.bold())
                     Picker("Sistema de pensiones", selection: $sistema) {
                         ForEach(SistemaPension.allCases, id: \.self) { Text($0.rawValue).tag($0) }
-                    }.pickerStyle(.segmented)
+                    }.pickerStyle(.segmented).accessibilityIdentifier("sistemaPension")
                     if sistema == .afp {
                         HStack {
                             Text("AFP").font(.subheadline.bold())
                             Spacer()
                             Picker("AFP", selection: $afp) {
                                 ForEach(Parametros.afps.keys.sorted(), id: \.self) { Text($0).tag($0) }
-                            }.pickerStyle(.menu)
+                            }.pickerStyle(.menu).accessibilityIdentifier("selectorAFP")
                         }
                         Text(afp == "AFP Ejemplo" ? "Tasas de prueba: fondo 10%, comisión 1.60%, seguro 1.35%." : "SBS octubre 2026 · comisión sobre flujo. Cálculo simplificado de la actividad.")
                             .font(.caption).foregroundColor(.secondary)
                     }
-                    campo("Horas extras al 25%", texto: $horas25)
-                    campo("Horas extras al 35%", texto: $horas35)
-                    campo("Adelantos", texto: $adelanto)
+                    campo("Horas extras al 25%", texto: $horas25, identificador: "horas25")
+                    campo("Horas extras al 35%", texto: $horas35, identificador: "horas35")
+                    campo("Adelantos", texto: $adelanto, identificador: "adelanto")
                     Button(action: calcular) {
                         Text("Calcular boleta").font(.headline).frame(maxWidth: .infinity).padding(.vertical, 8)
-                    }.buttonStyle(.borderedProminent).tint(verde)
+                    }.buttonStyle(.borderedProminent).tint(verde).accessibilityIdentifier("calcularBoleta")
                     if !error.isEmpty {
                         Text(error).foregroundColor(.red).font(.subheadline)
                             .accessibilityLabel("Error: \(error)")
+                            .accessibilityIdentifier("errorValidacion")
                     }
                 }.padding(20).background(Color(uiColor: .secondarySystemGroupedBackground)).cornerRadius(20)
 
@@ -76,6 +77,7 @@ struct ContentView: View {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("NETO A PAGAR").font(.caption.bold())
                             Text(r.neto.soles).font(.largeTitle.bold()).minimumScaleFactor(0.6)
+                                .accessibilityIdentifier("netoPagar")
                         }.frame(maxWidth: .infinity, alignment: .leading).padding(20)
                             .foregroundColor(.white).background(verde).cornerRadius(16)
                         if r.neto < 0 {
@@ -95,7 +97,17 @@ struct ContentView: View {
                 Text("RMV académica S/ 1,230 · Asignación familiar 10% · ONP 13% · EsSalud 9%. Sin renta de quinta categoría ni bases mínimas. Las AFP usan comisión sobre flujo y las bases simplificadas de la actividad.")
                     .font(.caption).foregroundColor(.secondary)
             }.padding(18).frame(maxWidth: 640).frame(maxWidth: .infinity)
-        }.background(Color(uiColor: .systemGroupedBackground)).tint(verde)
+        }.accessibilityIdentifier("boletaScroll")
+            .background(Color(uiColor: .systemGroupedBackground)).tint(verde)
+            .scrollDismissesKeyboard(.interactively)
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Listo") {
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    }.accessibilityIdentifier("cerrarTeclado")
+                }
+            }
             .onChange(of: firma) { _ in resultado = nil; comparacion = nil; error = "" }
     }
 
@@ -109,11 +121,12 @@ struct ContentView: View {
         }.padding(.vertical, 8)
     }
 
-    private func campo(_ titulo: String, texto: Binding<String>, teclado: UIKeyboardType = .decimalPad) -> some View {
+    private func campo(_ titulo: String, texto: Binding<String>, teclado: UIKeyboardType = .decimalPad, identificador: String) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(titulo).font(.subheadline.bold())
             TextField(titulo, text: texto).keyboardType(teclado).textFieldStyle(.roundedBorder)
                 .accessibilityLabel(titulo)
+                .accessibilityIdentifier(identificador)
         }
     }
 
@@ -122,6 +135,7 @@ struct ContentView: View {
             Text(nombre)
             Spacer(minLength: 12)
             Text(monto.soles).monospacedDigit().multilineTextAlignment(.trailing)
+                .accessibilityIdentifier("importe.\(nombre)")
         }.font(destacado ? .headline : .subheadline)
     }
 

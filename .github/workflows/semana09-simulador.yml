@@ -1,0 +1,71 @@
+name: Semana09 - Simulador iPhone
+
+on:
+  push:
+    branches: [main, 'codex/semana09-simulador']
+    paths:
+      - 'Semana09/App/**'
+      - 'Semana09/Sources/**'
+      - 'Semana09/Tests/**'
+      - 'Semana09/UITests/**'
+      - 'Semana09/BoletaPago.xcodeproj/**'
+      - 'Semana09/Package.swift'
+      - 'Semana09/tools/ci/**'
+      - '.github/workflows/semana09-simulador.yml'
+  pull_request:
+    paths:
+      - 'Semana09/App/**'
+      - 'Semana09/Sources/**'
+      - 'Semana09/Tests/**'
+      - 'Semana09/UITests/**'
+      - 'Semana09/BoletaPago.xcodeproj/**'
+      - 'Semana09/Package.swift'
+      - 'Semana09/tools/ci/**'
+      - '.github/workflows/semana09-simulador.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: semana09-simulador-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  simulador:
+    name: Compilar y probar los cuatro casos
+    runs-on: macos-15
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash
+        working-directory: Semana09
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Ejecutar app y pruebas en iPhone Simulator
+        run: bash tools/ci/simulador.sh
+
+      - name: Publicar capturas, video e informe de pruebas
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: Semana09-evidencias-${{ github.run_number }}
+          path: Semana09/artifacts-ci/
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Publicar app compilada para simulador
+        if: success()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: Semana09-app-simulador
+          path: Semana09/.derivedData/BoletaPago-simulador.zip
+          retention-days: 14
+          if-no-files-found: error

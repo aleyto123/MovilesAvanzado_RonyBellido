@@ -1,98 +1,55 @@
-# Semana 09 · Boleta de pago
+## 📋 Requerimientos Funcionales
 
-Aplicación de una sola pantalla en **Swift y SwiftUI**, con formulario, validación y boleta de ejemplo. Incluye Excel con cuatro hojas, análisis de las cinco preguntas y control cruzado del cálculo. Se implementan completos los niveles 1 y 2 y se añaden el encabezado ficticio y la comparación ONP/AFP.
+### RF-01: Registro de Datos del Mes
 
-## Abrir la app en la Mac
+* **RF-01.1 Captura de Información:** La aplicación debe permitir ingresar el sueldo básico, los días laborados, si el trabajador tiene hijos, las horas extras al 25%, las horas extras al 35% y los adelantos.
+* **RF-01.2 Selección del Sistema de Pensiones:** El usuario podrá elegir ONP o AFP. Al seleccionar AFP, debe aparecer un selector con AFP Ejemplo, Habitat, Integra, Prima y Profuturo. Las AFP reales deben identificarse como comisión sobre flujo.
+* **RF-01.3 Procesamiento de Datos:** El formulario debe incluir el botón **Calcular boleta**, que valide los datos ingresados y genere los resultados en la misma pantalla.
 
-1. Abrir **`BoletaPago.xcodeproj`**, dentro de esta carpeta, con Xcode 16 o posterior.
-2. Elegir el esquema **BoletaPago** y un simulador de iPhone con iOS 16 o posterior.
-3. Ejecutar con **Cmd+R**. El paquete local `BoletaCore` está integrado; no hay que copiar archivos ni generar el proyecto.
-4. Para probar en un iPhone físico, elegir el equipo de firma en Signing & Capabilities.
+### RF-02: Cálculo de Remuneraciones
 
-También se puede ejecutar `bash tools/validar-mac.sh`: corre las pruebas del motor y compila la app para simulador. El motor se compiló y ejecutó en Windows con Swift 6.3.3. La interfaz pasó análisis sintáctico con `swiftc -frontend -parse`; su compilación contra el SDK de iOS y su revisión en simulador quedan para la Mac.
+* **RF-02.1 Sueldo Computable:** La aplicación debe calcular el sueldo correspondiente a los días trabajados: `sueldoBásico / 30 × díasLaborados`.
+* **RF-02.2 Asignación Familiar:** Si el trabajador tiene hijos, se debe agregar el 10% de la RMV. Con la RMV de S/ 1,230.00 utilizada en la actividad, corresponde S/ 123.00, sin prorratear por días. Si no tiene hijos, se debe mostrar 0.00.
+* **RF-02.3 Valor Hora:** El sistema debe obtener el valor de la hora ordinaria mediante `sueldoBásico / 30 / 8`, conservando los decimales intermedios.
+* **RF-02.4 Horas Extras:** Se deben calcular por separado los pagos al 25% y al 35%, multiplicando el valor hora por 1.25 o 1.35 y por la cantidad de horas correspondiente.
+* **RF-02.5 Total de Remuneraciones:** Suma del sueldo computable, la asignación familiar y los dos pagos por horas extras.
 
-## Uso
+### RF-03: Retenciones, Adelantos y Neto a Pagar
 
-Ingresar sueldo, días, hijos y sistema de pensiones. Con AFP aparece su selector. Completar horas extras ya separadas en 25% y 35%, y adelantos. Pulsar **Calcular boleta** para mostrar los tres bloques y el neto debajo del formulario. El formulario acepta punto o coma decimal, sin separadores de miles, con hasta dos decimales.
+* **RF-03.1 Retención ONP:** Si se elige ONP, la aplicación debe calcular el 13% del total de remuneraciones y mostrar los conceptos AFP en cero.
+* **RF-03.2 Retenciones AFP:** Si se elige AFP, se deben calcular por separado el fondo, la comisión y el seguro con las tasas de la AFP seleccionada. AFP Ejemplo debe utilizar 10.00%, 1.60% y 1.35%, respectivamente. ONP debe mostrarse en cero.
+* **RF-03.3 Aplicación del Adelanto:** El monto ingresado como adelanto debe añadirse a los descuentos, sin reducir la base de cálculo de la pensión.
+* **RF-03.4 Total de Descuentos:** Suma de la retención ONP o de los tres conceptos AFP, más el adelanto. No se deben descontar ambos sistemas al mismo tiempo.
+* **RF-03.5 Neto a Pagar:** Cálculo final mediante `totalRemuneraciones - totalDescuentos`. Si el resultado es negativo, se debe mostrar un mensaje que lo identifique como saldo pendiente.
 
-Si hay datos inválidos se muestra un mensaje y no se emite una boleta. Cambiar cualquier entrada retira el resultado anterior para evitar mostrar cifras desactualizadas. Se muestran en cero los conceptos que no aplican. Los adelantos pueden producir un neto negativo; se explica como saldo pendiente.
+### RF-04: Validación de Datos
 
-La comparación ONP/AFP usa los mismos datos y la AFP seleccionada, que inicialmente es AFP Ejemplo. El encabezado dice **Boleta de ejemplo**, sin DNI ni RUC reales. No se calcula quinta categoría, que el enunciado excluye de las reglas generales y deja como reto opcional.
+* **RF-04.1 Validación de Campos:** La aplicación no debe calcular si un campo numérico está vacío o contiene texto. Los importes y las horas deben admitir punto o coma decimal, sin separadores de miles y con un máximo de dos decimales.
+* **RF-04.2 Validación del Sueldo y Días:** El sueldo debe ser mayor que cero. Los días laborados deben ser un número entero entre 1 y 30.
+* **RF-04.3 Validación de Horas y Adelantos:** Las horas extras de ambos tipos y el adelanto deben ser números mayores o iguales a cero.
+* **RF-04.4 Mensajes de Error:** Si se encuentra un dato incorrecto, se debe mostrar un mensaje claro que indique qué corregir y evitar la presentación de una boleta incompleta.
 
-## Organización del código
+### RF-05: Presentación de la Boleta y Aportaciones del Empleador
 
-| Archivo | Responsabilidad |
-| --- | --- |
-| `App/BoletaPagoApp.swift` | Entrada de la app SwiftUI. |
-| `App/ContentView.swift` | Formulario, estados, validación visible, boleta y comparación. |
-| `Sources/BoletaCore/Modelos.swift` | Structs, parámetros, diccionario AFP, arrays de conceptos y redondeo. |
-| `Sources/BoletaCore/Boleta.swift` | Clase calculadora independiente de SwiftUI. |
-| `Sources/BoletaCore/Formulario.swift` | Interpretación estricta de los campos del formulario. |
-| `Tests/BoletaCoreTests/BoletaTests.swift` | Pruebas de casos, límites, redondeo y pensiones. |
-| `Sources/BoletaCheck/main.swift` | Exporta los importes calculados por Swift para contrastar con Excel. |
+* **RF-05.1 Identificación de Ejemplo:** La pantalla debe mostrar el título **Boleta de ejemplo**, el nombre de un trabajador y una empresa ficticios, sin utilizar DNI ni RUC reales.
+* **RF-05.2 Desglose de Conceptos:** La boleta debe aparecer debajo del formulario y mostrar los bloques **Remuneraciones**, **Retenciones / Descuentos** y **Aportaciones del empleador**, con sus conceptos e importes.
+* **RF-05.3 Cálculo de EsSalud:** Se debe calcular el 9% del total de remuneraciones como aporte del empleador. Este importe no debe descontarse al trabajador. El costo para la empresa debe ser la suma de las remuneraciones y EsSalud.
+* **RF-05.4 Formato de Importes:** Los montos deben mostrarse en soles y con dos decimales. Cada concepto monetario debe redondearse antes de sumar. Los conceptos que no apliquen deben aparecer con 0.00 y el **Neto a pagar** debe resaltarse.
+* **RF-05.5 Consulta del Contenido:** La pantalla debe utilizar un **ScrollView** que permita consultar el formulario y todos los bloques de la boleta mediante desplazamiento vertical.
 
-Se usa `Decimal`, no `Double`, para el dinero. Se redondea cada concepto a dos decimales con redondeo comercial y después se suman los conceptos. El valor hora intermedio conserva su precisión. Todos los parámetros están en `Parametros` y en la hoja `Parámetros` del Excel, con fuentes y fecha.
+### RF-06: Comparación de Pensiones y Nueva Consulta
 
-## Excel
+* **RF-06.1 Comparación ONP y AFP:** La aplicación debe mostrar, uno al lado del otro, el neto con ONP y el neto con la AFP seleccionada, utilizando los mismos datos del trabajador.
+* **RF-06.2 Actualización del Cálculo:** Al modificar cualquier entrada, se deben retirar los resultados anteriores. El usuario podrá presionar nuevamente **Calcular boleta** para realizar otra consulta sin reiniciar la aplicación.
 
-Abrir **[Boleta_Grupo_B.xlsx](outputs/semana09/Boleta_Grupo_B.xlsx)**.
+## Ejecución
 
-- **Parámetros:** tasas, constantes, fuentes, fecha y oferta laboral.
-- **Boleta:** seleccionar un caso de 1 a 5 en B3. Las fórmulas enlazan con el cálculo de Casos y se muestran también como texto al lado de los importes.
-- **Casos:** cuatro ejercicios, oferta real y dos columnas para los datos de compañeros. Las entradas editables se muestran en azul. Todos los resultados se calculan mediante fórmulas; las cifras de control Swift son referencias independientes de la ejecución.
-- **Explicación:** fórmulas en palabras, ejemplos numéricos y respuestas de análisis. Para ver las fórmulas de cálculo en sus celdas, activar **Fórmulas > Mostrar fórmulas** en Excel.
+Abrir `BoletaPago.xcodeproj` en Xcode 16 o posterior, seleccionar el esquema **BoletaPago** y ejecutar en un simulador de iPhone con iOS 16 o posterior. El paquete local `BoletaCore` está incluido en esta carpeta.
 
-Las celdas de comparación con compañeros quedan vacías hasta recibir sus sueldos. Registrar también sus enlaces y fechas de consulta. Los valores de referencia Swift corresponden a los casos originales: si se cambian las entradas, una diferencia indica que ya no son esos mismos casos.
+También se puede ejecutar y comprobar la app en un simulador de iPhone mediante **GitHub Actions**. El workflow **Semana09 - Simulador iPhone** compila la app, prueba los cuatro casos y publica capturas y una grabación. Ver [cómo ejecutar y consultar los resultados](docs/GITHUB_ACTIONS.md).
 
-### Capturas del Excel generado
+## Archivos de la Actividad
 
-Estas imágenes son vistas del libro entregado, no capturas de una app ejecutada en iOS.
-
-![Boleta del Excel](docs/capturas/excel-boleta.png)
-
-![Casos y control cruzado](docs/capturas/excel-casos.png)
-
-### Capturas de la app
-
-La captura real de SwiftUI se completa al ejecutar el simulador en la Mac. Con la app visible, usar `bash tools/capturar-app.sh app-formulario`. Después de calcular los casos, capturar con `app-caso1`, `app-caso4` y `app-validacion`. Las imágenes se guardan en `docs/capturas/`. Esto permite documentar la ejecución real sin presentar una maqueta como evidencia.
-
-## Validación realizada
-
-Desde esta carpeta:
-
-```sh
-swift test
-swift run boleta-check tools/verification.json
-```
-
-Resultado: **5 pruebas XCTest aprobadas, 0 fallos**. La exportación real de Swift se comparó con las fórmulas recalculadas del Excel: **70 importes coincidentes** entre los cuatro casos y la oferta propia. También se cambió el selector de los cinco casos y se modificó temporalmente el sueldo del caso 1 a S/ 2,600 para comprobar recálculo; luego se restauraron las entradas originales. Se inspeccionaron visualmente las cuatro hojas y se buscaron errores de fórmula.
-
-| Caso | Remuneraciones | Descuentos | Neto | EsSalud |
-| --- | ---: | ---: | ---: | ---: |
-| 1 | 2,500.00 | 325.00 | **2,175.00** | 225.00 |
-| 2 | 1,743.00 | 226.59 | **1,516.41** | 156.87 |
-| 3 | 3,253.00 | 621.27 | **2,631.73** | 292.77 |
-| 4 | 3,574.00 | 562.83 | **3,011.17** | 321.66 |
-| Oferta propia | 2,300.00 | 298.31 | **2,001.69** | 207.00 |
-
-Evidencia numérica: [control-cruzado.json](outputs/semana09/control-cruzado.json). No se afirma que la compilación o la ejecución de la interfaz iOS se hayan realizado en Windows.
-
-Para regenerar el libro, primero ejecutar `swift run boleta-check tools/verification.json` y después `node tools/crear-excel.mjs` con `@oai/artifact-tool` disponible. El archivo Excel entregado funciona por sí mismo y no necesita ese generador.
-
-## Análisis y exposición
-
-- [Respuestas y caso 4 resuelto](docs/ANALISIS.md).
-- [Tabla de fuentes y alcance de las tasas](docs/FUENTES.md).
-- [Guía de exposición para dos participantes](docs/EXPOSICION.md).
-
-## Siete hitos de Git
-
-1. Modelo: datos de boleta y parámetros centralizados.
-2. Cálculo: remuneraciones, ONP, AFP, EsSalud y neto con Decimal.
-3. Validación: casos de prueba y entradas inválidas con XCTest.
-4. Interfaz: pantalla SwiftUI y comparación de pensiones.
-5. Proyecto: app iOS y esquema de Xcode compartido.
-6. Excel: cuatro hojas y contraste de 70 importes con Swift.
-7. Documentación: análisis, fuentes, capturas del Excel y guía de exposición.
-
-Los commits se pueden revisar con `git log -7 --oneline`. Todo el trabajo de esta actividad está dentro de Semana09.
+* [Excel con los cuatro casos y sus fórmulas](outputs/semana09/Boleta_Grupo_B.xlsx).
+* [Respuestas de análisis y caso 4 resuelto](docs/ANALISIS.md).
+* [Tabla de fuentes y parámetros](docs/FUENTES.md).

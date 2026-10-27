@@ -16,3 +16,4 @@ node_modules/
 tools/previews/
 tools/verification.json
 *.inspect.ndjson
+artifacts-ci/

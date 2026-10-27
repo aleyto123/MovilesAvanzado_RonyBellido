@@ -4,10 +4,10 @@
  classes = {};
  objectVersion = 56;
  objects = {
-  A00000000000000000000001 = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1600;}; buildConfigurationList = A00000000000000000000002; compatibilityVersion = "Xcode 14.0"; developmentRegion = es; hasScannedForEncodings = 0; knownRegions = (es, en, Base); mainGroup = A00000000000000000000003; packageReferences = (A00000000000000000000020); productRefGroup = A00000000000000000000004; projectDirPath = ""; projectRoot = ""; targets = (A00000000000000000000005);};
+  A00000000000000000000001 = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1600; TargetAttributes = {B00000000000000000000001 = {CreatedOnToolsVersion = 16.4; TestTargetID = A00000000000000000000005;};};}; buildConfigurationList = A00000000000000000000002; compatibilityVersion = "Xcode 14.0"; developmentRegion = es; hasScannedForEncodings = 0; knownRegions = (es, en, Base); mainGroup = A00000000000000000000003; packageReferences = (A00000000000000000000020); productRefGroup = A00000000000000000000004; projectDirPath = ""; projectRoot = ""; targets = (A00000000000000000000005, B00000000000000000000001);};
   A00000000000000000000002 = {isa = XCConfigurationList; buildConfigurations = (A00000000000000000000006, A00000000000000000000007); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
-  A00000000000000000000003 = {isa = PBXGroup; children = (A00000000000000000000008, A00000000000000000000004); sourceTree = "<group>";};
-  A00000000000000000000004 = {isa = PBXGroup; name = Products; children = (A00000000000000000000009); sourceTree = "<group>";};
+  A00000000000000000000003 = {isa = PBXGroup; children = (A00000000000000000000008, B00000000000000000000002, A00000000000000000000004); sourceTree = "<group>";};
+  A00000000000000000000004 = {isa = PBXGroup; name = Products; children = (A00000000000000000000009, B00000000000000000000003); sourceTree = "<group>";};
   A00000000000000000000005 = {isa = PBXNativeTarget; buildConfigurationList = A00000000000000000000010; buildPhases = (A00000000000000000000011, A00000000000000000000012, A00000000000000000000013); buildRules = (); dependencies = (); name = BoletaPago; packageProductDependencies = (A00000000000000000000021); productName = BoletaPago; productReference = A00000000000000000000009; productType = "com.apple.product-type.application";};
   A00000000000000000000006 = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 16.0; SWIFT_VERSION = 5.0; DEBUG_INFORMATION_FORMAT = dwarf;}; name = Debug;};
   A00000000000000000000007 = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 16.0; SWIFT_VERSION = 5.0; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";}; name = Release;};
@@ -26,6 +26,19 @@
   A00000000000000000000020 = {isa = XCLocalSwiftPackageReference; relativePath = .;};
   A00000000000000000000021 = {isa = XCSwiftPackageProductDependency; package = A00000000000000000000020; productName = BoletaCore;};
   A00000000000000000000022 = {isa = PBXBuildFile; productRef = A00000000000000000000021;};
+  B00000000000000000000001 = {isa = PBXNativeTarget; buildConfigurationList = B00000000000000000000004; buildPhases = (B00000000000000000000005, B00000000000000000000006, B00000000000000000000007); buildRules = (); dependencies = (B00000000000000000000008); name = BoletaPagoUITests; productName = BoletaPagoUITests; productReference = B00000000000000000000003; productType = "com.apple.product-type.bundle.ui-testing";};
+  B00000000000000000000002 = {isa = PBXGroup; path = UITests; children = (B00000000000000000000010); sourceTree = "<group>";};
+  B00000000000000000000003 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoletaPagoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR;};
+  B00000000000000000000004 = {isa = XCConfigurationList; buildConfigurations = (B00000000000000000000012, B00000000000000000000013); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
+  B00000000000000000000005 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B00000000000000000000011); runOnlyForDeploymentPostprocessing = 0;};
+  B00000000000000000000006 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;};
+  B00000000000000000000007 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;};
+  B00000000000000000000008 = {isa = PBXTargetDependency; target = A00000000000000000000005; targetProxy = B00000000000000000000009;};
+  B00000000000000000000009 = {isa = PBXContainerItemProxy; containerPortal = A00000000000000000000001; proxyType = 1; remoteGlobalIDString = A00000000000000000000005; remoteInfo = BoletaPago;};
+  B00000000000000000000010 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoletaPagoUITests.swift; sourceTree = "<group>";};
+  B00000000000000000000011 = {isa = PBXBuildFile; fileRef = B00000000000000000000010;};
+  B00000000000000000000012 = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; PRODUCT_BUNDLE_IDENTIFIER = pe.academico.semana09.boleta.uitests; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; TARGETED_DEVICE_FAMILY = "1,2"; TEST_TARGET_NAME = BoletaPago; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;}; name = Debug;};
+  B00000000000000000000013 = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; PRODUCT_BUNDLE_IDENTIFIER = pe.academico.semana09.boleta.uitests; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; TARGETED_DEVICE_FAMILY = "1,2"; TEST_TARGET_NAME = BoletaPago; SWIFT_OPTIMIZATION_LEVEL = "-O";}; name = Release;};
  };
  rootObject = A00000000000000000000001;
 }

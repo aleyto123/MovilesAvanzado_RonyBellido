@@ -19,10 +19,14 @@
 6. Abrir `ContentView.swift`: @State mantiene entradas y resultados, y el botón invoca validación y cálculo.
 7. Ejecutar `swift test`. Explicar las cinco pruebas: cuatro casos al centavo, redondeo, entradas inválidas, EsSalud y AFP. Mostrar el reporte de 70 importes coincidentes.
 
-## Preguntas que ambos deben poder responder
+## Preguntas de análisis del documento del profesor
 
-- ¿Por qué EsSalud no está en los descuentos? Lo paga el empleador.
-- ¿Por qué la asignación no baja en el caso 2? La actividad dispone pagar el 10% de la RMV completo.
-- ¿Por qué no se usa Double? Decimal evita errores binarios en importes monetarios.
-- ¿El adelanto reduce el ingreso total del trabajador? Reduce el pago pendiente, porque ya recibió ese dinero.
-- ¿Qué no prueba el control cruzado? La ejecución visual de SwiftUI; se comprueba en el simulador.
+Fuente: `Actividad_Grupo_B.docx`, sección 8, «Preguntas de análisis». Se transcriben las cinco consignas de esa sección. El documento no indica que sean preguntas de un interrogatorio oral.
+
+1. **ONP o AFP.** Con los datos del caso 3, calcula el neto con ONP y con AFP Ejemplo. ¿Cuál deja más dinero este mes? ¿Por qué no basta comparar los porcentajes para decidir cuál conviene al trabajador?
+2. **Costo real para la empresa.** En el caso 3, ¿cuánto cuesta el trabajador al empleador este mes (remuneraciones más EsSalud)? ¿Qué porcentaje de ese costo llega al trabajador como neto?
+3. **Días laborados.** Con los datos del caso 2, calcula el neto si el trabajador hubiera laborado los 30 días. ¿Por qué la diferencia en el neto es menor que la diferencia en el sueldo bruto?
+4. **Horas extras.** En el caso 3, ¿qué porcentaje del total de remuneraciones representan las horas extras?
+5. **Con datos reales.** Toma un sueldo de una oferta laboral publicada, arma su boleta y calcula qué porcentaje del sueldo bruto llega al trabajador. Compara tu resultado con el de dos compañeros que usaron otros sueldos.
+
+Las respuestas desarrolladas están en [ANALISIS.md](ANALISIS.md).
