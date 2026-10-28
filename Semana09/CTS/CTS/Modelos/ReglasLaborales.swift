@@ -117,7 +117,8 @@ enum ReglasLaborales {
     }
 
     static func rmv(en fecha: FechaLaboral) throws -> Decimal {
-        try validarFecha(fecha)
+        try exigir(fecha.esValida && fecha >= FechaLaboral(2025, 1, 1) && fecha <= FechaLaboral(2026, 12, 31),
+                   "No hay parámetros de RMV para la fecha base indicada.")
         // D.S. 015-2026-TR, art. 1.2. Junio de 2026 conserva la RMV anterior.
         return fecha >= FechaLaboral(2026, 10, 1) ? 1230 : 1130
     }
