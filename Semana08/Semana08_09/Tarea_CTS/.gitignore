@@ -1,0 +1,7 @@
+# El proyecto de esta tarea debe guardarse aunque Semana08 ignore los xcodeproj.
+!Tarea_CTS.xcodeproj/
+
+# Preferencias personales y archivos generados por Xcode.
+Tarea_CTS.xcodeproj/xcuserdata/
+Tarea_CTS.xcodeproj/project.xcworkspace/
+DerivedData/
