@@ -59,6 +59,12 @@ final class CalculadoraCTS {
         if datos.tipo == .semestral {
             try exigir([4, 10].contains(datos.fechaBase.mes) && datos.fechaBase == datos.fechaBase.ultimoDia,
                        "CTS semestral: la fecha base debe ser el 30 de abril o el 31 de octubre.")
+        } else {
+            let inicio = datos.mesesDelSemestre[0]
+            let mesesDesdeInicio = (datos.fechaBase.anio - inicio.anio) * 12 + datos.fechaBase.mes - inicio.mes
+            let maximoHastaCese = mesesDesdeInicio * 30 + min(datos.fechaBase.dia, 30)
+            try exigir(datos.meses * 30 + datos.dias <= maximoHastaCese,
+                       "El tiempo CTS registrado supera el tiempo transcurrido del semestre hasta el cese.")
         }
         try datos.variables.validar(meses: datos.mesesDelSemestre, hasta: datos.fechaBase)
 

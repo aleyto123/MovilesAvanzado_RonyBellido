@@ -6,11 +6,33 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXTargetDependency section */
+		B00000000000000000000007 = {isa = PBXTargetDependency; target = CD68C3493090FC3700F3B95C; targetProxy = B00000000000000000000008; };
+
+		A00000000000000000000007 = {isa = PBXTargetDependency; target = CD68C3493090FC3700F3B95C; targetProxy = A00000000000000000000008; };
+/* End PBXTargetDependency section */
+
+
+/* Begin PBXContainerItemProxy section */
+		B00000000000000000000008 = {isa = PBXContainerItemProxy; containerPortal = CD68C3423090FC3700F3B95C; proxyType = 1; remoteGlobalIDString = CD68C3493090FC3700F3B95C; remoteInfo = CTS; };
+
+		A00000000000000000000008 = {isa = PBXContainerItemProxy; containerPortal = CD68C3423090FC3700F3B95C; proxyType = 1; remoteGlobalIDString = CD68C3493090FC3700F3B95C; remoteInfo = CTS; };
+/* End PBXContainerItemProxy section */
+
+
 /* Begin PBXFileReference section */
+		B00000000000000000000003 /* CTSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CTSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+
+		A00000000000000000000003 /* CTSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CTSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+
 		CD68C34A3090FC3700F3B95C /* CTS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CTS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B00000000000000000000002 /* CTSUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; path = CTSUITests; sourceTree = "<group>"; };
+
+		A00000000000000000000002 /* CTSTests */ = {isa = PBXFileSystemSynchronizedRootGroup; path = CTSTests; sourceTree = "<group>"; };
+
 		CD68C34C3090FC3700F3B95C /* CTS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = CTS;
@@ -19,6 +41,10 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B00000000000000000000004 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+
+		A00000000000000000000004 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+
 		CD68C3473090FC3700F3B95C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +59,8 @@
 			isa = PBXGroup;
 			children = (
 				CD68C34C3090FC3700F3B95C /* CTS */,
+				B00000000000000000000002 /* CTSUITests */,
+				A00000000000000000000002 /* CTSTests */,
 				CD68C34B3090FC3700F3B95C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +69,8 @@
 			isa = PBXGroup;
 			children = (
 				CD68C34A3090FC3700F3B95C /* CTS.app */,
+				B00000000000000000000003 /* CTSUITests.xctest */,
+				A00000000000000000000003 /* CTSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +78,32 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B00000000000000000000001 /* CTSUITests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = B0000000000000000000000B;
+            buildPhases = (B00000000000000000000005, B00000000000000000000004, B00000000000000000000006);
+            buildRules = ();
+            dependencies = (B00000000000000000000007);
+            fileSystemSynchronizedGroups = (B00000000000000000000002);
+            name = CTSUITests;
+            productName = CTSUITests;
+            productReference = B00000000000000000000003;
+            productType = "com.apple.product-type.bundle.ui-testing";
+        };
+
+		A00000000000000000000001 /* CTSTests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = A0000000000000000000000B;
+            buildPhases = (A00000000000000000000005, A00000000000000000000004, A00000000000000000000006);
+            buildRules = ();
+            dependencies = (A00000000000000000000007);
+            fileSystemSynchronizedGroups = (A00000000000000000000002);
+            name = CTSTests;
+            productName = CTSTests;
+            productReference = A00000000000000000000003;
+            productType = "com.apple.product-type.bundle.unit-test";
+        };
+
 		CD68C3493090FC3700F3B95C /* CTS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD68C3553090FC3900F3B95C /* Build configuration list for PBXNativeTarget "CTS" */;
@@ -80,6 +136,8 @@
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					B00000000000000000000001 = {CreatedOnToolsVersion = 16.0; TestTargetID = CD68C3493090FC3700F3B95C; };
+					A00000000000000000000001 = {CreatedOnToolsVersion = 16.0; TestTargetID = CD68C3493090FC3700F3B95C; };
 					CD68C3493090FC3700F3B95C = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -100,11 +158,17 @@
 			projectRoot = "";
 			targets = (
 				CD68C3493090FC3700F3B95C /* CTS */,
+				B00000000000000000000001 /* CTSUITests */,
+				A00000000000000000000001 /* CTSTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B00000000000000000000006 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+
+		A00000000000000000000006 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+
 		CD68C3483090FC3700F3B95C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +179,10 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B00000000000000000000005 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+
+		A00000000000000000000005 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+
 		CD68C3463090FC3700F3B95C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -125,6 +193,66 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		B0000000000000000000000A /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                PRODUCT_BUNDLE_IDENTIFIER = pe.ronybellido.CTSUITests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+                TEST_TARGET_NAME = CTS;
+            };
+            name = Release;
+        };
+
+		B00000000000000000000009 /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                PRODUCT_BUNDLE_IDENTIFIER = pe.ronybellido.CTSUITests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+                TEST_TARGET_NAME = CTS;
+            };
+            name = Debug;
+        };
+
+		A0000000000000000000000A /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                PRODUCT_BUNDLE_IDENTIFIER = pe.ronybellido.CTSTests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+                BUNDLE_LOADER = "$(TEST_HOST)"; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CTS.app/CTS";
+            };
+            name = Release;
+        };
+
+		A00000000000000000000009 /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                PRODUCT_BUNDLE_IDENTIFIER = pe.ronybellido.CTSTests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+                BUNDLE_LOADER = "$(TEST_HOST)"; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CTS.app/CTS";
+            };
+            name = Debug;
+        };
+
 		CD68C3533090FC3900F3B95C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -254,6 +382,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = CTS;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -283,6 +414,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = CTS;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -305,6 +439,10 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B0000000000000000000000B = {isa = XCConfigurationList; buildConfigurations = (B00000000000000000000009, B0000000000000000000000A); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+
+		A0000000000000000000000B = {isa = XCConfigurationList; buildConfigurations = (A00000000000000000000009, A0000000000000000000000A); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+
 		CD68C3453090FC3700F3B95C /* Build configuration list for PBXProject "CTS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -1,0 +1,74 @@
+name: CTS - Compilar y probar iOS
+
+on:
+  push:
+    paths:
+      - 'Semana09/CTS/**'
+      - '.github/workflows/cts-ios.yml'
+  pull_request:
+    paths:
+      - 'Semana09/CTS/**'
+      - '.github/workflows/cts-ios.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cts-ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruebas-cts:
+    name: CTS en simulador de iPhone
+    runs-on: macos-latest
+    timeout-minutes: 25
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Verificar Xcode y seleccionar iPhone disponible
+        id: simulator
+        shell: bash
+        run: |
+          xcodebuild -version
+          xcrun simctl list devices available -j > "$RUNNER_TEMP/cts-simuladores.json"
+          python3 - <<'PY'
+          import json, os
+          with open(os.path.join(os.environ['RUNNER_TEMP'], 'cts-simuladores.json')) as f:
+              runtimes = json.load(f)['devices']
+          candidates = [d for runtime, devices in runtimes.items() if 'iOS' in runtime
+                        for d in devices if d.get('isAvailable') and d['name'].startswith('iPhone')]
+          if not candidates:
+              raise SystemExit('No hay un simulador de iPhone disponible.')
+          device = candidates[0]
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('id=' + device['udid'] + '\n')
+          print(device['name'], device['udid'])
+          PY
+
+      - name: Compilar y ejecutar pruebas de cálculo e interfaz
+        shell: bash
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project Semana09/CTS/CTS.xcodeproj \
+            -scheme CTS \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}' \
+            -derivedDataPath "$RUNNER_TEMP/CTS-DerivedData" \
+            -resultBundlePath "$RUNNER_TEMP/CTS.xcresult" \
+            -parallel-testing-enabled NO \
+            CODE_SIGNING_ALLOWED=NO \
+            test | tee "$RUNNER_TEMP/CTS-xcodebuild.log"
+
+      - name: Conservar resultados de las pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: CTS-pruebas-iOS
+          path: |
+            ${{ runner.temp }}/CTS.xcresult
+            ${{ runner.temp }}/CTS-xcodebuild.log
+          if-no-files-found: warn
+          retention-days: 7
