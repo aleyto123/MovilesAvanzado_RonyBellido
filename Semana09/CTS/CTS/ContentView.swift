@@ -2,10 +2,16 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationStack {
-            Text("Beneficios laborales del régimen general privado")
-                .padding()
-                .navigationTitle("CTS")
+        TabView {
+            CTSView()
+                .tabItem { Label("CTS", systemImage: "banknote") }
+            GratificacionView()
+                .tabItem { Label("Gratificación", systemImage: "gift") }
+            VacacionesView()
+                .tabItem { Label("Vacaciones", systemImage: "sun.max") }
         }
+        .environment(\.locale, Locale(identifier: "es_PE"))
+        .environment(\.calendar, FechaLaboral.calendario)
+        .environment(\.timeZone, FechaLaboral.calendario.timeZone)
     }
 }

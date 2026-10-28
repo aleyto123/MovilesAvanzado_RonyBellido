@@ -189,6 +189,8 @@ struct FuenteLegal: Identifiable {
         direccion: "https://busquedas.elperuano.pe/dispositivo/NL/1690481-1")
     static let rmv = FuenteLegal(id: "rmv", titulo: "RMV · D.S. 015-2026-TR, art. 1.2",
         direccion: "https://busquedas.elperuano.pe/dispositivo/EX/2559163-1")
+    static let rmvAnterior = FuenteLegal(id: "rmvAnterior", titulo: "RMV anterior · D.S. 006-2024-TR",
+        direccion: "https://www.gob.pe/institucion/mtpe/normas-legales/6335262-006-2024-tr")
     static let asignacion = FuenteLegal(id: "asignacion", titulo: "Asignación familiar · Ley 25129, modificada por Ley 31600",
         direccion: "https://www.pj.gob.pe/wps/wcm/connect/a3ed468040e366e0bd54bf1666a80600/RESOLUCION%2BADMINISTRATIVA-000114-2024-UAF-GAD-CSJPU.pdf?CACHEID=a3ed468040e366e0bd54bf1666a80600&MOD=AJPERES")
 }
