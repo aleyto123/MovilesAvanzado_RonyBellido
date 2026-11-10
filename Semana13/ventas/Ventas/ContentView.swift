@@ -11,6 +11,10 @@ struct ContentView: View {
                     .tabItem { Label("Productos", systemImage: "shippingbox") }
                 ClientesView(usuario: usuario)
                     .tabItem { Label("Clientes", systemImage: "person.2") }
+                if !usuario.esSupervisor {
+                    NuevaVentaView(usuario: usuario)
+                        .tabItem { Label("Venta", systemImage: "cart.badge.plus") }
+                }
                 NavigationStack {
                     Form {
                         LabeledContent("Nombre", value: usuario.nombre)
