@@ -104,7 +104,9 @@ private enum Periodo: String, CaseIterable, Identifiable {
 
 struct HistorialView: View {
     @Query(sort: \Venta.fecha, order: .reverse) private var ventas: [Venta]
+    @Query(sort: \Usuario.nombre) private var cuentas: [Usuario]
     @State private var periodo = Periodo.todas
+    @State private var vendedorID: PersistentIdentifier?
     @State private var busqueda = ""
     let usuario: Usuario
 
@@ -116,22 +118,35 @@ struct HistorialView: View {
         let ahora = Date.now
         let calendario = Calendar.current
         let intervalo = periodo.intervalo(en: ahora, calendario: calendario)
-        let visibles = propias.filter { venta in
+        let visibles = (usuario.esSupervisor ? ventas : propias).filter { venta in
             (intervalo.map { venta.fecha >= $0.start && venta.fecha < $0.end } ?? true)
+                && (vendedorID == nil || venta.vendedor.persistentModelID == vendedorID)
                 && (busqueda.recortado.isEmpty || venta.cliente.nombre.localizedCaseInsensitiveContains(busqueda.recortado))
         }
 
         NavigationStack {
             List {
-                Section {
-                    indicador(.hoy, ahora: ahora, calendario: calendario)
-                    indicador(.mes, ahora: ahora, calendario: calendario)
+                if !usuario.esSupervisor {
+                    Section {
+                        indicador(.hoy, ahora: ahora, calendario: calendario)
+                        indicador(.mes, ahora: ahora, calendario: calendario)
+                    }
                 }
                 Section {
                     Picker("Período", selection: $periodo) {
                         ForEach(Periodo.allCases) { Text($0.rawValue).tag($0) }
                     }
                     .pickerStyle(.segmented)
+                    if usuario.esSupervisor {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                chip("Todos", id: nil)
+                                ForEach(cuentas.filter { !$0.esSupervisor }) { cuenta in
+                                    chip(cuenta.nombre, id: cuenta.persistentModelID)
+                                }
+                            }
+                        }
+                    }
                 }
                 Section {
                     if visibles.isEmpty {
@@ -143,7 +158,7 @@ struct HistorialView: View {
                     }
                 }
             }
-            .navigationTitle("Mis ventas")
+            .navigationTitle(usuario.esSupervisor ? "Ventas del equipo" : "Mis ventas")
             .searchable(text: $busqueda, prompt: "Buscar por cliente")
         }
     }
@@ -157,12 +172,25 @@ struct HistorialView: View {
         return LabeledContent("\(periodo.rawValue) · \(vigentes.count) ventas", value: importe.soles)
     }
 
+    private func chip(_ titulo: String, id: PersistentIdentifier?) -> some View {
+        Button { vendedorID = id } label: {
+            Text(titulo)
+                .padding(.horizontal, 12).padding(.vertical, 6)
+                .background(vendedorID == id ? Color.blue : Color.secondary.opacity(0.12), in: Capsule())
+                .foregroundStyle(vendedorID == id ? Color.white : Color.primary)
+        }
+        .buttonStyle(.plain)
+    }
+
     private func fila(_ venta: Venta) -> some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(venta.cliente.nombre).font(.headline)
                 Text("\(venta.fecha.formatted(date: .numeric, time: .omitted)) · \(venta.producto.nombre) × \(venta.cantidad)")
                     .font(.caption).foregroundStyle(.secondary)
+                if usuario.esSupervisor {
+                    Text(venta.vendedor.nombre).font(.caption).foregroundStyle(.secondary)
+                }
                 if venta.anulada {
                     Label("Anulada", systemImage: "xmark.circle.fill").font(.caption).foregroundStyle(.red)
                     if let motivo = venta.motivoAnulacion {

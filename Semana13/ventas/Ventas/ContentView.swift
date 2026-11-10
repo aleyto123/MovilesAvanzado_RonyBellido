@@ -7,6 +7,10 @@ struct ContentView: View {
     var body: some View {
         if let usuario = sesion {
             TabView {
+                if usuario.esSupervisor {
+                    HistorialView(usuario: usuario)
+                        .tabItem { Label("Ventas", systemImage: "list.bullet.clipboard") }
+                }
                 ProductosView(usuario: usuario)
                     .tabItem { Label("Productos", systemImage: "shippingbox") }
                 ClientesView(usuario: usuario)
