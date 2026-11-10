@@ -8,6 +8,8 @@ struct ContentView: View {
         if let usuario = sesion {
             TabView {
                 if usuario.esSupervisor {
+                    ResumenView(usuario: usuario)
+                        .tabItem { Label("Resumen", systemImage: "chart.bar.xaxis") }
                     HistorialView(usuario: usuario)
                         .tabItem { Label("Ventas", systemImage: "list.bullet.clipboard") }
                 }
