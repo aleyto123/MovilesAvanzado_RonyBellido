@@ -13,3 +13,4 @@ Desktop.ini
 .idea/
 *.xcodeproj
 *.xcworkspace
+!/ventas/Ventas.xcodeproj/
