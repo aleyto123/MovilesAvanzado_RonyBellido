@@ -169,3 +169,127 @@ struct EditorProducto: View {
         }
     }
 }
+
+struct ClientesView: View {
+    @Environment(\.modelContext) private var contexto
+    @Query(sort: \Cliente.nombre) private var clientes: [Cliente]
+    @State private var busqueda = ""
+    @State private var seleccionado: Cliente?
+    @State private var editando = false
+    @State private var error = ""
+    let usuario: Usuario
+
+    private var visibles: [Cliente] {
+        clientes.filter {
+            busqueda.recortado.isEmpty || $0.nombre.localizedCaseInsensitiveContains(busqueda.recortado)
+                || $0.documento.localizedCaseInsensitiveContains(busqueda.recortado)
+        }
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                if visibles.isEmpty {
+                    ContentUnavailableView("Sin clientes", systemImage: "person.2",
+                                           description: Text("No hay clientes que coincidan."))
+                }
+                ForEach(visibles) { cliente in
+                    Button {
+                        abrir(cliente)
+                    } label: {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(cliente.nombre).font(.headline)
+                                Text(cliente.documento).font(.caption).foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            VStack(alignment: .trailing) {
+                                Text(cliente.totalComprado.soles)
+                                Text(cliente.categoria.rawValue).font(.caption.bold())
+                                    .foregroundStyle(.blue)
+                            }
+                        }
+                        .foregroundStyle(Color.primary)
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        if usuario.esSupervisor {
+                            Button("Borrar", role: .destructive) { borrar(cliente) }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Clientes")
+            .searchable(text: $busqueda, prompt: "Buscar por nombre o documento")
+            .toolbar {
+                Button("Nuevo cliente", systemImage: "plus") { abrir(nil) }
+            }
+            .sheet(isPresented: $editando) { EditorCliente(cliente: seleccionado) }
+            .alertaVentas($error)
+        }
+    }
+
+    private func abrir(_ cliente: Cliente?) {
+        seleccionado = cliente
+        editando = true
+    }
+
+    private func borrar(_ cliente: Cliente) {
+        guard cliente.ventas.isEmpty else {
+            error = "No se puede borrar un cliente con ventas asociadas."
+            return
+        }
+        contexto.delete(cliente)
+        do { try contexto.guardarCambios() }
+        catch { self.error = "No se pudo borrar el cliente." }
+    }
+}
+
+private struct EditorCliente: View {
+    @Environment(\.modelContext) private var contexto
+    @Environment(\.dismiss) private var cerrar
+    @State private var nombre: String
+    @State private var documento: String
+    @State private var error = ""
+    let cliente: Cliente?
+
+    init(cliente: Cliente?) {
+        self.cliente = cliente
+        _nombre = State(initialValue: cliente?.nombre ?? "")
+        _documento = State(initialValue: cliente?.documento ?? "")
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                TextField("Nombre", text: $nombre)
+                TextField("Documento (DNI o RUC)", text: $documento)
+            }
+            .navigationTitle(cliente == nil ? "Nuevo cliente" : "Editar cliente")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Cancelar") { cerrar() } }
+                ToolbarItem(placement: .confirmationAction) { Button("Guardar", action: guardar) }
+            }
+            .alertaVentas($error)
+        }
+    }
+
+    private func guardar() {
+        guard !nombre.recortado.isEmpty, !documento.recortado.isEmpty else {
+            error = "Completa el nombre y el documento."
+            return
+        }
+        if let cliente {
+            cliente.nombre = nombre.recortado
+            cliente.documento = documento.recortado
+        } else {
+            contexto.insert(Cliente(nombre: nombre.recortado, documento: documento.recortado))
+        }
+        do {
+            try contexto.guardarCambios()
+            cerrar()
+        } catch {
+            self.error = "No se pudo guardar el cliente."
+        }
+    }
+}

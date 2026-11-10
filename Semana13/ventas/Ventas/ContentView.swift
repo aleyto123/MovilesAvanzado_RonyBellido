@@ -9,6 +9,8 @@ struct ContentView: View {
             TabView {
                 ProductosView(usuario: usuario)
                     .tabItem { Label("Productos", systemImage: "shippingbox") }
+                ClientesView(usuario: usuario)
+                    .tabItem { Label("Clientes", systemImage: "person.2") }
                 NavigationStack {
                     Form {
                         LabeledContent("Nombre", value: usuario.nombre)
