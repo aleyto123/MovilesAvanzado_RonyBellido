@@ -5,17 +5,76 @@ struct ContentView: View {
     @State private var sesion: Usuario?
 
     var body: some View {
-        NavigationStack {
-            if let sesion {
-                Form {
-                    LabeledContent("Usuario", value: sesion.usuario)
-                    LabeledContent("Rol", value: sesion.rol)
-                    Button("Volver al registro") { self.sesion = nil }
+        if let usuario = sesion {
+            TabView {
+                NavigationStack {
+                    Form {
+                        LabeledContent("Nombre", value: usuario.nombre)
+                        LabeledContent("Usuario", value: usuario.usuario)
+                        LabeledContent("Rol", value: usuario.rol)
+                        Button("Cerrar sesión", role: .destructive) { sesion = nil }
+                    }
+                    .navigationTitle("Cuenta")
                 }
-                .navigationTitle("Cuenta creada")
-            } else {
-                RegistroView { sesion = $0 }
+                .tabItem { Label("Cuenta", systemImage: "person.crop.circle") }
             }
+            .id(usuario.persistentModelID)
+        } else {
+            AccesoView { sesion = $0 }
+        }
+    }
+}
+
+private struct AccesoView: View {
+    @Environment(\.modelContext) private var contexto
+    @State private var usuario = ""
+    @State private var clave = ""
+    @State private var error = ""
+    let ingresar: (Usuario) -> Void
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    VStack(spacing: 12) {
+                        Image(systemName: "cart.fill")
+                            .font(.largeTitle)
+                            .foregroundStyle(.white)
+                            .padding(18)
+                            .background(.blue, in: RoundedRectangle(cornerRadius: 18))
+                        Text("Ventas Tecsup").font(.title.bold())
+                        Text("Inicia sesión para continuar").foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical)
+                    .listRowBackground(Color.clear)
+                }
+                Section {
+                    TextField("Usuario", text: $usuario)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                    SecureField("Clave", text: $clave)
+                        .onSubmit(validar)
+                }
+                if !error.isEmpty { Text(error).foregroundStyle(.red) }
+                Button("Ingresar", action: validar)
+                    .frame(maxWidth: .infinity)
+                NavigationLink("Crear cuenta") { RegistroView(ingresar: ingresar) }
+            }
+        }
+    }
+
+    private func validar() {
+        let identificador = usuario.recortado.lowercased()
+        let consulta = FetchDescriptor<Usuario>(predicate: #Predicate { $0.usuario == identificador })
+        do {
+            guard let cuenta = try contexto.fetch(consulta).first, cuenta.clave == clave else {
+                error = "Usuario o clave incorrectos"
+                return
+            }
+            ingresar(cuenta)
+        } catch {
+            self.error = "No se pudo consultar la cuenta."
         }
     }
 }
@@ -75,6 +134,19 @@ private struct RegistroView: View {
             ingresar(cuenta)
         } catch {
             self.error = "No se pudo crear la cuenta."
+        }
+    }
+}
+
+extension View {
+    func alertaVentas(_ mensaje: Binding<String>) -> some View {
+        alert("Ventas", isPresented: Binding(
+            get: { !mensaje.wrappedValue.isEmpty },
+            set: { if !$0 { mensaje.wrappedValue = "" } }
+        )) {
+            Button("Aceptar", role: .cancel) {}
+        } message: {
+            Text(mensaje.wrappedValue)
         }
     }
 }
