@@ -7,6 +7,8 @@ struct ContentView: View {
     var body: some View {
         if let usuario = sesion {
             TabView {
+                ProductosView(usuario: usuario)
+                    .tabItem { Label("Productos", systemImage: "shippingbox") }
                 NavigationStack {
                     Form {
                         LabeledContent("Nombre", value: usuario.nombre)
