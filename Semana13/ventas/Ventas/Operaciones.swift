@@ -85,3 +85,95 @@ struct NuevaVentaView: View {
         }
     }
 }
+
+private enum Periodo: String, CaseIterable, Identifiable {
+    case todas = "Todas"
+    case hoy = "Hoy"
+    case mes = "Mes"
+
+    var id: String { rawValue }
+
+    func intervalo(en fecha: Date, calendario: Calendar) -> DateInterval? {
+        switch self {
+        case .todas: nil
+        case .hoy: calendario.dateInterval(of: .day, for: fecha)
+        case .mes: calendario.dateInterval(of: .month, for: fecha)
+        }
+    }
+}
+
+struct HistorialView: View {
+    @Query(sort: \Venta.fecha, order: .reverse) private var ventas: [Venta]
+    @State private var periodo = Periodo.todas
+    @State private var busqueda = ""
+    let usuario: Usuario
+
+    private var propias: [Venta] {
+        ventas.filter { $0.vendedor.persistentModelID == usuario.persistentModelID }
+    }
+
+    var body: some View {
+        let ahora = Date.now
+        let calendario = Calendar.current
+        let intervalo = periodo.intervalo(en: ahora, calendario: calendario)
+        let visibles = propias.filter { venta in
+            (intervalo.map { venta.fecha >= $0.start && venta.fecha < $0.end } ?? true)
+                && (busqueda.recortado.isEmpty || venta.cliente.nombre.localizedCaseInsensitiveContains(busqueda.recortado))
+        }
+
+        NavigationStack {
+            List {
+                Section {
+                    indicador(.hoy, ahora: ahora, calendario: calendario)
+                    indicador(.mes, ahora: ahora, calendario: calendario)
+                }
+                Section {
+                    Picker("Período", selection: $periodo) {
+                        ForEach(Periodo.allCases) { Text($0.rawValue).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
+                }
+                Section {
+                    if visibles.isEmpty {
+                        ContentUnavailableView("Sin ventas", systemImage: "cart",
+                                               description: Text("No hay operaciones que coincidan."))
+                    }
+                    ForEach(visibles) { venta in
+                        fila(venta)
+                    }
+                }
+            }
+            .navigationTitle("Mis ventas")
+            .searchable(text: $busqueda, prompt: "Buscar por cliente")
+        }
+    }
+
+    private func indicador(_ periodo: Periodo, ahora: Date, calendario: Calendar) -> some View {
+        let intervalo = periodo.intervalo(en: ahora, calendario: calendario)
+        let vigentes = propias.filter { venta in
+            !venta.anulada && (intervalo.map { venta.fecha >= $0.start && venta.fecha < $0.end } ?? false)
+        }
+        let importe = vigentes.reduce(Decimal.zero) { $0 + Decimal($1.total) }
+        return LabeledContent("\(periodo.rawValue) · \(vigentes.count) ventas", value: importe.soles)
+    }
+
+    private func fila(_ venta: Venta) -> some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(venta.cliente.nombre).font(.headline)
+                Text("\(venta.fecha.formatted(date: .numeric, time: .omitted)) · \(venta.producto.nombre) × \(venta.cantidad)")
+                    .font(.caption).foregroundStyle(.secondary)
+                if venta.anulada {
+                    Label("Anulada", systemImage: "xmark.circle.fill").font(.caption).foregroundStyle(.red)
+                    if let motivo = venta.motivoAnulacion {
+                        Text(motivo).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+            }
+            Spacer()
+            Text(venta.total.soles)
+                .font(.subheadline.bold())
+                .strikethrough(venta.anulada)
+        }
+    }
+}

@@ -14,6 +14,8 @@ struct ContentView: View {
                 if !usuario.esSupervisor {
                     NuevaVentaView(usuario: usuario)
                         .tabItem { Label("Venta", systemImage: "cart.badge.plus") }
+                    HistorialView(usuario: usuario)
+                        .tabItem { Label("Mis ventas", systemImage: "list.bullet.clipboard") }
                 }
                 NavigationStack {
                     Form {
