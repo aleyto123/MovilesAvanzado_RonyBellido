@@ -108,6 +108,7 @@ struct HistorialView: View {
     @State private var periodo = Periodo.todas
     @State private var vendedorID: PersistentIdentifier?
     @State private var busqueda = ""
+    @State private var porAnular: Venta?
     let usuario: Usuario
 
     private var propias: [Venta] {
@@ -155,11 +156,17 @@ struct HistorialView: View {
                     }
                     ForEach(visibles) { venta in
                         fila(venta)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                if usuario.esSupervisor && !venta.anulada {
+                                    Button("Anular", role: .destructive) { porAnular = venta }
+                                }
+                            }
                     }
                 }
             }
             .navigationTitle(usuario.esSupervisor ? "Ventas del equipo" : "Mis ventas")
             .searchable(text: $busqueda, prompt: "Buscar por cliente")
+            .sheet(item: $porAnular) { AnularVentaView(venta: $0, usuario: usuario) }
         }
     }
 
@@ -202,6 +209,57 @@ struct HistorialView: View {
             Text(venta.total.soles)
                 .font(.subheadline.bold())
                 .strikethrough(venta.anulada)
+        }
+    }
+}
+
+private struct AnularVentaView: View {
+    @Environment(\.modelContext) private var contexto
+    @Environment(\.dismiss) private var cerrar
+    @State private var motivo = ""
+    @State private var error = ""
+    let venta: Venta
+    let usuario: Usuario
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Operación") {
+                    LabeledContent("Cliente", value: venta.cliente.nombre)
+                    LabeledContent("Producto", value: venta.producto.nombre)
+                    LabeledContent("Total", value: venta.total.soles)
+                    Text("Se devolverán \(venta.cantidad) unidades al stock.")
+                }
+                Section("Motivo obligatorio") {
+                    TextField("Motivo de anulación", text: $motivo, axis: .vertical)
+                }
+                Button("Anular venta", role: .destructive, action: anular)
+                    .disabled(motivo.recortado.isEmpty || venta.anulada)
+            }
+            .navigationTitle("Anular venta")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Cancelar") { cerrar() } }
+            }
+            .alertaVentas($error)
+        }
+    }
+
+    private func anular() {
+        guard usuario.esSupervisor, !venta.anulada, !motivo.recortado.isEmpty else { return }
+        let (stock, desborda) = venta.producto.stock.addingReportingOverflow(venta.cantidad)
+        guard !desborda else {
+            error = "No se pudo reponer el stock porque supera el límite permitido."
+            return
+        }
+        venta.anulada = true
+        venta.motivoAnulacion = motivo.recortado
+        venta.producto.stock = stock
+        do {
+            try contexto.guardarCambios()
+            cerrar()
+        } catch {
+            self.error = "No se pudo anular la venta. El stock se conservó."
         }
     }
 }
