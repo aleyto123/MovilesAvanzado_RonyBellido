@@ -265,7 +265,8 @@ struct ClientesView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(cliente.nombre).font(.headline)
-                                Text(cliente.documento).font(.caption).foregroundStyle(.secondary)
+                                Text("\(cliente.tipoIdentificacion?.rawValue ?? "Documento") · \(cliente.documento)")
+                                    .font(.caption).foregroundStyle(.secondary)
                             }
                             Spacer()
                             VStack(alignment: .trailing) {
@@ -315,21 +316,24 @@ struct EditorCliente: View {
     @Query(sort: \Cliente.nombre) private var clientes: [Cliente]
     @State private var nombre: String
     @State private var documento: String
+    @State private var tipoDocumento: TipoDocumento
     @State private var error = ""
     let cliente: Cliente?
     let alGuardar: ((Cliente) -> Void)?
 
-    init(cliente: Cliente?, alGuardar: ((Cliente) -> Void)? = nil) {
+    init(cliente: Cliente?, documentoInicial: String = "", alGuardar: ((Cliente) -> Void)? = nil) {
         self.cliente = cliente
         self.alGuardar = alGuardar
         _nombre = State(initialValue: cliente?.nombre ?? "")
-        _documento = State(initialValue: cliente?.documento ?? "")
+        _documento = State(initialValue: cliente?.documento ?? documentoInicial)
+        _tipoDocumento = State(initialValue: cliente?.tipoIdentificacion ?? TipoDocumento.inferir(documentoInicial) ?? .dni)
     }
 
     private var existente: Cliente? {
         guard !documento.documentoNormalizado.isEmpty else { return nil }
         return clientes.first {
             $0.documento.documentoNormalizado == documento.documentoNormalizado
+                && ($0.tipoIdentificacion == tipoDocumento || $0.tipoIdentificacion == nil)
                 && $0.persistentModelID != cliente?.persistentModelID
         }
     }
@@ -337,8 +341,18 @@ struct EditorCliente: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Nombre", text: $nombre)
-                TextField("Documento (DNI o RUC)", text: $documento)
+                TextField(tipoDocumento == .ruc ? "Nombre o razón social" : "Apellidos y nombres", text: $nombre)
+                Picker("Tipo de documento", selection: $tipoDocumento) {
+                    ForEach(TipoDocumento.allCases) { Text($0.rawValue).tag($0) }
+                }
+                TextField("Número de documento", text: $documento)
+                    .textInputAutocapitalization(.characters)
+                    .autocorrectionDisabled()
+                Text(tipoDocumento.indicacion).font(.caption).foregroundStyle(.secondary)
+                if let cliente, !cliente.identificacionCompleta {
+                    Text("Revisa la identificación de este cliente antes de registrar nuevas ventas.")
+                        .foregroundStyle(.orange)
+                }
                 if let existente {
                     Text("El documento ya pertenece a \(existente.nombre).")
                         .foregroundStyle(.orange)
@@ -365,11 +379,16 @@ struct EditorCliente: View {
             error = "Completa el nombre y el documento."
             return
         }
+        guard tipoDocumento.admite(documento) else {
+            error = tipoDocumento.indicacion
+            return
+        }
         do {
             // Consultar también al guardar evita duplicados aunque la lista visual aún no se actualice.
             let registrados = try contexto.fetch(FetchDescriptor<Cliente>())
             guard !registrados.contains(where: {
                 $0.documento.documentoNormalizado == documento.documentoNormalizado
+                    && ($0.tipoIdentificacion == tipoDocumento || $0.tipoIdentificacion == nil)
                     && $0.persistentModelID != cliente?.persistentModelID
             }) else {
                 error = "Ya existe un cliente con ese documento. Busca su registro para conservar su historial."
@@ -379,9 +398,11 @@ struct EditorCliente: View {
             if let cliente {
                 cliente.nombre = nombre.recortado
                 cliente.documento = documento.documentoNormalizado
+                cliente.tipoDocumento = tipoDocumento.rawValue
                 guardado = cliente
             } else {
-                guardado = Cliente(nombre: nombre.recortado, documento: documento.documentoNormalizado)
+                guardado = Cliente(nombre: nombre.recortado, documento: documento.documentoNormalizado,
+                                   tipoDocumento: tipoDocumento)
                 contexto.insert(guardado)
             }
             try contexto.guardarCambios()

@@ -11,6 +11,8 @@ struct NuevaVentaView: View {
     @FocusState private var editandoCantidad: Bool
     @State private var mensaje = ""
     @State private var creandoCliente = false
+    @State private var documentoBuscado = ""
+    @State private var clientePorEditar: Cliente?
     let usuario: Usuario
 
     private var cliente: Cliente? { clientes.first { $0.persistentModelID == clienteID } }
@@ -40,6 +42,12 @@ struct NuevaVentaView: View {
                     Text("La venta se registra a tu nombre.").foregroundStyle(.secondary)
                 }
                 Section("Operación") {
+                    TextField("Buscar cliente por documento", text: $documentoBuscado)
+                        .textInputAutocapitalization(.characters)
+                        .autocorrectionDisabled()
+                        .onSubmit(buscarCliente)
+                    Button("Buscar cliente", action: buscarCliente)
+                        .disabled(documentoBuscado.documentoNormalizado.isEmpty)
                     Picker("Cliente", selection: $clienteID) {
                         Text("Seleccionar").tag(nil as PersistentIdentifier?)
                         ForEach(clientes) { cliente in
@@ -48,6 +56,15 @@ struct NuevaVentaView: View {
                     }
                     Button("Nuevo cliente", systemImage: "person.badge.plus") {
                         creandoCliente = true
+                    }
+                    if let cliente {
+                        Text("\(cliente.tipoIdentificacion?.rawValue ?? "Documento por revisar") · \(cliente.documento)")
+                            .font(.caption).foregroundStyle(.secondary)
+                        if !cliente.identificacionCompleta {
+                            Text("Completa el tipo y número de documento del cliente para registrar la venta.")
+                                .foregroundStyle(.red)
+                            Button("Completar identificación") { clientePorEditar = cliente }
+                        }
                     }
                     Picker("Producto", selection: $productoID) {
                         Text("Seleccionar").tag(nil as PersistentIdentifier?)
@@ -90,11 +107,15 @@ struct NuevaVentaView: View {
                         LabeledContent("Descuento · \(cliente.categoria.rawValue)", value: importe.descuento.soles)
                         LabeledContent("IGV (18 %)", value: importe.igv.soles)
                         LabeledContent("Total", value: importe.total.soles).font(.headline)
+                        if importe.total > 700 {
+                            Text("El total supera S/ 700. Revisa los nombres y el documento del cliente.")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
                     }
                 }
                 Button("Registrar venta", action: registrar)
                     .frame(maxWidth: .infinity)
-                    .disabled(importe == nil)
+                    .disabled(importe == nil || cliente?.identificacionCompleta != true)
             }
             .navigationTitle("Nueva venta")
             .toolbar {
@@ -105,17 +126,41 @@ struct NuevaVentaView: View {
             }
             .onChange(of: productoID) { _, _ in textoCantidad = "1" }
             .sheet(isPresented: $creandoCliente) {
-                EditorCliente(cliente: nil) { guardado in
+                EditorCliente(cliente: nil, documentoInicial: documentoBuscado) { guardado in
                     clienteID = guardado.persistentModelID
+                    documentoBuscado = guardado.documento
                 }
+            }
+            .sheet(item: $clientePorEditar) { seleccionado in
+                EditorCliente(cliente: seleccionado)
             }
             .alertaVentas($mensaje)
         }
     }
 
+    private func buscarCliente() {
+        let numero = documentoBuscado.documentoNormalizado
+        guard !numero.isEmpty else { return }
+        let coincidencias = clientes.filter { $0.documento.documentoNormalizado == numero }
+        guard coincidencias.count <= 1 else {
+            mensaje = "Hay varios registros con ese número. Selecciona al cliente y revisa su tipo de documento."
+            return
+        }
+        guard let encontrado = coincidencias.first else {
+            clienteID = nil
+            creandoCliente = true
+            return
+        }
+        clienteID = encontrado.persistentModelID
+    }
+
     private func registrar() {
         editandoCantidad = false
         guard !usuario.esSupervisor, let cliente, let producto else { return }
+        guard cliente.identificacionCompleta else {
+            mensaje = "Revisa los nombres, el tipo y el número de documento del cliente."
+            return
+        }
         if let problemaCantidad {
             mensaje = problemaCantidad
             return
@@ -129,6 +174,7 @@ struct NuevaVentaView: View {
             textoCantidad = "1"
             productoID = nil
             clienteID = nil
+            documentoBuscado = ""
             mensaje = "Venta registrada por \(venta.total.soles)."
         } catch {
             mensaje = "No se pudo guardar la venta. El stock se conservó."
@@ -280,7 +326,7 @@ private struct DetalleVentaView: View {
                 LabeledContent("Fecha", value: venta.fecha.formatted(date: .abbreviated, time: .shortened))
                 LabeledContent("Vendedor", value: venta.vendedor.nombre)
                 LabeledContent("Cliente", value: venta.cliente.nombre)
-                LabeledContent("Documento", value: venta.cliente.documento)
+                LabeledContent(venta.cliente.tipoIdentificacion?.rawValue ?? "Documento", value: venta.cliente.documento)
                 LabeledContent("Estado", value: venta.anulada ? "Anulada" : "Vigente")
             }
             Section("Producto vendido") {

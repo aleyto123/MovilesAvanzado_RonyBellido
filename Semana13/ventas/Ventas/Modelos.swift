@@ -46,6 +46,7 @@ final class Producto {
 final class Cliente {
     var nombre: String
     var documento: String
+    var tipoDocumento: String? = nil
     @Relationship(deleteRule: .deny, inverse: \Venta.cliente) var ventas: [Venta] = []
 
     var totalComprado: Decimal {
@@ -54,9 +55,19 @@ final class Cliente {
 
     var categoria: CategoriaCliente { CategoriaCliente(total: totalComprado) }
 
-    init(nombre: String, documento: String) {
+    var tipoIdentificacion: TipoDocumento? {
+        if let tipoDocumento { return TipoDocumento(rawValue: tipoDocumento) }
+        return TipoDocumento.inferir(documento)
+    }
+
+    var identificacionCompleta: Bool {
+        !nombre.recortado.isEmpty && (tipoIdentificacion?.admite(documento) ?? false)
+    }
+
+    init(nombre: String, documento: String, tipoDocumento: TipoDocumento? = nil) {
         self.nombre = nombre
         self.documento = documento
+        self.tipoDocumento = (tipoDocumento ?? TipoDocumento.inferir(documento))?.rawValue
     }
 }
 

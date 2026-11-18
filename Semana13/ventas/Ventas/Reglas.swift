@@ -1,5 +1,38 @@
 import Foundation
 
+enum TipoDocumento: String, CaseIterable, Identifiable {
+    case dni = "DNI"
+    case ruc = "RUC"
+    case carnetExtranjeria = "Carné de extranjería"
+    case pasaporte = "Pasaporte"
+
+    var id: String { rawValue }
+
+    var indicacion: String {
+        switch self {
+        case .dni: "El DNI debe contener 8 dígitos."
+        case .ruc: "El RUC debe contener 11 dígitos."
+        case .carnetExtranjeria, .pasaporte: "Ingresa de 1 a 12 letras, dígitos o guiones."
+        }
+    }
+
+    func admite(_ numero: String) -> Bool {
+        let patron: String
+        switch self {
+        case .dni: patron = #"^[0-9]{8}$"#
+        case .ruc: patron = #"^[0-9]{11}$"#
+        case .carnetExtranjeria, .pasaporte: patron = #"^[A-Z0-9-]{1,12}$"#
+        }
+        return numero.documentoNormalizado.range(of: patron, options: .regularExpression) != nil
+    }
+
+    static func inferir(_ numero: String) -> TipoDocumento? {
+        if TipoDocumento.dni.admite(numero) { return .dni }
+        if TipoDocumento.ruc.admite(numero) { return .ruc }
+        return nil
+    }
+}
+
 enum CategoriaCliente: String {
     case regular = "Regular"
     case frecuente = "Frecuente"

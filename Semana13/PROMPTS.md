@@ -26,3 +26,14 @@
 
 - **Resultado de las mejoras** — Nueva venta permite escribir cantidades y muestra el precio y las existencias. Los productos agotados están identificados y se bloquea la confirmación si la cantidad es inválida o supera el stock. La reposición suma unidades recibidas desde Productos y Resumen, con permiso de supervisor y control de desbordamiento. El historial abre el detalle con el precio aplicado, descuento, IGV, total y estado de la venta.
 - **Verificación** — Se comprobó la sintaxis de todos los archivos Swift y se ejecutaron pruebas de cantidades válidas e inválidas, normalización de documentos y cálculos de ventas VIP, Regular y de 25 unidades. La compilación de SwiftUI y SwiftData, la persistencia y los recorridos visuales quedan pendientes de Xcode.
+
+## Identificación de clientes y evaluación de emisión electrónica
+
+- **Contexto** — Solicitud de identificación por documento y emisión electrónica.
+- **Tarea** — Distinguir DNI, RUC, carné de extranjería y pasaporte, recuperar clientes por documento y revisar la integración con SUNAT.
+- **Restricciones** — Mantener los commits locales. Conservar los registros anteriores y validar su identificación antes de nuevas ventas.
+- **Formato esperado** — Selector de documento, validaciones y búsqueda desde Nueva venta.
+- **Resultado** — Se añadieron los cuatro tipos, validación de formato, detección de duplicados por tipo y número, búsqueda y registro con documento precargado. Las ventas continúan vinculadas a un cliente identificado conforme al expediente. Los documentos anteriores de ocho u once dígitos se reconocen como DNI o RUC. Los demás requieren revisión del tipo antes de nuevas ventas.
+- **Verificación** — Pasaron 18 comprobaciones de formatos e inferencia y la revisión de sintaxis Swift. La migración de datos y los flujos visuales deben comprobarse en Xcode. La validación local comprueba el formato, sin consultar la existencia del documento en RENIEC o SUNAT.
+- **Emisión electrónica** — Pendiente de definir con el estudiante el entorno de pruebas o el emisor y servicio de producción. Se revisaron los requisitos y el servicio beta oficial. Esta actualización no incorpora emisión, firma digital ni recepción de CDR.
+- **Fuentes** — https://www.sunat.gob.pe/legislacion/superin/2022/anexo-123-2022.pdf ; https://cpe.sunat.gob.pe/sites/default/files/inline-files/anexo%205%20.%20PEI-ESTRUCTURAS_3.pdf ; https://orientacion.sunat.gob.pe/12-pautas-servicio-beta
