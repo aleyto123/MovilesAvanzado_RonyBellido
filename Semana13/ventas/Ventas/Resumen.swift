@@ -75,7 +75,7 @@ struct ResumenView: View {
                 }
             }
             .navigationTitle("Resumen")
-            .sheet(item: $productoParaReponer) { EditorProducto(producto: $0) }
+            .sheet(item: $productoParaReponer) { ReponerStockView(producto: $0, usuario: usuario) }
         }
     }
 

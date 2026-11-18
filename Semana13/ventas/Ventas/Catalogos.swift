@@ -8,6 +8,7 @@ struct ProductosView: View {
     @State private var categoria: String?
     @State private var seleccionado: Producto?
     @State private var editando = false
+    @State private var productoParaReponer: Producto?
     @State private var error = ""
     let usuario: Usuario
 
@@ -57,6 +58,7 @@ struct ProductosView: View {
                         if usuario.esSupervisor {
                             Button("Borrar", role: .destructive) { borrar(producto) }
                             Button("Editar") { abrir(producto) }.tint(.blue)
+                            Button("Reponer") { productoParaReponer = producto }.tint(.green)
                         }
                     }
                 }
@@ -69,6 +71,7 @@ struct ProductosView: View {
                 }
             }
             .sheet(isPresented: $editando) { EditorProducto(producto: seleccionado) }
+            .sheet(item: $productoParaReponer) { ReponerStockView(producto: $0, usuario: usuario) }
             .onChange(of: categorias) { _, nuevas in
                 if let categoria, !nuevas.contains(categoria) { self.categoria = nil }
             }
@@ -105,6 +108,68 @@ struct ProductosView: View {
         contexto.delete(producto)
         do { try contexto.guardarCambios() }
         catch { self.error = "No se pudo borrar el producto." }
+    }
+}
+
+struct ReponerStockView: View {
+    @Environment(\.modelContext) private var contexto
+    @Environment(\.dismiss) private var cerrar
+    @State private var textoUnidades = ""
+    @State private var error = ""
+    @FocusState private var editandoUnidades: Bool
+    let producto: Producto
+    let usuario: Usuario
+
+    private var stockResultante: Int? {
+        guard let unidades = textoUnidades.unidadesPositivas else { return nil }
+        let (total, desborda) = producto.stock.addingReportingOverflow(unidades)
+        return desborda ? nil : total
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Producto") {
+                    Text(producto.nombre).font(.headline)
+                    LabeledContent("Stock actual", value: "\(producto.stock) u.")
+                }
+                Section("Ingreso de mercadería") {
+                    TextField("Unidades recibidas", text: $textoUnidades)
+                        .keyboardType(.numberPad)
+                        .focused($editandoUnidades)
+                    if let stockResultante {
+                        LabeledContent("Stock después del ingreso", value: "\(stockResultante) u.")
+                    } else if !textoUnidades.isEmpty {
+                        Text("Ingresa un número entero positivo que no exceda el límite de stock.")
+                            .foregroundStyle(.red)
+                    }
+                }
+                Button("Confirmar ingreso", action: guardar)
+                    .disabled(stockResultante == nil || !usuario.esSupervisor)
+            }
+            .navigationTitle("Reponer stock")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Cancelar") { cerrar() } }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Listo") { editandoUnidades = false }
+                }
+            }
+            .alertaVentas($error)
+        }
+    }
+
+    private func guardar() {
+        guard usuario.esSupervisor, let stockResultante else { return }
+        editandoUnidades = false
+        producto.stock = stockResultante
+        do {
+            try contexto.guardarCambios()
+            cerrar()
+        } catch {
+            self.error = "No se pudo registrar el ingreso. El stock se conservó."
+        }
     }
 }
 
