@@ -7,16 +7,28 @@ struct NuevaVentaView: View {
     @Query(sort: \Producto.nombre) private var productos: [Producto]
     @State private var clienteID: PersistentIdentifier?
     @State private var productoID: PersistentIdentifier?
-    @State private var cantidad = 1
+    @State private var textoCantidad = "1"
+    @FocusState private var editandoCantidad: Bool
     @State private var mensaje = ""
     @State private var creandoCliente = false
     let usuario: Usuario
 
     private var cliente: Cliente? { clientes.first { $0.persistentModelID == clienteID } }
     private var producto: Producto? { productos.first { $0.persistentModelID == productoID } }
+    private var cantidad: Int? { textoCantidad.unidadesPositivas }
+
+    private var problemaCantidad: String? {
+        guard let producto else { return nil }
+        guard producto.stock > 0 else { return "Producto agotado. Selecciona otro producto." }
+        guard let cantidad else { return "Ingresa una cantidad entera mayor que cero." }
+        guard cantidad <= producto.stock else {
+            return "Stock insuficiente. Hay \(producto.stock) unidades disponibles."
+        }
+        return nil
+    }
 
     private var importe: ImporteVenta? {
-        guard let cliente, let producto else { return nil }
+        guard let cliente, let producto, let cantidad, problemaCantidad == nil else { return nil }
         return ImporteVenta(precio: Decimal(producto.precio), cantidad: cantidad, categoria: cliente.categoria)
     }
 
@@ -40,12 +52,32 @@ struct NuevaVentaView: View {
                     Picker("Producto", selection: $productoID) {
                         Text("Seleccionar").tag(nil as PersistentIdentifier?)
                         ForEach(productos) { producto in
-                            Text(producto.nombre).tag(Optional(producto.persistentModelID))
+                            Text(producto.stock > 0 ? producto.nombre : "\(producto.nombre) · Agotado")
+                                .tag(Optional(producto.persistentModelID))
+                                .disabled(producto.stock <= 0)
                         }
                     }
-                    Stepper("Cantidad: \(cantidad)", value: $cantidad, in: 1...Int.max)
                     if let producto {
-                        Text("Stock disponible: \(producto.stock)").foregroundStyle(.secondary)
+                        Text("Precio unitario: \(producto.precio.soles)")
+                        Text("Stock disponible: \(producto.stock)")
+                            .foregroundStyle(producto.stock > 0 ? Color.secondary : Color.red)
+                        HStack {
+                            Text("Cantidad")
+                            TextField("Unidades", text: $textoCantidad)
+                                .keyboardType(.numberPad)
+                                .multilineTextAlignment(.trailing)
+                                .focused($editandoCantidad)
+                            Stepper("Ajustar cantidad", value: Binding(
+                                get: { min(max(1, cantidad ?? 1), max(1, producto.stock)) },
+                                set: { textoCantidad = String($0) }
+                            ), in: 1...max(1, producto.stock))
+                            .labelsHidden()
+                            .fixedSize()
+                            .disabled(producto.stock <= 0)
+                        }
+                        if let problemaCantidad {
+                            Text(problemaCantidad).foregroundStyle(.red)
+                        }
                     }
                     if productos.isEmpty || clientes.isEmpty {
                         Text("Agrega un cliente y pide al supervisor que registre productos para empezar.")
@@ -65,6 +97,13 @@ struct NuevaVentaView: View {
                     .disabled(importe == nil)
             }
             .navigationTitle("Nueva venta")
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Listo") { editandoCantidad = false }
+                }
+            }
+            .onChange(of: productoID) { _, _ in textoCantidad = "1" }
             .sheet(isPresented: $creandoCliente) {
                 EditorCliente(cliente: nil) { guardado in
                     clienteID = guardado.persistentModelID
@@ -75,17 +114,19 @@ struct NuevaVentaView: View {
     }
 
     private func registrar() {
-        guard !usuario.esSupervisor, let cliente, let producto, let importe else { return }
-        guard cantidad > 0, cantidad <= producto.stock else {
-            mensaje = "Stock insuficiente. Hay \(producto.stock) unidades disponibles."
+        editandoCantidad = false
+        guard !usuario.esSupervisor, let cliente, let producto else { return }
+        if let problemaCantidad {
+            mensaje = problemaCantidad
             return
         }
+        guard let cantidad, let importe else { return }
         let venta = Venta(vendedor: usuario, producto: producto, cliente: cliente, cantidad: cantidad, importe: importe)
         contexto.insert(venta)
         producto.stock -= cantidad
         do {
             try contexto.guardarCambios()
-            cantidad = 1
+            textoCantidad = "1"
             productoID = nil
             clienteID = nil
             mensaje = "Venta registrada por \(venta.total.soles)."
