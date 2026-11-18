@@ -264,16 +264,21 @@ struct ClientesView: View {
                         abrir(cliente)
                     } label: {
                         HStack {
+                            AvatarIniciales(nombre: cliente.nombre, color: colorCategoria(cliente.categoria))
                             VStack(alignment: .leading) {
-                                Text(cliente.nombre).font(.headline)
+                                Text(cliente.nombre).font(.headline).lineLimit(1)
                                 Text("\(cliente.tipoIdentificacion?.rawValue ?? "Documento") · \(cliente.documento)")
                                     .font(.caption).foregroundStyle(.secondary)
                             }
                             Spacer()
                             VStack(alignment: .trailing) {
                                 Text(cliente.totalComprado.soles)
-                                Text(cliente.categoria.rawValue).font(.caption.bold())
-                                    .foregroundStyle(.blue)
+                                Text("comprado").font(.caption2).foregroundStyle(.secondary)
+                                Text(cliente.categoria.rawValue)
+                                    .font(.caption2.bold())
+                                    .padding(.horizontal, 8).padding(.vertical, 3)
+                                    .foregroundStyle(.white)
+                                    .background(colorCategoria(cliente.categoria), in: Capsule())
                             }
                         }
                         .foregroundStyle(Color.primary)
@@ -292,6 +297,14 @@ struct ClientesView: View {
             }
             .sheet(isPresented: $editando) { EditorCliente(cliente: seleccionado) }
             .alertaVentas($error)
+        }
+    }
+
+    private func colorCategoria(_ categoria: CategoriaCliente) -> Color {
+        switch categoria {
+        case .vip: .purple
+        case .frecuente: .blue
+        case .regular: .gray
         }
     }
 
