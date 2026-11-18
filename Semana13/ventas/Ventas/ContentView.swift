@@ -154,6 +154,29 @@ private struct RegistroView: View {
     }
 }
 
+struct AvatarIniciales: View {
+    let nombre: String
+    var color: Color? = nil
+    @ScaledMetric(relativeTo: .body) private var lado: CGFloat = 36
+
+    private var fondo: Color {
+        let colores: [Color] = [.indigo, .purple, .teal, .pink, .blue, .orange]
+        let indice = nombre.unicodeScalars.reduce(0) { ($0 + Int($1.value)) % colores.count }
+        return color ?? colores[indice]
+    }
+
+    var body: some View {
+        Text(nombre.iniciales)
+            .font(.caption.bold())
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
+            .foregroundStyle(.white)
+            .frame(width: lado, height: lado)
+            .background(fondo, in: RoundedRectangle(cornerRadius: 10))
+            .accessibilityHidden(true)
+    }
+}
+
 extension View {
     func alertaVentas(_ mensaje: Binding<String>) -> some View {
         alert("Ventas", isPresented: Binding(

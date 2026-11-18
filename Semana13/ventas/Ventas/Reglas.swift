@@ -151,6 +151,13 @@ extension Double {
 extension String {
     var recortado: String { trimmingCharacters(in: .whitespacesAndNewlines) }
 
+    var iniciales: String {
+        let palabras = split { !$0.isLetter }
+        guard let primera = palabras.first else { return "?" }
+        if palabras.count == 1 { return String(primera.prefix(2)).uppercased() }
+        return String(palabras.prefix(2).compactMap(\.first)).uppercased()
+    }
+
     var documentoNormalizado: String {
         components(separatedBy: .whitespacesAndNewlines).joined().uppercased()
     }

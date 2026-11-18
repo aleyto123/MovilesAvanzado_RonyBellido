@@ -38,6 +38,7 @@ struct ProductosView: View {
                 }
                 ForEach(visibles) { producto in
                     HStack {
+                        AvatarIniciales(nombre: producto.nombre)
                         VStack(alignment: .leading) {
                             Text(producto.nombre).font(.headline)
                             Text(producto.categoria).font(.caption).foregroundStyle(.secondary)
