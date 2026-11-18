@@ -37,3 +37,14 @@
 - **Verificación** — Pasaron 18 comprobaciones de formatos e inferencia y la revisión de sintaxis Swift. La migración de datos y los flujos visuales deben comprobarse en Xcode. La validación local comprueba el formato, sin consultar la existencia del documento en RENIEC o SUNAT.
 - **Emisión electrónica** — Pendiente de definir con el estudiante el entorno de pruebas o el emisor y servicio de producción. Se revisaron los requisitos y el servicio beta oficial. Esta actualización no incorpora emisión, firma digital ni recepción de CDR.
 - **Fuentes** — https://www.sunat.gob.pe/legislacion/superin/2022/anexo-123-2022.pdf ; https://cpe.sunat.gob.pe/sites/default/files/inline-files/anexo%205%20.%20PEI-ESTRUCTURAS_3.pdf ; https://orientacion.sunat.gob.pe/12-pautas-servicio-beta
+
+## Comprobantes para la demostración académica
+
+- **Contexto** — El estudiante aclaró que el proyecto es una tarea académica y eligió una demostración en pruebas.
+- **Tarea** — Incorporar un recorrido de preparación, revisión, generación y consulta del comprobante.
+- **Restricciones** — Mantener los commits locales hasta su revisión.
+- **Formato esperado** — Boleta de demostración con numeración, importes, datos del cliente y opción para compartir.
+- **Decisión de implementación** — Se eligió una simulación local para presentar el recorrido sin internet. Los documentos muestran «Documento académico sin valor tributario» y la validación se identifica como local. No se integra el servicio beta de SUNAT ni se generan XML firmados o CDR.
+- **Resultado** — Desde el detalle de una venta se puede revisar y confirmar el comprobante. Se asigna un número DEMO y se guarda una copia de sus datos en la venta. Consultarlo de nuevo conserva su numeración. Compartir exporta texto con la identificación académica. La anulación se refleja al consultar y compartir el documento, y bloquea generar uno nuevo.
+- **Verificación** — Pasaron las comprobaciones de numeración, consistencia de importes, codificación y recuperación de datos y texto de operaciones vigentes y anuladas. Se revisó la sintaxis Swift. La compilación completa, la migración del almacén existente, la persistencia de la numeración y el menú de compartir requieren verificación en Xcode.
+- **Referencia del entorno oficial** — https://orientacion.sunat.gob.pe/12-pautas-servicio-beta

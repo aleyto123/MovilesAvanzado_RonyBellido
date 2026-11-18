@@ -1,6 +1,6 @@
 import Foundation
 
-enum TipoDocumento: String, CaseIterable, Identifiable {
+enum TipoDocumento: String, CaseIterable, Identifiable, Codable {
     case dni = "DNI"
     case ruc = "RUC"
     case carnetExtranjeria = "Carné de extranjería"
@@ -30,6 +30,75 @@ enum TipoDocumento: String, CaseIterable, Identifiable {
         if TipoDocumento.dni.admite(numero) { return .dni }
         if TipoDocumento.ruc.admite(numero) { return .ruc }
         return nil
+    }
+}
+
+struct ComprobanteDemostracion: Codable {
+    let numero: Int
+    let fechaEmision: Date
+    let fechaVenta: Date
+    let cliente: String
+    let tipoDocumento: TipoDocumento
+    let documento: String
+    let vendedor: String
+    let producto: String
+    let cantidad: Int
+    let precioUnitario: Decimal
+    let descuento: Decimal
+    let igv: Decimal
+    let total: Decimal
+
+    var identificador: String {
+        let digitos = String(numero)
+        let ceros = String(repeating: "0", count: max(0, 6 - digitos.count))
+        return "DEMO-\(ceros)\(digitos)"
+    }
+
+    var subtotal: Decimal {
+        ImporteVenta.redondear(precioUnitario * Decimal(cantidad))
+    }
+
+    var problemaValidacion: String? {
+        guard numero > 0 else { return "El número de demostración debe ser positivo." }
+        guard !cliente.recortado.isEmpty, tipoDocumento.admite(documento) else {
+            return "Completa los nombres y el documento del cliente."
+        }
+        guard cantidad > 0, precioUnitario > 0, descuento >= 0, descuento <= subtotal else {
+            return "La cantidad o los importes de la venta no son válidos."
+        }
+        let base = subtotal - descuento
+        guard igv == ImporteVenta.redondear(base * 18 / 100), total == base + igv else {
+            return "El descuento, el IGV y el total de la venta no coinciden."
+        }
+        return nil
+    }
+
+    func textoCompartido(anulada: Bool, motivo: String?) -> String {
+        var texto = """
+        VENTAS TECSUP
+        BOLETA DE DEMOSTRACIÓN
+        DOCUMENTO ACADÉMICO · SIN VALOR TRIBUTARIO
+
+        Número: \(identificador)
+        Estado: \(anulada ? "ANULADA" : "Vigente")
+        Fecha de generación: \(fechaEmision.formatted(date: .numeric, time: .shortened))
+        Fecha de venta: \(fechaVenta.formatted(date: .numeric, time: .shortened))
+        Cliente: \(cliente)
+        \(tipoDocumento.rawValue): \(documento)
+        Vendedor: \(vendedor)
+
+        Producto: \(producto)
+        Cantidad: \(cantidad)
+        Precio unitario: \(precioUnitario.soles)
+        Subtotal: \(subtotal.soles)
+        Descuento: \(descuento.soles)
+        IGV (18 %): \(igv.soles)
+        Total: \(total.soles)
+
+        Validación local de demostración. Sin envío a SUNAT.
+        """
+        if anulada { texto += "\nMotivo de anulación: \(motivo ?? "Sin motivo registrado")" }
+        return texto
     }
 }
 

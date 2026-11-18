@@ -252,7 +252,7 @@ struct HistorialView: View {
                     }
                     ForEach(visibles) { venta in
                         NavigationLink {
-                            DetalleVentaView(venta: venta)
+                            DetalleVentaView(venta: venta, usuario: usuario)
                         } label: {
                             fila(venta)
                         }
@@ -315,6 +315,7 @@ struct HistorialView: View {
 
 private struct DetalleVentaView: View {
     let venta: Venta
+    let usuario: Usuario
 
     private var subtotal: Decimal {
         ImporteVenta.redondear(Decimal(venta.precioUnitario) * Decimal(venta.cantidad))
@@ -340,6 +341,13 @@ private struct DetalleVentaView: View {
                 LabeledContent("IGV (18 %)", value: venta.igv.soles)
                 LabeledContent("Total", value: venta.total.soles).font(.headline)
             }
+            Section("Comprobante académico") {
+                NavigationLink(venta.comprobanteDemo == nil ? "Preparar comprobante" : "Ver comprobante") {
+                    ComprobanteDemoView(venta: venta, usuario: usuario)
+                }
+                Text("Demostración local sin valor tributario.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
             if venta.anulada {
                 Section("Anulación") {
                     Text(venta.motivoAnulacion ?? "Sin motivo registrado")
@@ -350,6 +358,114 @@ private struct DetalleVentaView: View {
         }
         .navigationTitle("Detalle de venta")
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+private struct ComprobanteDemoView: View {
+    @Environment(\.modelContext) private var contexto
+    @State private var error = ""
+    let venta: Venta
+    let usuario: Usuario
+
+    private var guardado: ComprobanteDemostracion? {
+        guard let datos = venta.comprobanteDemo else { return nil }
+        return try? JSONDecoder().decode(ComprobanteDemostracion.self, from: datos)
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                Label("Modo demostración", systemImage: "graduationcap.fill")
+                    .font(.headline)
+                Text("Documento académico sin valor tributario. La validación se realiza en esta app, sin envío a SUNAT.")
+                    .font(.subheadline).foregroundStyle(.secondary)
+            }
+            if let guardado {
+                Section("Boleta de demostración") {
+                    LabeledContent("Número", value: guardado.identificador)
+                    LabeledContent("Generación", value: guardado.fechaEmision.formatted(date: .numeric, time: .shortened))
+                    LabeledContent("Estado", value: venta.anulada ? "Anulada" : "Generada localmente")
+                    Label("Validación local completada", systemImage: "checkmark.circle")
+                }
+                Section("Detalle del comprobante") {
+                    Text(guardado.textoCompartido(anulada: venta.anulada, motivo: venta.motivoAnulacion))
+                        .font(.callout)
+                        .textSelection(.enabled)
+                }
+                Section {
+                    ShareLink(item: guardado.textoCompartido(anulada: venta.anulada, motivo: venta.motivoAnulacion)) {
+                        Label("Compartir comprobante", systemImage: "square.and.arrow.up")
+                    }
+                }
+            } else if venta.comprobanteDemo != nil || venta.numeroComprobanteDemo != 0 {
+                Text("No se pudo leer el comprobante guardado. Conserva el registro y revisa sus datos antes de continuar.")
+                    .foregroundStyle(.red)
+            } else {
+                Section("Vista previa") {
+                    LabeledContent("Cliente", value: venta.cliente.nombre)
+                    LabeledContent(venta.cliente.tipoIdentificacion?.rawValue ?? "Documento por revisar",
+                                   value: venta.cliente.documento)
+                    LabeledContent("Producto", value: venta.producto.nombre)
+                    LabeledContent("Cantidad", value: "\(venta.cantidad) u.")
+                    LabeledContent("Precio unitario", value: venta.precioUnitario.soles)
+                    LabeledContent("Subtotal", value: ImporteVenta.redondear(Decimal(venta.precioUnitario) * Decimal(venta.cantidad)).soles)
+                    LabeledContent("Descuento", value: venta.descuento.soles)
+                    LabeledContent("IGV (18 %)", value: venta.igv.soles)
+                    LabeledContent("Total", value: venta.total.soles)
+                    Text("Se asignará un número de demostración al confirmar. La venta y su stock ya están registrados.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+                if venta.anulada {
+                    Text("La venta está anulada. Solo puedes consultar comprobantes generados antes de su anulación.")
+                        .foregroundStyle(.red)
+                } else if !venta.cliente.identificacionCompleta {
+                    Text("Completa la identificación del cliente desde Clientes antes de generar el comprobante.")
+                        .foregroundStyle(.red)
+                }
+                Button("Validar y generar demostración", action: generar)
+                    .disabled(venta.anulada || !venta.cliente.identificacionCompleta)
+            }
+        }
+        .navigationTitle("Comprobante")
+        .navigationBarTitleDisplayMode(.inline)
+        .alertaVentas($error)
+    }
+
+    private func generar() {
+        guard usuario.esSupervisor || venta.vendedor.persistentModelID == usuario.persistentModelID,
+              !venta.anulada, venta.comprobanteDemo == nil, venta.numeroComprobanteDemo == 0,
+              let tipo = venta.cliente.tipoIdentificacion else { return }
+        do {
+            // Se asigna y guarda el número junto con el comprobante en la misma operación local.
+            var consulta = FetchDescriptor<Venta>(sortBy: [SortDescriptor(\Venta.numeroComprobanteDemo, order: .reverse)])
+            consulta.fetchLimit = 1
+            let ultimo = try contexto.fetch(consulta).first?.numeroComprobanteDemo ?? 0
+            let (numero, desborda) = ultimo.addingReportingOverflow(1)
+            guard !desborda else {
+                error = "No se pudo asignar otro número de demostración."
+                return
+            }
+            let comprobante = ComprobanteDemostracion(
+                numero: numero, fechaEmision: .now, fechaVenta: venta.fecha,
+                cliente: venta.cliente.nombre, tipoDocumento: tipo,
+                documento: venta.cliente.documento.documentoNormalizado,
+                vendedor: venta.vendedor.nombre, producto: venta.producto.nombre,
+                cantidad: venta.cantidad, precioUnitario: Decimal(venta.precioUnitario),
+                descuento: ImporteVenta.redondear(Decimal(venta.descuento)),
+                igv: ImporteVenta.redondear(Decimal(venta.igv)),
+                total: ImporteVenta.redondear(Decimal(venta.total))
+            )
+            if let problema = comprobante.problemaValidacion {
+                error = problema
+                return
+            }
+            let datos = try JSONEncoder().encode(comprobante)
+            venta.numeroComprobanteDemo = numero
+            venta.comprobanteDemo = datos
+            try contexto.guardarCambios()
+        } catch {
+            self.error = "No se pudo guardar el comprobante. Intenta nuevamente."
+        }
     }
 }
 

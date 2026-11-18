@@ -81,6 +81,8 @@ final class Venta {
     var total: Double
     var anulada = false
     var motivoAnulacion: String?
+    var numeroComprobanteDemo: Int = 0
+    var comprobanteDemo: Data? = nil
     var vendedor: Usuario
     var producto: Producto
     var cliente: Cliente
