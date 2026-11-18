@@ -1,0 +1,311 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000017 /* ComprasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000007 /* ComprasApp.swift */; };
+		A10000000000000000000018 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000008 /* ContentView.swift */; };
+		A10000000000000000000019 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000009 /* Assets.xcassets */; };
+		A10000000000000000000030 /* Modelos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000020 /* Modelos.swift */; };
+		A10000000000000000000031 /* Reglas.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000021 /* Reglas.swift */; };
+		A10000000000000000000032 /* Catalogos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000022 /* Catalogos.swift */; };
+		A10000000000000000000033 /* Operaciones.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000023 /* Operaciones.swift */; };
+		A10000000000000000000034 /* Resumen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000024 /* Resumen.swift */; };
+		A10000000000000000000036 /* NuevaCompraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000026 /* NuevaCompraView.swift */; };
+		A10000000000000000000037 /* ComprasStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000027 /* ComprasStore.swift */; };
+		A10000000000000000000060 /* AccesoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000050 /* AccesoViewModel.swift */; };
+		A10000000000000000000061 /* CatalogoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000051 /* CatalogoViewModel.swift */; };
+		A10000000000000000000062 /* EditorProductoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000052 /* EditorProductoViewModel.swift */; };
+		A10000000000000000000063 /* EditorProveedorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000053 /* EditorProveedorViewModel.swift */; };
+		A10000000000000000000064 /* NuevaCompraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000054 /* NuevaCompraViewModel.swift */; };
+		A10000000000000000000065 /* RegistroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000055 /* RegistroViewModel.swift */; };
+		A10000000000000000000066 /* ResumenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000056 /* ResumenViewModel.swift */; };
+		A10000000000000000000067 /* SupervisionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000057 /* SupervisionViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A10000000000000000000006 /* Compras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Compras.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000007 /* ComprasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprasApp.swift; sourceTree = "<group>"; };
+		A10000000000000000000008 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A10000000000000000000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A10000000000000000000020 /* Modelos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modelos.swift; sourceTree = "<group>"; };
+		A10000000000000000000021 /* Reglas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reglas.swift; sourceTree = "<group>"; };
+		A10000000000000000000022 /* Catalogos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalogos.swift; sourceTree = "<group>"; };
+		A10000000000000000000023 /* Operaciones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operaciones.swift; sourceTree = "<group>"; };
+		A10000000000000000000024 /* Resumen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resumen.swift; sourceTree = "<group>"; };
+		A10000000000000000000026 /* NuevaCompraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuevaCompraView.swift; sourceTree = "<group>"; };
+		A10000000000000000000027 /* ComprasStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprasStore.swift; sourceTree = "<group>"; };
+		A10000000000000000000050 /* AccesoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccesoViewModel.swift; sourceTree = "<group>"; };
+		A10000000000000000000051 /* CatalogoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogoViewModel.swift; sourceTree = "<group>"; };
+		A10000000000000000000052 /* EditorProductoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorProductoViewModel.swift; sourceTree = "<group>"; };
+		A10000000000000000000053 /* EditorProveedorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorProveedorViewModel.swift; sourceTree = "<group>"; };
+		A10000000000000000000054 /* NuevaCompraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuevaCompraViewModel.swift; sourceTree = "<group>"; };
+		A10000000000000000000055 /* RegistroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistroViewModel.swift; sourceTree = "<group>"; };
+		A10000000000000000000056 /* ResumenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumenViewModel.swift; sourceTree = "<group>"; };
+		A10000000000000000000057 /* SupervisionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupervisionViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1000000000000000000000C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10000000000000000000003 = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000004 /* Compras */,
+				A10000000000000000000005 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10000000000000000000004 /* Compras */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000007 /* ComprasApp.swift */,
+				A10000000000000000000040 /* Models */,
+				A10000000000000000000041 /* Views */,
+				A10000000000000000000042 /* ViewModels */,
+				A10000000000000000000043 /* Data */,
+				A10000000000000000000009 /* Assets.xcassets */,
+			);
+			path = Compras;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000005 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000006 /* Compras.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000040 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000020 /* Modelos.swift */,
+				A10000000000000000000021 /* Reglas.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000041 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000008 /* ContentView.swift */,
+				A10000000000000000000022 /* Catalogos.swift */,
+				A10000000000000000000026 /* NuevaCompraView.swift */,
+				A10000000000000000000023 /* Operaciones.swift */,
+				A10000000000000000000024 /* Resumen.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000042 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000050 /* AccesoViewModel.swift */,
+				A10000000000000000000051 /* CatalogoViewModel.swift */,
+				A10000000000000000000052 /* EditorProductoViewModel.swift */,
+				A10000000000000000000053 /* EditorProveedorViewModel.swift */,
+				A10000000000000000000054 /* NuevaCompraViewModel.swift */,
+				A10000000000000000000055 /* RegistroViewModel.swift */,
+				A10000000000000000000056 /* ResumenViewModel.swift */,
+				A10000000000000000000057 /* SupervisionViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000043 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000027 /* ComprasStore.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10000000000000000000002 /* Compras */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10000000000000000000011 /* Build configuration list for PBXNativeTarget "Compras" */;
+			buildPhases = (
+				A1000000000000000000000B /* Sources */,
+				A1000000000000000000000C /* Frameworks */,
+				A1000000000000000000000D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Compras;
+			productName = Compras;
+			productReference = A10000000000000000000006 /* Compras.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = A10000000000000000000010 /* Build configuration list for PBXProject "Compras" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = es;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				es,
+				Base,
+			);
+			mainGroup = A10000000000000000000003;
+			productRefGroup = A10000000000000000000005 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10000000000000000000002 /* Compras */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A1000000000000000000000D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000019 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A1000000000000000000000B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000017 /* ComprasApp.swift in Sources */,
+				A10000000000000000000030 /* Modelos.swift in Sources */,
+				A10000000000000000000031 /* Reglas.swift in Sources */,
+				A10000000000000000000032 /* Catalogos.swift in Sources */,
+				A10000000000000000000033 /* Operaciones.swift in Sources */,
+				A10000000000000000000034 /* Resumen.swift in Sources */,
+				A10000000000000000000067 /* SupervisionViewModel.swift in Sources */,
+				A10000000000000000000066 /* ResumenViewModel.swift in Sources */,
+				A10000000000000000000065 /* RegistroViewModel.swift in Sources */,
+				A10000000000000000000064 /* NuevaCompraViewModel.swift in Sources */,
+				A10000000000000000000063 /* EditorProveedorViewModel.swift in Sources */,
+				A10000000000000000000062 /* EditorProductoViewModel.swift in Sources */,
+				A10000000000000000000061 /* CatalogoViewModel.swift in Sources */,
+				A10000000000000000000060 /* AccesoViewModel.swift in Sources */,
+				A10000000000000000000037 /* ComprasStore.swift in Sources */,
+				A10000000000000000000036 /* NuevaCompraView.swift in Sources */,
+				A10000000000000000000018 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A10000000000000000000012 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A10000000000000000000013 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A10000000000000000000014 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Compras;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.ronybellido.Compras;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A10000000000000000000015 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Compras;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.ronybellido.Compras;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A10000000000000000000010 /* Build configuration list for PBXProject "Compras" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000012 /* Debug */,
+				A10000000000000000000013 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000011 /* Build configuration list for PBXNativeTarget "Compras" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000014 /* Debug */,
+				A10000000000000000000015 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A10000000000000000000001 /* Project object */;
+}
