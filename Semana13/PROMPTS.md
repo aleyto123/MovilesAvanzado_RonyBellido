@@ -48,3 +48,12 @@
 - **Resultado** — Desde el detalle de una venta se puede revisar y confirmar el comprobante. Se asigna un número DEMO y se guarda una copia de sus datos en la venta. Consultarlo de nuevo conserva su numeración. Compartir exporta texto con la identificación académica. La anulación se refleja al consultar y compartir el documento, y bloquea generar uno nuevo.
 - **Verificación** — Pasaron las comprobaciones de numeración, consistencia de importes, codificación y recuperación de datos y texto de operaciones vigentes y anuladas. Se revisó la sintaxis Swift. La compilación completa, la migración del almacén existente, la persistencia de la numeración y el menú de compartir requieren verificación en Xcode.
 - **Referencia del entorno oficial** — https://orientacion.sunat.gob.pe/12-pautas-servicio-beta
+
+## Avatares e indicadores en las listas
+
+- **Contexto** — El estudiante comparó las vistas aproximadas con las maquetas de la guía y señaló la ausencia de avatares.
+- **Tarea** — Añadir las iniciales en Productos, Clientes y Ventas del equipo, y los indicadores de estado en Mis ventas.
+- **Restricciones** — Conservar las operaciones y permisos existentes, con commits locales por pantalla.
+- **Formato esperado** — Cuadrados de esquinas redondeadas con iniciales y color, etiquetas de categoría y estados identificables.
+- **Resultado** — Productos y Ventas del equipo usan iniciales con colores estables. Clientes utiliza morado para VIP, azul para Frecuente y gris para Regular, tanto en su avatar como en su etiqueta. Mis ventas muestra check verde para operaciones vigentes y cruz roja para anuladas, conservando el importe tachado y el motivo.
+- **Verificación** — Pasaron diez comprobaciones de iniciales, incluidos acentos, nombres compuestos y valores vacíos, y la revisión de sintaxis de todos los archivos Swift. La revisión visual definitiva queda pendiente del simulador de Xcode.

@@ -291,6 +291,11 @@ struct HistorialView: View {
 
     private func fila(_ venta: Venta) -> some View {
         HStack(alignment: .top) {
+            if usuario.esSupervisor {
+                AvatarIniciales(nombre: venta.cliente.nombre)
+            } else {
+                IndicadorEstadoVenta(anulada: venta.anulada)
+            }
             VStack(alignment: .leading, spacing: 4) {
                 Text(venta.cliente.nombre).font(.headline)
                 Text("\(venta.fecha.formatted(date: .numeric, time: .omitted)) · \(venta.producto.nombre) × \(venta.cantidad)")
@@ -299,7 +304,11 @@ struct HistorialView: View {
                     Text(venta.vendedor.nombre).font(.caption).foregroundStyle(.secondary)
                 }
                 if venta.anulada {
-                    Label("Anulada", systemImage: "xmark.circle.fill").font(.caption).foregroundStyle(.red)
+                    Text("Anulada")
+                        .font(.caption2.bold())
+                        .padding(.horizontal, 6).padding(.vertical, 2)
+                        .foregroundStyle(.white)
+                        .background(.red, in: Capsule())
                     if let motivo = venta.motivoAnulacion {
                         Text(motivo).font(.caption).foregroundStyle(.secondary)
                     }
@@ -310,6 +319,20 @@ struct HistorialView: View {
                 .font(.subheadline.bold())
                 .strikethrough(venta.anulada)
         }
+    }
+}
+
+private struct IndicadorEstadoVenta: View {
+    let anulada: Bool
+    @ScaledMetric(relativeTo: .body) private var lado: CGFloat = 36
+
+    var body: some View {
+        Image(systemName: anulada ? "xmark" : "checkmark")
+            .font(.caption.bold())
+            .foregroundStyle(.white)
+            .frame(width: lado, height: lado)
+            .background(anulada ? Color.red : Color.green, in: RoundedRectangle(cornerRadius: 10))
+            .accessibilityLabel(anulada ? "Venta anulada" : "Venta vigente")
     }
 }
 
