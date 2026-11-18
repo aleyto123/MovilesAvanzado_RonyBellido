@@ -205,12 +205,16 @@ struct HistorialView: View {
                                                description: Text("No hay operaciones que coincidan."))
                     }
                     ForEach(visibles) { venta in
-                        fila(venta)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                if usuario.esSupervisor && !venta.anulada {
-                                    Button("Anular", role: .destructive) { porAnular = venta }
-                                }
+                        NavigationLink {
+                            DetalleVentaView(venta: venta)
+                        } label: {
+                            fila(venta)
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            if usuario.esSupervisor && !venta.anulada {
+                                Button("Anular", role: .destructive) { porAnular = venta }
                             }
+                        }
                     }
                 }
             }
@@ -260,6 +264,46 @@ struct HistorialView: View {
                 .font(.subheadline.bold())
                 .strikethrough(venta.anulada)
         }
+    }
+}
+
+private struct DetalleVentaView: View {
+    let venta: Venta
+
+    private var subtotal: Decimal {
+        ImporteVenta.redondear(Decimal(venta.precioUnitario) * Decimal(venta.cantidad))
+    }
+
+    var body: some View {
+        Form {
+            Section("Operación") {
+                LabeledContent("Fecha", value: venta.fecha.formatted(date: .abbreviated, time: .shortened))
+                LabeledContent("Vendedor", value: venta.vendedor.nombre)
+                LabeledContent("Cliente", value: venta.cliente.nombre)
+                LabeledContent("Documento", value: venta.cliente.documento)
+                LabeledContent("Estado", value: venta.anulada ? "Anulada" : "Vigente")
+            }
+            Section("Producto vendido") {
+                Text(venta.producto.nombre).font(.headline)
+                LabeledContent("Cantidad", value: "\(venta.cantidad) u.")
+                LabeledContent("Precio unitario aplicado", value: venta.precioUnitario.soles)
+            }
+            Section("Importes de la venta") {
+                LabeledContent("Subtotal", value: subtotal.soles)
+                LabeledContent("Descuento aplicado", value: venta.descuento.soles)
+                LabeledContent("IGV (18 %)", value: venta.igv.soles)
+                LabeledContent("Total", value: venta.total.soles).font(.headline)
+            }
+            if venta.anulada {
+                Section("Anulación") {
+                    Text(venta.motivoAnulacion ?? "Sin motivo registrado")
+                    Text("Esta venta está excluida de los reportes y sus unidades fueron devueltas al stock.")
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .navigationTitle("Detalle de venta")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

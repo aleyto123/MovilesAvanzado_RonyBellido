@@ -23,3 +23,6 @@
 - **Restricciones** — Mantener SwiftUI y SwiftData, conservar los permisos y crear únicamente commits locales hasta el visto bueno del estudiante.
 - **Formato esperado** — Cambios separados por funcionalidad con mensajes que describan su comportamiento.
 - **Resultado parcial** — El formulario de cliente compara el documento sin espacios ni diferencias de mayúsculas, también con registros previos. Desde Nueva venta se puede crear un cliente o elegir el existente sin duplicarlo.
+
+- **Resultado de las mejoras** — Nueva venta permite escribir cantidades y muestra el precio y las existencias. Los productos agotados están identificados y se bloquea la confirmación si la cantidad es inválida o supera el stock. La reposición suma unidades recibidas desde Productos y Resumen, con permiso de supervisor y control de desbordamiento. El historial abre el detalle con el precio aplicado, descuento, IGV, total y estado de la venta.
+- **Verificación** — Se comprobó la sintaxis de todos los archivos Swift y se ejecutaron pruebas de cantidades válidas e inválidas, normalización de documentos y cálculos de ventas VIP, Regular y de 25 unidades. La compilación de SwiftUI y SwiftData, la persistencia y los recorridos visuales quedan pendientes de Xcode.
