@@ -9,6 +9,7 @@ struct NuevaVentaView: View {
     @State private var productoID: PersistentIdentifier?
     @State private var cantidad = 1
     @State private var mensaje = ""
+    @State private var creandoCliente = false
     let usuario: Usuario
 
     private var cliente: Cliente? { clientes.first { $0.persistentModelID == clienteID } }
@@ -32,6 +33,9 @@ struct NuevaVentaView: View {
                         ForEach(clientes) { cliente in
                             Text(cliente.nombre).tag(Optional(cliente.persistentModelID))
                         }
+                    }
+                    Button("Nuevo cliente", systemImage: "person.badge.plus") {
+                        creandoCliente = true
                     }
                     Picker("Producto", selection: $productoID) {
                         Text("Seleccionar").tag(nil as PersistentIdentifier?)
@@ -61,6 +65,11 @@ struct NuevaVentaView: View {
                     .disabled(importe == nil)
             }
             .navigationTitle("Nueva venta")
+            .sheet(isPresented: $creandoCliente) {
+                EditorCliente(cliente: nil) { guardado in
+                    clienteID = guardado.persistentModelID
+                }
+            }
             .alertaVentas($mensaje)
         }
     }

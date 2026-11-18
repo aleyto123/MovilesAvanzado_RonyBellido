@@ -244,18 +244,29 @@ struct ClientesView: View {
     }
 }
 
-private struct EditorCliente: View {
+struct EditorCliente: View {
     @Environment(\.modelContext) private var contexto
     @Environment(\.dismiss) private var cerrar
+    @Query(sort: \Cliente.nombre) private var clientes: [Cliente]
     @State private var nombre: String
     @State private var documento: String
     @State private var error = ""
     let cliente: Cliente?
+    let alGuardar: ((Cliente) -> Void)?
 
-    init(cliente: Cliente?) {
+    init(cliente: Cliente?, alGuardar: ((Cliente) -> Void)? = nil) {
         self.cliente = cliente
+        self.alGuardar = alGuardar
         _nombre = State(initialValue: cliente?.nombre ?? "")
         _documento = State(initialValue: cliente?.documento ?? "")
+    }
+
+    private var existente: Cliente? {
+        guard !documento.documentoNormalizado.isEmpty else { return nil }
+        return clientes.first {
+            $0.documento.documentoNormalizado == documento.documentoNormalizado
+                && $0.persistentModelID != cliente?.persistentModelID
+        }
     }
 
     var body: some View {
@@ -263,6 +274,16 @@ private struct EditorCliente: View {
             Form {
                 TextField("Nombre", text: $nombre)
                 TextField("Documento (DNI o RUC)", text: $documento)
+                if let existente {
+                    Text("El documento ya pertenece a \(existente.nombre).")
+                        .foregroundStyle(.orange)
+                    if cliente == nil, let alGuardar {
+                        Button("Usar cliente existente") {
+                            alGuardar(existente)
+                            cerrar()
+                        }
+                    }
+                }
             }
             .navigationTitle(cliente == nil ? "Nuevo cliente" : "Editar cliente")
             .navigationBarTitleDisplayMode(.inline)
@@ -279,14 +300,27 @@ private struct EditorCliente: View {
             error = "Completa el nombre y el documento."
             return
         }
-        if let cliente {
-            cliente.nombre = nombre.recortado
-            cliente.documento = documento.recortado
-        } else {
-            contexto.insert(Cliente(nombre: nombre.recortado, documento: documento.recortado))
-        }
         do {
+            // Consultar también al guardar evita duplicados aunque la lista visual aún no se actualice.
+            let registrados = try contexto.fetch(FetchDescriptor<Cliente>())
+            guard !registrados.contains(where: {
+                $0.documento.documentoNormalizado == documento.documentoNormalizado
+                    && $0.persistentModelID != cliente?.persistentModelID
+            }) else {
+                error = "Ya existe un cliente con ese documento. Busca su registro para conservar su historial."
+                return
+            }
+            let guardado: Cliente
+            if let cliente {
+                cliente.nombre = nombre.recortado
+                cliente.documento = documento.documentoNormalizado
+                guardado = cliente
+            } else {
+                guardado = Cliente(nombre: nombre.recortado, documento: documento.documentoNormalizado)
+                contexto.insert(guardado)
+            }
             try contexto.guardarCambios()
+            alGuardar?(guardado)
             cerrar()
         } catch {
             self.error = "No se pudo guardar el cliente."

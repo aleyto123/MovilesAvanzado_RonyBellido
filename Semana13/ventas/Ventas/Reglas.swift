@@ -48,4 +48,15 @@ extension Double {
 
 extension String {
     var recortado: String { trimmingCharacters(in: .whitespacesAndNewlines) }
+
+    var documentoNormalizado: String {
+        components(separatedBy: .whitespacesAndNewlines).joined().uppercased()
+    }
+
+    var unidadesPositivas: Int? {
+        let texto = recortado
+        guard texto.range(of: #"^[0-9]+$"#, options: .regularExpression) != nil,
+              let unidades = Int(texto), unidades > 0 else { return nil }
+        return unidades
+    }
 }
